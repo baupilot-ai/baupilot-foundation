@@ -119,7 +119,7 @@ export async function uploadDocument(opts: {
   const path = `${companyId}/${opts.projectId}/documents/${crypto.randomUUID()}.${extOf(opts.file.name)}`;
   const up = await supabase.storage.from("project-documents").upload(path, opts.file, { contentType: opts.file.type || undefined });
   if (up.error) throw up.error;
-  const ins: TablesInsert<"project_documents"> = {
+  const ins = {
     project_id: opts.projectId,
     folder_id: opts.folder_id ?? null,
     title: opts.title,
@@ -220,7 +220,7 @@ export async function uploadPlan(opts: {
   const path = `${companyId}/${opts.projectId}/plans/${crypto.randomUUID()}.${extOf(opts.file.name)}`;
   const up = await supabase.storage.from("project-plans").upload(path, opts.file, { contentType: opts.file.type || undefined });
   if (up.error) throw up.error;
-  const ins: TablesInsert<"project_plans"> = {
+  const ins = {
     project_id: opts.projectId,
     plan_set_id: opts.plan_set_id ?? null,
     plan_number: opts.plan_number,
