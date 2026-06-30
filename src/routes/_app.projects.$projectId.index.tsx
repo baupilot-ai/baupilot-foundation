@@ -313,43 +313,7 @@ function ProjectDetail() {
           </div>
         </TabsContent>
 
-        <TabsContent value="documents">
-          <Card className="border-dashed border-border/70 bg-muted/30">
-            <CardContent className="flex flex-col items-center gap-2 px-6 py-16 text-center">
-              <FileText className="h-8 w-8 text-muted-foreground" />
-              <p className="text-sm font-medium">Documents</p>
-              <p className="max-w-sm text-sm text-muted-foreground">
-                Documents will be added in a later module.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="activity">
-          <Card className="border-border/70">
-            <CardHeader><CardTitle className="text-base">Activity</CardTitle></CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                <ActivityItem
-                  title="Project updated"
-                  description="Most recent change to project data."
-                  at={project.updated_at}
-                />
-                <ActivityItem
-                  title="Project created"
-                  description="Project added to the workspace."
-                  at={project.created_at}
-                />
-                {project.archived_at && (
-                  <ActivityItem title="Project archived" description="Moved to archive." at={project.archived_at} />
-                )}
-              </ul>
-              <p className="mt-6 text-xs text-muted-foreground">
-                A full activity log with team actions arrives in a later module.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <TabsContent value="activity"><ActivityTab projectId={project.id} /></TabsContent>
       </Tabs>
 
       <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
