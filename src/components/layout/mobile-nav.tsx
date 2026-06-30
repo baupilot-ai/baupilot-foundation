@@ -1,13 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, FolderKanban, Building2, UserCircle2, Settings } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Users2, Building2, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
   { title: "Home", url: "/dashboard", icon: LayoutDashboard },
   { title: "Projects", url: "/projects", icon: FolderKanban },
+  { title: "Team", url: "/team", icon: Users2 },
   { title: "Company", url: "/company", icon: Building2 },
   { title: "Profile", url: "/profile", icon: UserCircle2 },
-  { title: "Settings", url: "/settings", icon: Settings },
 ];
 
 export function MobileNav() {

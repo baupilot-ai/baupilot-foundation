@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   FolderKanban,
   Building2,
+  Users2,
   UserCircle2,
   Settings,
   LogOut,
@@ -28,6 +29,7 @@ import { Logo } from "@/components/branding/logo";
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Projects", url: "/projects", icon: FolderKanban },
+  { title: "Team", url: "/team", icon: Users2 },
   { title: "Company", url: "/company", icon: Building2 },
 ];
 

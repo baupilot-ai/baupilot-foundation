@@ -2,7 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
-  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers,
+  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers, UserSquare,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -29,6 +29,8 @@ import { PhotosTab } from "@/components/projects/modules/photos-tab";
 import { ActivityTab } from "@/components/projects/modules/activity-tab";
 import { DocumentsTab } from "@/components/projects/modules/documents-tab";
 import { PlansTab } from "@/components/projects/modules/plans-tab";
+import { ProjectTeamTab } from "@/components/projects/modules/project-team-tab";
+import { ProjectContactsTab } from "@/components/projects/modules/project-contacts-tab";
 import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
@@ -173,6 +175,7 @@ function ProjectDetail() {
             <TabsTrigger value="documents"><FileText className="h-4 w-4" />Documents</TabsTrigger>
             <TabsTrigger value="plans"><Layers className="h-4 w-4" />Plans</TabsTrigger>
             <TabsTrigger value="team"><Users className="h-4 w-4" />Team</TabsTrigger>
+            <TabsTrigger value="contacts"><UserSquare className="h-4 w-4" />Contacts</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
@@ -227,32 +230,8 @@ function ProjectDetail() {
 
 
 
-        <TabsContent value="team" className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Card className="border-border/70">
-              <CardHeader><CardTitle className="text-base">Internal team</CardTitle></CardHeader>
-              <CardContent>
-                <dl className="space-y-3">
-                  <Detail label="Project manager" value={project.project_manager} />
-                  <Detail label="Site manager" value={project.site_manager} />
-                  <Detail label="Foreman" value={project.foreman} />
-                  <Detail label="Safety manager" value={project.safety_manager} />
-                </dl>
-              </CardContent>
-            </Card>
-            <Card className="border-border/70">
-              <CardHeader><CardTitle className="text-base">External contacts</CardTitle></CardHeader>
-              <CardContent>
-                <dl className="space-y-3">
-                  <Detail label="Client contact" value={project.client_contact} />
-                  <Detail label="Architect" value={project.architect} />
-                  <Detail label="Structural engineer" value={project.structural_engineer} />
-                  <Detail label="MEP engineer" value={project.mep_engineer} />
-                </dl>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+        <TabsContent value="team"><ProjectTeamTab projectId={project.id} /></TabsContent>
+        <TabsContent value="contacts"><ProjectContactsTab projectId={project.id} /></TabsContent>
 
 
         <TabsContent value="timeline" className="space-y-4">
