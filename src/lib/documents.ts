@@ -120,6 +120,7 @@ export async function uploadDocument(opts: {
   const up = await supabase.storage.from("project-documents").upload(path, opts.file, { contentType: opts.file.type || undefined });
   if (up.error) throw up.error;
   const ins = {
+    company_id: companyId,
     project_id: opts.projectId,
     folder_id: opts.folder_id ?? null,
     title: opts.title,
