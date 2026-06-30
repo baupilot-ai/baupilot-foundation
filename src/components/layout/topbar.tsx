@@ -16,6 +16,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 
 export function Topbar() {
+  const navigate = useNavigate();
+  const { user } = useSession();
+  const email = user?.email ?? "";
+  const initials = email ? email.slice(0, 2).toUpperCase() : "BP";
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    navigate({ to: "/login", replace: true });
+  }
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-border bg-card/80 px-3 backdrop-blur supports-[backdrop-filter]:bg-card/70 sm:gap-3 sm:px-4">
       <SidebarTrigger className="-ml-1" />
