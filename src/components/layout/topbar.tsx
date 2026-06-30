@@ -62,20 +62,20 @@ export function Topbar() {
               </AvatarFallback>
             </Avatar>
             <div className="hidden text-left leading-tight sm:block">
-              <div className="max-w-[160px] truncate text-xs font-semibold text-foreground">{name || "Account"}</div>
+              <div className="max-w-[160px] truncate text-xs font-semibold text-foreground">{name || t("common.account")}</div>
               <div className="max-w-[160px] truncate text-[10px] text-muted-foreground">{email}</div>
             </div>
             <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>My account</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("common.myAccount")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild><Link to="/profile">Profile</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild><Link to="/company">Company</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild><Link to="/settings">Settings</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/profile">{t("nav.profile")}</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/company">{t("nav.company")}</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/settings">{t("nav.settings")}</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSignOut}>{t("common.signOut")}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
