@@ -137,13 +137,16 @@ export async function createProject(input: ProjectInput) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
-  // company_id and created_by auto-set by DB trigger; user_id kept for backward compat.
   const { data, error } = await supabase
     .from("projects")
     .insert({ ...input, user_id: user.id })
     .select()
     .single();
   if (error) throw error;
+  await supabase.from("activity_log").insert({
+    project_id: data.id, entity_type: "project", entity_id: data.id,
+    action: "created", description: `Project "${data.name}" created`,
+  } as never);
   return data as ProjectRow;
 }
 
@@ -155,6 +158,10 @@ export async function updateProject(id: string, input: Partial<ProjectInput>) {
     .select()
     .single();
   if (error) throw error;
+  await supabase.from("activity_log").insert({
+    project_id: id, entity_type: "project", entity_id: id,
+    action: "updated", description: `Project updated`,
+  } as never);
   return data as ProjectRow;
 }
 
@@ -168,6 +175,10 @@ export async function archiveProject(id: string, archive: boolean) {
     .update({ archived_at: archive ? new Date().toISOString() : null })
     .eq("id", id);
   if (error) throw error;
+  await supabase.from("activity_log").insert({
+    project_id: id, entity_type: "project", entity_id: id,
+    action: archive ? "archived" : "updated", description: archive ? "Project archived" : "Project restored",
+  } as never);
 }
 
 export async function deleteProject(id: string) {
