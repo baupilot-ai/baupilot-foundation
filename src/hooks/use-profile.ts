@@ -24,6 +24,10 @@ export function useProfile() {
         .maybeSingle();
       if (!alive) return;
       setProfile(data);
+      const lang = data?.language;
+      if (lang && (SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
+        setAppLanguage(lang as SupportedLanguage);
+      }
       setLoading(false);
     })();
     return () => { alive = false; };
