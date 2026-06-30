@@ -170,6 +170,7 @@ function DashboardStats() {
           </CardContent>
         </Card>
       </section>
-    </div>
+    </>
   );
 }
+
