@@ -13,6 +13,7 @@ export const Route = createFileRoute("/_app")({
 });
 
 function AppLayout() {
+  const { t } = useTranslation();
   const { session, loading } = useSession();
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ function AppLayout() {
   if (loading || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-sm text-muted-foreground">Loading…</div>
+        <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
       </div>
     );
   }
