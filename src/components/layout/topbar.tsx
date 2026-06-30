@@ -11,9 +11,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/use-session";
 
 export function Topbar() {
+  const navigate = useNavigate();
+  const { user } = useSession();
+  const email = user?.email ?? "";
+  const initials = email ? email.slice(0, 2).toUpperCase() : "BP";
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    navigate({ to: "/login", replace: true });
+  }
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-border bg-card/80 px-3 backdrop-blur supports-[backdrop-filter]:bg-card/70 sm:gap-3 sm:px-4">
       <SidebarTrigger className="-ml-1" />
@@ -41,12 +53,12 @@ export function Topbar() {
           <button className="flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors hover:bg-muted">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-                AM
+                {initials}
               </AvatarFallback>
             </Avatar>
             <div className="hidden text-left leading-tight sm:block">
-              <div className="text-xs font-semibold text-foreground">Alex Müller</div>
-              <div className="text-[10px] text-muted-foreground">Company Owner</div>
+              <div className="max-w-[140px] truncate text-xs font-semibold text-foreground">{email || "Account"}</div>
+              <div className="text-[10px] text-muted-foreground">BauPilot AI</div>
             </div>
             <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
           </button>
@@ -64,9 +76,7 @@ export function Topbar() {
             <Link to="/settings">Settings</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link to="/login">Sign out</Link>
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
