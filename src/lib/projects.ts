@@ -1,7 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export type ProjectStatus =
-  | "planning"
+  | "planned"
   | "active"
   | "on_hold"
   | "completed"
@@ -10,6 +10,8 @@ export type ProjectStatus =
 export interface ProjectRow {
   id: string;
   user_id: string;
+  company_id: string | null;
+  created_by: string | null;
   project_number: string;
   name: string;
   client: string | null;
@@ -22,6 +24,8 @@ export interface ProjectRow {
   contract_value: number | null;
   planned_start: string | null;
   planned_finish: string | null;
+  actual_start: string | null;
+  actual_finish: string | null;
   current_status: string;
   site_manager: string | null;
   foreman: string | null;
@@ -41,7 +45,7 @@ export interface ProjectRow {
 
 export type ProjectInput = Omit<
   ProjectRow,
-  "id" | "user_id" | "archived_at" | "created_at" | "updated_at"
+  "id" | "user_id" | "company_id" | "created_by" | "archived_at" | "created_at" | "updated_at"
 >;
 
 export const PROJECT_TYPES = [
@@ -83,11 +87,25 @@ export const CONSTRUCTION_PHASES = [
 ];
 
 export const STATUS_OPTIONS: { value: ProjectStatus; label: string }[] = [
-  { value: "planning", label: "Planning" },
+  { value: "planned", label: "Planned" },
   { value: "active", label: "Active" },
   { value: "on_hold", label: "On hold" },
   { value: "completed", label: "Completed" },
 ];
+
+export const STATUS_TONE: Record<string, "info" | "success" | "warning" | "neutral" | "primary"> = {
+  planned: "neutral",
+  active: "info",
+  on_hold: "warning",
+  completed: "success",
+  archived: "neutral",
+};
+
+export function statusLabel(s: string) {
+  const found = STATUS_OPTIONS.find((o) => o.value === s);
+  if (found) return found.label;
+  return s.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+}
 
 export async function listProjects(opts: { archived?: boolean } = {}) {
   const query = supabase
@@ -119,6 +137,7 @@ export async function createProject(input: ProjectInput) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
+  // company_id and created_by auto-set by DB trigger; user_id kept for backward compat.
   const { data, error } = await supabase
     .from("projects")
     .insert({ ...input, user_id: user.id })
@@ -137,6 +156,10 @@ export async function updateProject(id: string, input: Partial<ProjectInput>) {
     .single();
   if (error) throw error;
   return data as ProjectRow;
+}
+
+export async function updateProjectStatus(id: string, status: ProjectStatus) {
+  return updateProject(id, { current_status: status });
 }
 
 export async function archiveProject(id: string, archive: boolean) {

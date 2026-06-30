@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, ArrowRight, Check, Upload, X, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Upload, X, Loader2, MapPin } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import {
   CONSTRUCTION_PHASES,
   PROJECT_TYPES,
   STATUS_OPTIONS,
+  statusLabel,
   uploadCoverImage,
   getCoverSignedUrl,
   type ProjectInput,
@@ -28,10 +29,11 @@ import {
 
 const STEPS = [
   { id: "basics", title: "Basics" },
-  { id: "location", title: "Location & schedule" },
-  { id: "team", title: "Internal team" },
-  { id: "contacts", title: "External contacts" },
-  { id: "notes", title: "Notes" },
+  { id: "location", title: "Location" },
+  { id: "timeline", title: "Timeline & budget" },
+  { id: "team", title: "Responsibilities" },
+  { id: "description", title: "Description" },
+  { id: "review", title: "Review" },
 ];
 
 function emptyForm(): ProjectInput {
@@ -48,7 +50,9 @@ function emptyForm(): ProjectInput {
     contract_value: null,
     planned_start: null,
     planned_finish: null,
-    current_status: "planning",
+    actual_start: null,
+    actual_finish: null,
+    current_status: "planned",
     site_manager: "",
     foreman: "",
     project_manager: "",
@@ -64,7 +68,9 @@ function emptyForm(): ProjectInput {
 }
 
 function fromRow(r: ProjectRow): ProjectInput {
-  const { id, user_id, archived_at, created_at, updated_at, ...rest } = r;
+  const {
+    id, user_id, company_id, created_by, archived_at, created_at, updated_at, ...rest
+  } = r;
   return rest;
 }
 
@@ -136,7 +142,7 @@ export function ProjectWizard({ initial, submitLabel = "Create project", onSubmi
   }
 
   async function handleSubmit() {
-    for (let i = 0; i <= step; i++) {
+    for (let i = 0; i < STEPS.length; i++) {
       const err = validateStep(i);
       if (err) {
         toast.error(err);
@@ -154,23 +160,18 @@ export function ProjectWizard({ initial, submitLabel = "Create project", onSubmi
   }
 
   const progress = ((step + 1) / STEPS.length) * 100;
+  const isReview = step === STEPS.length - 1;
 
   return (
     <div className="space-y-6">
-      {/* Stepper */}
       <Card className="border-border/70">
         <CardContent className="p-4 sm:p-6">
           <div className="mb-3 flex items-center justify-between text-xs text-muted-foreground">
-            <span>
-              Step {step + 1} of {STEPS.length}
-            </span>
+            <span>Step {step + 1} of {STEPS.length}</span>
             <span className="font-medium text-foreground">{STEPS[step].title}</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full bg-primary transition-all"
-              style={{ width: `${progress}%` }}
-            />
+            <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
           </div>
           <div className="mt-4 hidden gap-2 sm:flex">
             {STEPS.map((s, i) => (
@@ -211,44 +212,137 @@ export function ProjectWizard({ initial, submitLabel = "Create project", onSubmi
       {step === 0 && (
         <Card className="border-border/70">
           <CardHeader>
-            <CardTitle>Project basics</CardTitle>
+            <CardTitle>Basic information</CardTitle>
             <CardDescription>Identify the project and its client.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Project number *">
-                <Input
-                  value={form.project_number}
-                  onChange={(e) => update("project_number", e.target.value)}
-                  placeholder="e.g. 2026-001"
-                  required
-                />
+                <Input value={form.project_number} onChange={(e) => update("project_number", e.target.value)} placeholder="e.g. 2026-001" required />
               </Field>
               <Field label="Project name *">
-                <Input
-                  value={form.name}
-                  onChange={(e) => update("name", e.target.value)}
-                  placeholder="e.g. Riverside Office Tower"
-                  required
-                />
+                <Input value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="e.g. Riverside Office Tower" required />
               </Field>
             </div>
             <Field label="Client">
-              <Input
-                value={form.client ?? ""}
-                onChange={(e) => update("client", e.target.value)}
-                placeholder="Client / owner organization"
-              />
+              <Input value={form.client ?? ""} onChange={(e) => update("client", e.target.value)} placeholder="Client / owner organization" />
             </Field>
-            <Field label="Description">
-              <Textarea
-                value={form.description ?? ""}
-                onChange={(e) => update("description", e.target.value)}
-                placeholder="Short description of scope and goals"
-                rows={4}
-              />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Field label="Project type">
+                <SelectField value={form.project_type ?? ""} onChange={(v) => update("project_type", v)} options={PROJECT_TYPES} placeholder="Select type" />
+              </Field>
+              <Field label="Building category">
+                <SelectField value={form.building_category ?? ""} onChange={(v) => update("building_category", v)} options={BUILDING_CATEGORIES} placeholder="Select category" />
+              </Field>
+              <Field label="Construction phase">
+                <SelectField value={form.construction_phase ?? ""} onChange={(v) => update("construction_phase", v)} options={CONSTRUCTION_PHASES} placeholder="Select phase" />
+              </Field>
+            </div>
+            <Field label="Status">
+              <Select value={form.current_status} onValueChange={(v) => update("current_status", v)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {STATUS_OPTIONS.map((s) => (
+                    <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </Field>
+          </CardContent>
+        </Card>
+      )}
 
+      {step === 1 && (
+        <Card className="border-border/70">
+          <CardHeader>
+            <CardTitle>Location</CardTitle>
+            <CardDescription>Where the project takes place.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Field label="Site address">
+              <Input value={form.site_address ?? ""} onChange={(e) => update("site_address", e.target.value)} placeholder="Street, city, postal code" />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="GPS latitude">
+                <Input type="number" step="any" value={form.gps_lat ?? ""} onChange={(e) => update("gps_lat", e.target.value === "" ? null : Number(e.target.value))} placeholder="47.3769" />
+              </Field>
+              <Field label="GPS longitude">
+                <Input type="number" step="any" value={form.gps_lng ?? ""} onChange={(e) => update("gps_lng", e.target.value === "" ? null : Number(e.target.value))} placeholder="8.5417" />
+              </Field>
+            </div>
+            <div className="grid place-items-center gap-2 rounded-lg border border-dashed border-border bg-muted/40 p-8 text-center">
+              <MapPin className="h-8 w-8 text-muted-foreground" />
+              <p className="text-sm font-medium text-foreground">Map preview</p>
+              <p className="text-xs text-muted-foreground">
+                {form.gps_lat != null && form.gps_lng != null
+                  ? `${form.gps_lat}, ${form.gps_lng}`
+                  : "Enter coordinates to position the site on the map (coming soon)."}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 2 && (
+        <Card className="border-border/70">
+          <CardHeader>
+            <CardTitle>Timeline & budget</CardTitle>
+            <CardDescription>Contract value and key dates.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Field label="Contract value (€)">
+              <Input type="number" step="0.01" value={form.contract_value ?? ""} onChange={(e) => update("contract_value", e.target.value === "" ? null : Number(e.target.value))} placeholder="0.00" />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Planned start">
+                <Input type="date" value={form.planned_start ?? ""} onChange={(e) => update("planned_start", e.target.value || null)} />
+              </Field>
+              <Field label="Planned finish">
+                <Input type="date" value={form.planned_finish ?? ""} onChange={(e) => update("planned_finish", e.target.value || null)} />
+              </Field>
+              <Field label="Actual start">
+                <Input type="date" value={form.actual_start ?? ""} onChange={(e) => update("actual_start", e.target.value || null)} />
+              </Field>
+              <Field label="Actual finish">
+                <Input type="date" value={form.actual_finish ?? ""} onChange={(e) => update("actual_finish", e.target.value || null)} />
+              </Field>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 3 && (
+        <Card className="border-border/70">
+          <CardHeader>
+            <CardTitle>Responsibilities</CardTitle>
+            <CardDescription>Internal team and external contacts.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4 sm:grid-cols-2">
+            <Field label="Project manager"><Input value={form.project_manager ?? ""} onChange={(e) => update("project_manager", e.target.value)} /></Field>
+            <Field label="Site manager"><Input value={form.site_manager ?? ""} onChange={(e) => update("site_manager", e.target.value)} /></Field>
+            <Field label="Foreman"><Input value={form.foreman ?? ""} onChange={(e) => update("foreman", e.target.value)} /></Field>
+            <Field label="Safety manager"><Input value={form.safety_manager ?? ""} onChange={(e) => update("safety_manager", e.target.value)} /></Field>
+            <Field label="Client contact"><Input value={form.client_contact ?? ""} onChange={(e) => update("client_contact", e.target.value)} placeholder="Name, email or phone" /></Field>
+            <Field label="Architect"><Input value={form.architect ?? ""} onChange={(e) => update("architect", e.target.value)} /></Field>
+            <Field label="Structural engineer"><Input value={form.structural_engineer ?? ""} onChange={(e) => update("structural_engineer", e.target.value)} /></Field>
+            <Field label="MEP engineer"><Input value={form.mep_engineer ?? ""} onChange={(e) => update("mep_engineer", e.target.value)} /></Field>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 4 && (
+        <Card className="border-border/70">
+          <CardHeader>
+            <CardTitle>Description & cover</CardTitle>
+            <CardDescription>Provide context and upload a cover image.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Field label="Description">
+              <Textarea value={form.description ?? ""} onChange={(e) => update("description", e.target.value)} placeholder="Scope, goals, context" rows={4} />
+            </Field>
+            <Field label="Internal notes">
+              <Textarea value={form.notes ?? ""} onChange={(e) => update("notes", e.target.value)} placeholder="Private notes for your team" rows={4} />
+            </Field>
             <div className="space-y-2">
               <Label>Cover image</Label>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -256,42 +350,18 @@ export function ProjectWizard({ initial, submitLabel = "Create project", onSubmi
                   {coverPreview ? (
                     <img src={coverPreview} alt="Cover" className="h-full w-full object-cover" />
                   ) : (
-                    <div className="grid h-full place-items-center text-xs text-muted-foreground">
-                      No image
-                    </div>
+                    <div className="grid h-full place-items-center text-xs text-muted-foreground">No image</div>
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleCoverChange}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={uploadingCover}
-                  >
-                    {uploadingCover ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Upload className="h-4 w-4" />
-                    )}
+                  <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+                  <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} disabled={uploadingCover}>
+                    {uploadingCover ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                     {form.cover_image_url ? "Replace image" : "Upload image"}
                   </Button>
                   {form.cover_image_url && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => update("cover_image_url", null)}
-                    >
-                      <X className="h-4 w-4" />
-                      Remove
+                    <Button type="button" variant="ghost" size="sm" onClick={() => update("cover_image_url", null)}>
+                      <X className="h-4 w-4" />Remove
                     </Button>
                   )}
                   <p className="text-xs text-muted-foreground">JPG/PNG, up to 5MB.</p>
@@ -302,244 +372,68 @@ export function ProjectWizard({ initial, submitLabel = "Create project", onSubmi
         </Card>
       )}
 
-      {step === 1 && (
+      {step === 5 && (
         <Card className="border-border/70">
           <CardHeader>
-            <CardTitle>Location & schedule</CardTitle>
-            <CardDescription>Where and when the project takes place.</CardDescription>
+            <CardTitle>Review</CardTitle>
+            <CardDescription>Confirm details before saving.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Field label="Site address">
-              <Input
-                value={form.site_address ?? ""}
-                onChange={(e) => update("site_address", e.target.value)}
-                placeholder="Street, city, postal code"
-              />
-            </Field>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="GPS latitude">
-                <Input
-                  type="number"
-                  step="any"
-                  value={form.gps_lat ?? ""}
-                  onChange={(e) =>
-                    update("gps_lat", e.target.value === "" ? null : Number(e.target.value))
-                  }
-                  placeholder="47.3769"
-                />
-              </Field>
-              <Field label="GPS longitude">
-                <Input
-                  type="number"
-                  step="any"
-                  value={form.gps_lng ?? ""}
-                  onChange={(e) =>
-                    update("gps_lng", e.target.value === "" ? null : Number(e.target.value))
-                  }
-                  placeholder="8.5417"
-                />
-              </Field>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Project type">
-                <SelectField
-                  value={form.project_type ?? ""}
-                  onChange={(v) => update("project_type", v)}
-                  options={PROJECT_TYPES}
-                  placeholder="Select type"
-                />
-              </Field>
-              <Field label="Building category">
-                <SelectField
-                  value={form.building_category ?? ""}
-                  onChange={(v) => update("building_category", v)}
-                  options={BUILDING_CATEGORIES}
-                  placeholder="Select category"
-                />
-              </Field>
-              <Field label="Construction phase">
-                <SelectField
-                  value={form.construction_phase ?? ""}
-                  onChange={(v) => update("construction_phase", v)}
-                  options={CONSTRUCTION_PHASES}
-                  placeholder="Select phase"
-                />
-              </Field>
-              <Field label="Current status">
-                <Select
-                  value={form.current_status}
-                  onValueChange={(v) => update("current_status", v)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {STATUS_OPTIONS.map((s) => (
-                      <SelectItem key={s.value} value={s.value}>
-                        {s.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </Field>
-              <Field label="Contract value (€)">
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={form.contract_value ?? ""}
-                  onChange={(e) =>
-                    update("contract_value", e.target.value === "" ? null : Number(e.target.value))
-                  }
-                  placeholder="0.00"
-                />
-              </Field>
-              <div />
-              <Field label="Planned start">
-                <Input
-                  type="date"
-                  value={form.planned_start ?? ""}
-                  onChange={(e) => update("planned_start", e.target.value || null)}
-                />
-              </Field>
-              <Field label="Planned finish">
-                <Input
-                  type="date"
-                  value={form.planned_finish ?? ""}
-                  onChange={(e) => update("planned_finish", e.target.value || null)}
-                />
-              </Field>
-            </div>
+          <CardContent className="space-y-6">
+            <ReviewSection title="Basics" items={[
+              ["Project number", form.project_number],
+              ["Project name", form.name],
+              ["Client", form.client],
+              ["Type", form.project_type],
+              ["Category", form.building_category],
+              ["Phase", form.construction_phase],
+              ["Status", statusLabel(form.current_status)],
+            ]} />
+            <ReviewSection title="Location" items={[
+              ["Site address", form.site_address],
+              ["GPS", form.gps_lat != null && form.gps_lng != null ? `${form.gps_lat}, ${form.gps_lng}` : null],
+            ]} />
+            <ReviewSection title="Timeline & budget" items={[
+              ["Contract value", form.contract_value != null ? `€ ${form.contract_value.toLocaleString()}` : null],
+              ["Planned start", form.planned_start],
+              ["Planned finish", form.planned_finish],
+              ["Actual start", form.actual_start],
+              ["Actual finish", form.actual_finish],
+            ]} />
+            <ReviewSection title="Responsibilities" items={[
+              ["Project manager", form.project_manager],
+              ["Site manager", form.site_manager],
+              ["Foreman", form.foreman],
+              ["Safety manager", form.safety_manager],
+              ["Client contact", form.client_contact],
+              ["Architect", form.architect],
+              ["Structural engineer", form.structural_engineer],
+              ["MEP engineer", form.mep_engineer],
+            ]} />
+            <ReviewSection title="Description" items={[
+              ["Description", form.description],
+              ["Notes", form.notes],
+            ]} />
           </CardContent>
         </Card>
       )}
 
-      {step === 2 && (
-        <Card className="border-border/70">
-          <CardHeader>
-            <CardTitle>Internal team</CardTitle>
-            <CardDescription>Assign the people responsible on your side.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <Field label="Project manager">
-              <Input
-                value={form.project_manager ?? ""}
-                onChange={(e) => update("project_manager", e.target.value)}
-              />
-            </Field>
-            <Field label="Site manager">
-              <Input
-                value={form.site_manager ?? ""}
-                onChange={(e) => update("site_manager", e.target.value)}
-              />
-            </Field>
-            <Field label="Foreman">
-              <Input
-                value={form.foreman ?? ""}
-                onChange={(e) => update("foreman", e.target.value)}
-              />
-            </Field>
-            <Field label="Safety manager">
-              <Input
-                value={form.safety_manager ?? ""}
-                onChange={(e) => update("safety_manager", e.target.value)}
-              />
-            </Field>
-          </CardContent>
-        </Card>
-      )}
-
-      {step === 3 && (
-        <Card className="border-border/70">
-          <CardHeader>
-            <CardTitle>External contacts</CardTitle>
-            <CardDescription>Client side and design consultants.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <Field label="Client contact">
-              <Input
-                value={form.client_contact ?? ""}
-                onChange={(e) => update("client_contact", e.target.value)}
-                placeholder="Name, email or phone"
-              />
-            </Field>
-            <Field label="Architect">
-              <Input
-                value={form.architect ?? ""}
-                onChange={(e) => update("architect", e.target.value)}
-              />
-            </Field>
-            <Field label="Structural engineer">
-              <Input
-                value={form.structural_engineer ?? ""}
-                onChange={(e) => update("structural_engineer", e.target.value)}
-              />
-            </Field>
-            <Field label="MEP engineer">
-              <Input
-                value={form.mep_engineer ?? ""}
-                onChange={(e) => update("mep_engineer", e.target.value)}
-              />
-            </Field>
-          </CardContent>
-        </Card>
-      )}
-
-      {step === 4 && (
-        <Card className="border-border/70">
-          <CardHeader>
-            <CardTitle>Internal notes</CardTitle>
-            <CardDescription>Private notes for your team. Review before saving.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Field label="Notes">
-              <Textarea
-                value={form.notes ?? ""}
-                onChange={(e) => update("notes", e.target.value)}
-                rows={6}
-                placeholder="Anything else worth remembering about this project."
-              />
-            </Field>
-            <div className="rounded-lg border bg-muted/30 p-4 text-sm">
-              <div className="mb-2 font-medium text-foreground">Review</div>
-              <dl className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
-                <Review label="Number" value={form.project_number} />
-                <Review label="Name" value={form.name} />
-                <Review label="Client" value={form.client} />
-                <Review label="Status" value={form.current_status} />
-                <Review label="Type" value={form.project_type} />
-                <Review label="Phase" value={form.construction_phase} />
-                <Review label="Start" value={form.planned_start} />
-                <Review label="Finish" value={form.planned_finish} />
-              </dl>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Navigation */}
-      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-between">
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex gap-2">
           {onCancel && (
-            <Button type="button" variant="ghost" onClick={onCancel}>
-              Cancel
-            </Button>
+            <Button type="button" variant="ghost" onClick={onCancel} disabled={submitting}>Cancel</Button>
           )}
-          {step > 0 && (
-            <Button type="button" variant="outline" onClick={back}>
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-          )}
-        </div>
-        {step < STEPS.length - 1 ? (
-          <Button type="button" onClick={next}>
-            Next
-            <ArrowRight className="h-4 w-4" />
+          <Button type="button" variant="outline" onClick={back} disabled={step === 0 || submitting}>
+            <ArrowLeft className="h-4 w-4" />Back
           </Button>
-        ) : (
-          <Button type="button" onClick={handleSubmit} disabled={submitting}>
+        </div>
+        {isReview ? (
+          <Button type="button" onClick={handleSubmit} disabled={submitting} className="sm:min-w-[160px]">
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             {submitLabel}
+          </Button>
+        ) : (
+          <Button type="button" onClick={next} className="sm:min-w-[120px]">
+            Next<ArrowRight className="h-4 w-4" />
           </Button>
         )}
       </div>
@@ -557,37 +451,37 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function SelectField({
-  value,
-  onChange,
-  options,
-  placeholder,
+  value, onChange, options, placeholder,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: string[];
-  placeholder: string;
+  placeholder?: string;
 }) {
   return (
     <Select value={value || undefined} onValueChange={onChange}>
-      <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
+      <SelectTrigger><SelectValue placeholder={placeholder} /></SelectTrigger>
       <SelectContent>
         {options.map((o) => (
-          <SelectItem key={o} value={o}>
-            {o}
-          </SelectItem>
+          <SelectItem key={o} value={o}>{o}</SelectItem>
         ))}
       </SelectContent>
     </Select>
   );
 }
 
-function Review({ label, value }: { label: string; value: string | null | undefined }) {
+function ReviewSection({ title, items }: { title: string; items: [string, string | number | null | undefined][] }) {
   return (
-    <div className="flex justify-between gap-2 py-1">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="truncate font-medium text-foreground">{value || "—"}</dd>
+    <div>
+      <h4 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{title}</h4>
+      <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+        {items.map(([label, value]) => (
+          <div key={label} className="flex justify-between gap-4 border-b border-border/50 py-1.5 text-sm">
+            <dt className="text-muted-foreground">{label}</dt>
+            <dd className="text-right font-medium text-foreground">{value || <span className="text-muted-foreground">—</span>}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

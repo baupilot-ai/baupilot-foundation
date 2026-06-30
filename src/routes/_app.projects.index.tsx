@@ -10,6 +10,11 @@ import {
   ArchiveRestore,
   Trash2,
   Loader2,
+  AlertCircle,
+  Calendar,
+  Euro,
+  HardHat,
+  User,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -47,6 +52,9 @@ import {
   deleteProject,
   listProjects,
   getCoverSignedUrl,
+  CONSTRUCTION_PHASES,
+  STATUS_TONE,
+  statusLabel,
   type ProjectRow,
 } from "@/lib/projects";
 
@@ -61,28 +69,29 @@ export const Route = createFileRoute("/_app/projects/")({
   component: ProjectsPage,
 });
 
-const statusTone: Record<string, "info" | "success" | "warning" | "neutral"> = {
-  planning: "info",
-  active: "success",
-  on_hold: "warning",
-  completed: "neutral",
-};
+type SortKey = "updated" | "name" | "finish";
 
 function ProjectsPage() {
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [phaseFilter, setPhaseFilter] = useState("all");
+  const [sort, setSort] = useState<SortKey>("updated");
   const [view, setView] = useState<"active" | "archived">("active");
   const [confirmDelete, setConfirmDelete] = useState<ProjectRow | null>(null);
 
   async function refresh() {
     setLoading(true);
+    setError(null);
     try {
       const rows = await listProjects({ archived: view === "archived" });
       setProjects(rows);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to load");
+      const msg = err instanceof Error ? err.message : "Failed to load";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -95,8 +104,9 @@ function ProjectsPage() {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return projects.filter((p) => {
+    const list = projects.filter((p) => {
       if (statusFilter !== "all" && p.current_status !== statusFilter) return false;
+      if (phaseFilter !== "all" && p.construction_phase !== phaseFilter) return false;
       if (!q) return true;
       return (
         p.name.toLowerCase().includes(q) ||
@@ -105,7 +115,12 @@ function ProjectsPage() {
         (p.site_address ?? "").toLowerCase().includes(q)
       );
     });
-  }, [projects, search, statusFilter]);
+    const sorted = [...list];
+    if (sort === "name") sorted.sort((a, b) => a.name.localeCompare(b.name));
+    else if (sort === "finish")
+      sorted.sort((a, b) => (a.planned_finish ?? "9999").localeCompare(b.planned_finish ?? "9999"));
+    return sorted;
+  }, [projects, search, statusFilter, phaseFilter, sort]);
 
   async function onArchive(p: ProjectRow, archive: boolean) {
     try {
@@ -146,32 +161,45 @@ function ProjectsPage() {
       />
 
       <Card className="border-border/70 p-4">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
-          <div className="relative">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_repeat(4,auto)]">
+          <div className="relative lg:col-span-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, number, client, address…"
+              placeholder="Search name, number, client…"
               className="pl-9"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-[160px]">
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger className="w-full lg:w-[150px]"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="planning">Planning</SelectItem>
+              <SelectItem value="planned">Planned</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="on_hold">On hold</SelectItem>
               <SelectItem value="completed">Completed</SelectItem>
             </SelectContent>
           </Select>
+          <Select value={phaseFilter} onValueChange={setPhaseFilter}>
+            <SelectTrigger className="w-full lg:w-[170px]"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All phases</SelectItem>
+              {CONSTRUCTION_PHASES.map((p) => (
+                <SelectItem key={p} value={p}>{p}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+            <SelectTrigger className="w-full lg:w-[160px]"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="updated">Newest first</SelectItem>
+              <SelectItem value="name">Name (A–Z)</SelectItem>
+              <SelectItem value="finish">Planned finish</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={view} onValueChange={(v) => setView(v as "active" | "archived")}>
-            <SelectTrigger className="w-full sm:w-[160px]">
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger className="w-full lg:w-[140px]"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="archived">Archived</SelectItem>
@@ -184,6 +212,14 @@ function ProjectsPage() {
         <Card className="border-border/70">
           <div className="flex items-center justify-center px-6 py-16 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
+          </div>
+        </Card>
+      ) : error ? (
+        <Card className="border-destructive/40 bg-destructive/5">
+          <div className="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
+            <AlertCircle className="h-6 w-6 text-destructive" />
+            <p className="text-sm text-destructive">{error}</p>
+            <Button variant="outline" size="sm" onClick={refresh}>Try again</Button>
           </div>
         </Card>
       ) : filtered.length === 0 ? (
@@ -202,10 +238,7 @@ function ProjectsPage() {
             </p>
             {view === "active" && (
               <Button asChild className="mt-2">
-                <Link to="/projects/new">
-                  <Plus className="h-4 w-4" />
-                  Create project
-                </Link>
+                <Link to="/projects/new"><Plus className="h-4 w-4" />Create project</Link>
               </Button>
             )}
           </div>
@@ -228,8 +261,7 @@ function ProjectsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete project?</AlertDialogTitle>
             <AlertDialogDescription>
-              This permanently removes “{confirmDelete?.name}” and all its data. This action
-              cannot be undone.
+              This permanently removes “{confirmDelete?.name}” and all its data. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -245,9 +277,7 @@ function ProjectsPage() {
 }
 
 function ProjectCard({
-  project,
-  onArchive,
-  onDeleteRequest,
+  project, onArchive, onDeleteRequest,
 }: {
   project: ProjectRow;
   onArchive: () => void;
@@ -257,12 +287,10 @@ function ProjectCard({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (project.cover_image_url) {
-      getCoverSignedUrl(project.cover_image_url).then(setCoverUrl);
-    }
+    if (project.cover_image_url) getCoverSignedUrl(project.cover_image_url).then(setCoverUrl);
   }, [project.cover_image_url]);
 
-  const tone = statusTone[project.current_status] ?? "neutral";
+  const tone = STATUS_TONE[project.current_status] ?? "neutral";
   const archived = !!project.archived_at;
 
   return (
@@ -279,11 +307,10 @@ function ProjectCard({
             <FolderKanban className="h-10 w-10" />
           </div>
         )}
-        {archived && (
-          <div className="absolute left-3 top-3">
-            <StatusBadge tone="neutral">Archived</StatusBadge>
-          </div>
-        )}
+        <div className="absolute left-3 top-3 flex gap-2">
+          <StatusBadge tone={tone}>{statusLabel(project.current_status)}</StatusBadge>
+          {archived && <StatusBadge tone="neutral">Archived</StatusBadge>}
+        </div>
       </button>
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-2">
@@ -296,9 +323,7 @@ function ProjectCard({
             >
               {project.name}
             </Link>
-            {project.client && (
-              <div className="truncate text-sm text-muted-foreground">{project.client}</div>
-            )}
+            {project.client && <div className="truncate text-sm text-muted-foreground">{project.client}</div>}
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -309,41 +334,42 @@ function ProjectCard({
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
                 <Link to="/projects/$projectId/edit" params={{ projectId: project.id }}>
-                  <Edit className="h-4 w-4" />
-                  Edit
+                  <Edit className="h-4 w-4" />Edit
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onArchive}>
-                {archived ? (
-                  <>
-                    <ArchiveRestore className="h-4 w-4" />
-                    Restore
-                  </>
-                ) : (
-                  <>
-                    <Archive className="h-4 w-4" />
-                    Archive
-                  </>
-                )}
+                {archived ? <><ArchiveRestore className="h-4 w-4" />Restore</> : <><Archive className="h-4 w-4" />Archive</>}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onDeleteRequest} className="text-destructive focus:text-destructive">
-                <Trash2 className="h-4 w-4" />
-                Delete
+                <Trash2 className="h-4 w-4" />Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-          <StatusBadge tone={tone}>{labelize(project.current_status)}</StatusBadge>
-          {project.construction_phase && <span>· {project.construction_phase}</span>}
-          {project.site_address && <span className="truncate">· {project.site_address}</span>}
+        <div className="grid grid-cols-1 gap-1.5 text-xs text-muted-foreground">
+          {project.construction_phase && (
+            <Meta icon={FolderKanban} label={project.construction_phase} />
+          )}
+          {project.planned_finish && (
+            <Meta icon={Calendar} label={`Finish ${project.planned_finish}`} />
+          )}
+          {project.site_manager && <Meta icon={User} label={`Site: ${project.site_manager}`} />}
+          {project.foreman && <Meta icon={HardHat} label={`Foreman: ${project.foreman}`} />}
+          {project.contract_value != null && (
+            <Meta icon={Euro} label={`€ ${project.contract_value.toLocaleString()}`} />
+          )}
         </div>
       </div>
     </Card>
   );
 }
 
-function labelize(s: string) {
-  return s.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+function Meta({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+  return (
+    <span className="flex items-center gap-1.5 truncate">
+      <Icon className="h-3.5 w-3.5 shrink-0" />
+      <span className="truncate">{label}</span>
+    </span>
+  );
 }

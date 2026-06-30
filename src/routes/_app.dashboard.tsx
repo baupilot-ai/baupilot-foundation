@@ -8,6 +8,7 @@ import {
   ArrowUpRight,
   Plus,
   Sparkles,
+  Clock,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -15,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { supabase } from "@/integrations/supabase/client";
+import { useProfile, profileDisplayName } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_app/dashboard")({
   ssr: false,
@@ -28,29 +30,34 @@ export const Route = createFileRoute("/_app/dashboard")({
 });
 
 function useProjectStats() {
-  const [stats, setStats] = useState({ active: 0, on_hold: 0, completed: 0, archived: 0 });
+  const [stats, setStats] = useState({ planned: 0, active: 0, on_hold: 0, completed: 0, archived: 0, total: 0 });
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const { data } = await supabase.from("projects").select("current_status, archived_at");
-      if (!data) return;
-      const s = { active: 0, on_hold: 0, completed: 0, archived: 0 };
-      for (const p of data) {
-        if (p.archived_at) s.archived++;
-        else if (p.current_status === "active" || p.current_status === "planning") s.active++;
+      const s = { planned: 0, active: 0, on_hold: 0, completed: 0, archived: 0, total: 0 };
+      for (const p of data ?? []) {
+        s.total++;
+        if (p.archived_at) { s.archived++; continue; }
+        if (p.current_status === "active") s.active++;
+        else if (p.current_status === "planned" || p.current_status === "planning") s.planned++;
         else if (p.current_status === "on_hold") s.on_hold++;
         else if (p.current_status === "completed") s.completed++;
       }
       setStats(s);
+      setLoading(false);
     })();
   }, []);
-  return stats;
+  return { stats, loading };
 }
 
 function DashboardPage() {
+  const { profile } = useProfile();
+  const name = profileDisplayName(profile);
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Welcome back"
+        title={name ? `Welcome back, ${name.split(" ")[0]}` : "Welcome back"}
         description="Here's an overview of your workspace."
         actions={
           <Button asChild>
@@ -68,16 +75,17 @@ function DashboardPage() {
 }
 
 function DashboardStats() {
-  const s = useProjectStats();
+  const { stats: s } = useProjectStats();
   const items = [
-    { label: "Active projects", value: s.active, icon: FolderKanban, tone: "info" as const },
+    { label: "Active", value: s.active, icon: FolderKanban, tone: "info" as const },
+    { label: "Planned", value: s.planned, icon: Clock, tone: "neutral" as const },
     { label: "On hold", value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
     { label: "Completed", value: s.completed, icon: CheckCircle2, tone: "success" as const },
     { label: "Archived", value: s.archived, icon: Archive, tone: "neutral" as const },
   ];
   return (
     <>
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
         {items.map((i) => (
           <Card key={i.label} className="border-border/70">
             <CardContent className="p-5">
@@ -85,15 +93,11 @@ function DashboardStats() {
                 <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
                   <i.icon className="h-5 w-5" />
                 </div>
-                <StatusBadge tone={i.tone} dot={false}>
-                  {i.label}
-                </StatusBadge>
+                <StatusBadge tone={i.tone} dot={false}>{i.label}</StatusBadge>
               </div>
               <div className="mt-4">
-                <div className="text-3xl font-semibold tracking-tight text-foreground">
-                  {i.value}
-                </div>
-                <div className="mt-1 text-sm text-muted-foreground">{i.label}</div>
+                <div className="text-3xl font-semibold tracking-tight text-foreground">{i.value}</div>
+                <div className="mt-1 text-sm text-muted-foreground">{i.label} projects</div>
               </div>
             </CardContent>
           </Card>
@@ -105,41 +109,18 @@ function DashboardStats() {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Get started</CardTitle>
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/projects">
-                View all
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
+              <Link to="/projects">View all<ArrowUpRight className="h-4 w-4" /></Link>
             </Button>
           </CardHeader>
           <CardContent className="space-y-3">
             {[
-              {
-                title: "Complete your company profile",
-                desc: "Add your company details, logo, and address.",
-                to: "/company",
-                cta: "Set up",
-              },
-              {
-                title: "Create your first project",
-                desc: "Add a construction project to start organizing your work.",
-                to: "/projects/new",
-                cta: "Create",
-              },
-              {
-                title: "Invite your team",
-                desc: "Bring project managers, site managers, and foremen on board.",
-                to: "/settings",
-                cta: "Invite",
-              },
+              { title: "Complete your company profile", desc: "Add your company details, logo, and address.", to: "/company", cta: "Set up" },
+              { title: "Create your first project", desc: "Add a construction project to start organizing your work.", to: "/projects/new", cta: "Create" },
+              { title: "Update your profile", desc: "Add your name, role and contact details.", to: "/profile", cta: "Edit" },
             ].map((item) => (
-              <div
-                key={item.title}
-                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-border/70 bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/40"
-              >
+              <div key={item.title} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-border/70 bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/40">
                 <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold text-foreground">
-                    {item.title}
-                  </div>
+                  <div className="truncate text-sm font-semibold text-foreground">{item.title}</div>
                   <div className="mt-0.5 text-sm text-muted-foreground">{item.desc}</div>
                 </div>
                 <Button variant="outline" size="sm" asChild>
@@ -162,8 +143,7 @@ function DashboardStats() {
             <ul className="mt-3 space-y-1.5 text-sm">
               {["Daily reports", "Tasks & defects", "AI assistant", "Document hub"].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  {f}
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />{f}
                 </li>
               ))}
             </ul>
@@ -173,4 +153,3 @@ function DashboardStats() {
     </>
   );
 }
-
