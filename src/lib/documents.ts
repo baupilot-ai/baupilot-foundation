@@ -222,6 +222,7 @@ export async function uploadPlan(opts: {
   const up = await supabase.storage.from("project-plans").upload(path, opts.file, { contentType: opts.file.type || undefined });
   if (up.error) throw up.error;
   const ins = {
+    company_id: companyId,
     project_id: opts.projectId,
     plan_set_id: opts.plan_set_id ?? null,
     plan_number: opts.plan_number,
