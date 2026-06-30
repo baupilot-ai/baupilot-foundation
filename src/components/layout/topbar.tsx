@@ -53,12 +53,12 @@ export function Topbar() {
           <button className="flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors hover:bg-muted">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-                AM
+                {initials}
               </AvatarFallback>
             </Avatar>
             <div className="hidden text-left leading-tight sm:block">
-              <div className="text-xs font-semibold text-foreground">Alex Müller</div>
-              <div className="text-[10px] text-muted-foreground">Company Owner</div>
+              <div className="max-w-[140px] truncate text-xs font-semibold text-foreground">{email || "Account"}</div>
+              <div className="text-[10px] text-muted-foreground">BauPilot AI</div>
             </div>
             <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
           </button>
