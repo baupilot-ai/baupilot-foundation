@@ -242,6 +242,125 @@ export type Database = {
           },
         ]
       }
+      deliveries: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          delivery_date: string | null
+          delivery_number: string | null
+          delivery_time: string | null
+          document_url: string | null
+          id: string
+          notes: string | null
+          project_id: string | null
+          received_by: string | null
+          status: string
+          supplier: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          delivery_date?: string | null
+          delivery_number?: string | null
+          delivery_time?: string | null
+          document_url?: string | null
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          received_by?: string | null
+          status?: string
+          supplier?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          delivery_date?: string | null
+          delivery_number?: string | null
+          delivery_time?: string | null
+          document_url?: string | null
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          received_by?: string | null
+          status?: string
+          supplier?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deliveries_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_items: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          delivery_id: string
+          description: string | null
+          id: string
+          material_id: string | null
+          quantity: number
+          total_price: number | null
+          unit: string | null
+          unit_price: number | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          delivery_id: string
+          description?: string | null
+          id?: string
+          material_id?: string | null
+          quantity?: number
+          total_price?: number | null
+          unit?: string | null
+          unit_price?: number | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          delivery_id?: string
+          description?: string | null
+          id?: string
+          material_id?: string | null
+          quantity?: number
+          total_price?: number | null
+          unit?: string | null
+          unit_price?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_items_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_items_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       document_folders: {
         Row: {
           company_id: string
@@ -487,6 +606,146 @@ export type Database = {
           },
         ]
       }
+      equipment: {
+        Row: {
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          current_location: string | null
+          current_project_id: string | null
+          equipment_number: string | null
+          id: string
+          image_url: string | null
+          inspection_due_date: string | null
+          maintenance_due_date: string | null
+          manufacturer: string | null
+          model: string | null
+          name: string
+          notes: string | null
+          purchase_date: string | null
+          qr_code: string | null
+          responsible_person: string | null
+          serial_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          current_project_id?: string | null
+          equipment_number?: string | null
+          id?: string
+          image_url?: string | null
+          inspection_due_date?: string | null
+          maintenance_due_date?: string | null
+          manufacturer?: string | null
+          model?: string | null
+          name: string
+          notes?: string | null
+          purchase_date?: string | null
+          qr_code?: string | null
+          responsible_person?: string | null
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          current_project_id?: string | null
+          equipment_number?: string | null
+          id?: string
+          image_url?: string | null
+          inspection_due_date?: string | null
+          maintenance_due_date?: string | null
+          manufacturer?: string | null
+          model?: string | null
+          name?: string
+          notes?: string | null
+          purchase_date?: string | null
+          qr_code?: string | null
+          responsible_person?: string | null
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_current_project_id_fkey"
+            columns: ["current_project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment_assignments: {
+        Row: {
+          assigned_to: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          end_date: string | null
+          equipment_id: string
+          id: string
+          notes: string | null
+          project_id: string
+          start_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          end_date?: string | null
+          equipment_id: string
+          id?: string
+          notes?: string | null
+          project_id: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          end_date?: string | null
+          equipment_id?: string
+          id?: string
+          notes?: string | null
+          project_id?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_assignments_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equipment_assignments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       external_contacts: {
         Row: {
           address: string | null
@@ -555,6 +814,310 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      inventory_locations: {
+        Row: {
+          address: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          location_type: string | null
+          name: string
+          notes: string | null
+          project_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location_type?: string | null
+          name: string
+          notes?: string | null
+          project_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location_type?: string | null
+          name?: string
+          notes?: string | null
+          project_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_locations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_stock: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          location_id: string
+          material_id: string
+          project_id: string | null
+          quantity: number
+          unit: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location_id: string
+          material_id: string
+          project_id?: string | null
+          quantity?: number
+          unit?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location_id?: string
+          material_id?: string
+          project_id?: string | null
+          quantity?: number
+          unit?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_stock_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_stock_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_stock_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_records: {
+        Row: {
+          company_id: string
+          cost: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          document_url: string | null
+          equipment_id: string | null
+          id: string
+          next_due_date: string | null
+          performed_by: string | null
+          performed_date: string | null
+          record_type: string
+          status: string
+          title: string
+          tool_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          cost?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_url?: string | null
+          equipment_id?: string | null
+          id?: string
+          next_due_date?: string | null
+          performed_by?: string | null
+          performed_date?: string | null
+          record_type?: string
+          status?: string
+          title: string
+          tool_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          cost?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_url?: string | null
+          equipment_id?: string | null
+          id?: string
+          next_due_date?: string | null
+          performed_by?: string | null
+          performed_date?: string | null
+          record_type?: string
+          status?: string
+          title?: string
+          tool_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_records_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_records_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      material_usage: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string | null
+          id: string
+          material_id: string
+          notes: string | null
+          project_id: string
+          quantity: number
+          unit: string | null
+          updated_at: string
+          usage_date: string
+          used_by: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string | null
+          id?: string
+          material_id: string
+          notes?: string | null
+          project_id: string
+          quantity?: number
+          unit?: string | null
+          updated_at?: string
+          usage_date?: string
+          used_by?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string | null
+          id?: string
+          material_id?: string
+          notes?: string | null
+          project_id?: string
+          quantity?: number
+          unit?: string | null
+          updated_at?: string
+          usage_date?: string
+          used_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_usage_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_usage_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_usage_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          archived: boolean
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          default_price: number | null
+          id: string
+          material_number: string | null
+          minimum_stock: number | null
+          name: string
+          notes: string | null
+          supplier: string | null
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          default_price?: number | null
+          id?: string
+          material_number?: string | null
+          minimum_stock?: number | null
+          name: string
+          notes?: string | null
+          supplier?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          default_price?: number | null
+          id?: string
+          material_number?: string | null
+          minimum_stock?: number | null
+          name?: string
+          notes?: string | null
+          supplier?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       plan_revisions: {
         Row: {
@@ -1138,6 +1701,59 @@ export type Database = {
           },
         ]
       }
+      qr_scan_events: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+          notes: string | null
+          project_id: string | null
+          scan_result: string | null
+          scanned_at: string
+          scanned_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          scan_result?: string | null
+          scanned_at?: string
+          scanned_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          scan_result?: string | null
+          scanned_at?: string
+          scanned_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qr_scan_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subcontractors: {
         Row: {
           address: string | null
@@ -1253,6 +1869,137 @@ export type Database = {
           {
             foreignKeyName: "tasks_project_id_fkey"
             columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tool_assignments: {
+        Row: {
+          assigned_to: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          end_date: string | null
+          id: string
+          notes: string | null
+          project_id: string | null
+          start_date: string | null
+          status: string
+          tool_id: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          end_date?: string | null
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          start_date?: string | null
+          status?: string
+          tool_id: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          end_date?: string | null
+          id?: string
+          notes?: string | null
+          project_id?: string | null
+          start_date?: string | null
+          status?: string
+          tool_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_assignments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tool_assignments_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tools: {
+        Row: {
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          current_location: string | null
+          current_project_id: string | null
+          id: string
+          image_url: string | null
+          manufacturer: string | null
+          model: string | null
+          name: string
+          notes: string | null
+          qr_code: string | null
+          responsible_person: string | null
+          serial_number: string | null
+          status: string
+          tool_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          current_project_id?: string | null
+          id?: string
+          image_url?: string | null
+          manufacturer?: string | null
+          model?: string | null
+          name: string
+          notes?: string | null
+          qr_code?: string | null
+          responsible_person?: string | null
+          serial_number?: string | null
+          status?: string
+          tool_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          current_project_id?: string | null
+          id?: string
+          image_url?: string | null
+          manufacturer?: string | null
+          model?: string | null
+          name?: string
+          notes?: string | null
+          qr_code?: string | null
+          responsible_person?: string | null
+          serial_number?: string | null
+          status?: string
+          tool_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tools_current_project_id_fkey"
+            columns: ["current_project_id"]
             isOneToOne: false
             referencedRelation: "projects"
             referencedColumns: ["id"]

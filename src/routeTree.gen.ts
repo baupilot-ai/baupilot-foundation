@@ -16,6 +16,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTeamRouteImport } from './routes/_app.team'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCompanyRouteImport } from './routes/_app.company'
@@ -56,6 +57,11 @@ const AppTeamRoute = AppTeamRouteImport.update({
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResourcesRoute = AppResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
+  '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/projects/new': typeof AppProjectsNewRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
+  '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/projects/new': typeof AppProjectsNewRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
+  '/_app/resources': typeof AppResourcesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/company'
     | '/dashboard'
     | '/profile'
+    | '/resources'
     | '/settings'
     | '/team'
     | '/projects/new'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/company'
     | '/dashboard'
     | '/profile'
+    | '/resources'
     | '/settings'
     | '/team'
     | '/projects/new'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/_app/company'
     | '/_app/dashboard'
     | '/_app/profile'
+    | '/_app/resources'
     | '/_app/settings'
     | '/_app/team'
     | '/_app/projects/new'
@@ -251,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/resources': {
+      id: '/_app/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof AppResourcesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/profile': {
       id: '/_app/profile'
       path: '/profile'
@@ -307,6 +326,7 @@ interface AppRouteChildren {
   AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppResourcesRoute: typeof AppResourcesRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTeamRoute: typeof AppTeamRoute
   AppProjectsNewRoute: typeof AppProjectsNewRoute
@@ -319,6 +339,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
+  AppResourcesRoute: AppResourcesRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTeamRoute: AppTeamRoute,
   AppProjectsNewRoute: AppProjectsNewRoute,
