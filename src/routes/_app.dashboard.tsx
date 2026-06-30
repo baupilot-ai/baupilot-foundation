@@ -4,7 +4,7 @@ import {
   FolderKanban, Archive, CheckCircle2, PauseCircle, ArrowUpRight, Plus,
   CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
   Users2, Building2, UserCheck, Briefcase,
-  Hammer, Wrench, AlertTriangle, Package, Truck, Clock,
+  Hammer, Wrench, AlertTriangle, Package, Truck,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -117,8 +117,6 @@ function DashboardPage() {
     { label: "Deliveries delayed", value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
     { label: "Maintenance due soon", value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
   ];
-  // unused but kept for tone variant breadth
-  void Clock;
   return (
     <div className="space-y-8">
       <PageHeader
