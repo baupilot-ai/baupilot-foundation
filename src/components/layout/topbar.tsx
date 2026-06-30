@@ -14,12 +14,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
+import { useProfile, profileDisplayName, profileInitials } from "@/hooks/use-profile";
 
 export function Topbar() {
   const navigate = useNavigate();
   const { user } = useSession();
+  const { profile } = useProfile();
   const email = user?.email ?? "";
-  const initials = email ? email.slice(0, 2).toUpperCase() : "BP";
+  const name = profileDisplayName(profile, email);
+  const initials = profileInitials(profile, email);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -57,8 +60,8 @@ export function Topbar() {
               </AvatarFallback>
             </Avatar>
             <div className="hidden text-left leading-tight sm:block">
-              <div className="max-w-[140px] truncate text-xs font-semibold text-foreground">{email || "Account"}</div>
-              <div className="text-[10px] text-muted-foreground">BauPilot AI</div>
+              <div className="max-w-[160px] truncate text-xs font-semibold text-foreground">{name || "Account"}</div>
+              <div className="max-w-[160px] truncate text-[10px] text-muted-foreground">{email}</div>
             </div>
             <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
           </button>
@@ -66,15 +69,9 @@ export function Topbar() {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>My account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link to="/profile">Profile</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link to="/company">Company</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link to="/settings">Settings</Link>
-          </DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/profile">Profile</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/company">Company</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/settings">Settings</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
         </DropdownMenuContent>
