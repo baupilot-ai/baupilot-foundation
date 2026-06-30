@@ -25,7 +25,7 @@ import {
   type ProjectRow,
 } from "@/lib/projects";
 
-export const Route = createFileRoute("/_app/projects/$projectId")({
+export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
   component: ProjectDetail,
 });
@@ -38,7 +38,7 @@ const statusTone: Record<string, "info" | "success" | "warning" | "neutral"> = {
 };
 
 function ProjectDetail() {
-  const { projectId } = useParams({ from: "/_app/projects/$projectId" });
+  const { projectId } = useParams({ from: "/_app/projects/$projectId/" });
   const navigate = useNavigate();
   const [project, setProject] = useState<ProjectRow | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
