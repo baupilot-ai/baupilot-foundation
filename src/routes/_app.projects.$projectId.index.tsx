@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
   FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers, UserSquare,
-  Hammer, Package, Truck,
+  Hammer, Package, Truck, BarChart3, Flag, Bell, CalendarRange,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -36,6 +36,12 @@ import { ProjectMaterialsTab } from "@/components/projects/modules/project-mater
 import { EquipmentTab } from "@/components/resources/equipment-tab";
 import { DeliveriesTab } from "@/components/resources/deliveries-tab";
 import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
+import { ScheduleTab } from "@/components/projects/modules/schedule-tab";
+import { MilestonesTab } from "@/components/projects/modules/milestones-tab";
+import { CalendarTab } from "@/components/projects/modules/calendar-tab";
+import { GanttTab } from "@/components/projects/modules/gantt-tab";
+import { NotificationsTab } from "@/components/projects/modules/notifications-tab";
+import { ProjectPlanningCards } from "@/components/projects/modules/planning-cards";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
