@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCompanyRouteImport } from './routes/_app.company'
 import { Route as AppProjectsIndexRouteImport } from './routes/_app.projects.index'
 import { Route as AppProjectsNewRouteImport } from './routes/_app.projects.new'
 
@@ -24,9 +27,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompanyRoute = AppCompanyRouteImport.update({
+  id: '/company',
+  path: '/company',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProjectsIndexRoute = AppProjectsIndexRouteImport.update({
@@ -42,13 +60,19 @@ const AppProjectsNewRoute = AppProjectsNewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/projects/': typeof AppProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/projects': typeof AppProjectsIndexRoute
 }
@@ -56,20 +80,40 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/profile': typeof AppProfileRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/projects/new' | '/projects/'
+  fullPaths:
+    | '/'
+    | '/company'
+    | '/dashboard'
+    | '/profile'
+    | '/settings'
+    | '/projects/new'
+    | '/projects/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/projects/new' | '/projects'
+  to:
+    | '/'
+    | '/company'
+    | '/dashboard'
+    | '/profile'
+    | '/settings'
+    | '/projects/new'
+    | '/projects'
   id:
     | '__root__'
     | '/'
     | '/_app'
+    | '/_app/company'
     | '/_app/dashboard'
+    | '/_app/profile'
+    | '/_app/settings'
     | '/_app/projects/new'
     | '/_app/projects/'
   fileRoutesById: FileRoutesById
@@ -95,11 +139,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/company': {
+      id: '/_app/company'
+      path: '/company'
+      fullPath: '/company'
+      preLoaderRoute: typeof AppCompanyRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/projects/': {
@@ -120,13 +185,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppProjectsNewRoute: typeof AppProjectsNewRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppProjectsNewRoute: AppProjectsNewRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
 }
