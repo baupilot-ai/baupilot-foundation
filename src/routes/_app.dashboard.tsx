@@ -39,6 +39,7 @@ interface Stats {
   assignedEmployees: number; assignedSubcontractors: number;
   equipmentAvailable: number; equipmentAssigned: number; equipmentDefective: number;
   lowStock: number; deliveriesUpcoming: number; deliveriesDelayed: number; maintenanceDueSoon: number;
+  overallProgress: number; upcomingMilestones: number; delayedActivities: number; dueThisWeek: number; unreadNotifications: number;
 }
 
 function useStats() {
