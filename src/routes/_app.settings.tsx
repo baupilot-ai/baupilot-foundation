@@ -19,7 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { setAppLanguage, getAppLanguage, type SupportedLanguage } from "@/lib/i18n";
+import { type SupportedLanguage } from "@/lib/i18n";
+import { useLanguagePref } from "@/hooks/use-language-pref";
+
 
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({
