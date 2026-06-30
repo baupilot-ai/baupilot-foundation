@@ -1,4 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard,
@@ -26,19 +27,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/branding/logo";
-
-const mainItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Projects", url: "/projects", icon: FolderKanban },
-  { title: "Resources", url: "/resources", icon: Boxes },
-  { title: "Team", url: "/team", icon: Users2 },
-  { title: "Company", url: "/company", icon: Building2 },
-];
-
-const accountItems = [
-  { title: "Profile", url: "/profile", icon: UserCircle2 },
-  { title: "Settings", url: "/settings", icon: Settings },
-];
 
 export function AppSidebar() {
   const { state } = useSidebar();
