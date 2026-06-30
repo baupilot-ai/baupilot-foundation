@@ -14,8 +14,52 @@ export type Database = {
   }
   public: {
     Tables: {
+      companies: {
+        Row: {
+          address: string | null
+          company_size: string | null
+          created_at: string
+          email: string | null
+          id: string
+          industry: string | null
+          logo_url: string | null
+          name: string
+          phone: string | null
+          updated_at: string
+          vat_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          company_size?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          vat_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          company_size?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          vat_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
+          avatar_url: string | null
+          company_id: string | null
           created_at: string
           email: string | null
           first_name: string | null
@@ -27,6 +71,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          avatar_url?: string | null
+          company_id?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null
@@ -38,6 +84,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          avatar_url?: string | null
+          company_id?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null
@@ -48,19 +96,31 @@ export type Database = {
           role?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       projects: {
         Row: {
+          actual_finish: string | null
+          actual_start: string | null
           architect: string | null
           archived_at: string | null
           building_category: string | null
           client: string | null
           client_contact: string | null
+          company_id: string | null
           construction_phase: string | null
           contract_value: number | null
           cover_image_url: string | null
           created_at: string
+          created_by: string | null
           current_status: string
           description: string | null
           foreman: string | null
@@ -83,15 +143,19 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          actual_finish?: string | null
+          actual_start?: string | null
           architect?: string | null
           archived_at?: string | null
           building_category?: string | null
           client?: string | null
           client_contact?: string | null
+          company_id?: string | null
           construction_phase?: string | null
           contract_value?: number | null
           cover_image_url?: string | null
           created_at?: string
+          created_by?: string | null
           current_status?: string
           description?: string | null
           foreman?: string | null
@@ -114,15 +178,19 @@ export type Database = {
           user_id: string
         }
         Update: {
+          actual_finish?: string | null
+          actual_start?: string | null
           architect?: string | null
           archived_at?: string | null
           building_category?: string | null
           client?: string | null
           client_contact?: string | null
+          company_id?: string | null
           construction_phase?: string | null
           contract_value?: number | null
           cover_image_url?: string | null
           created_at?: string
+          created_by?: string | null
           current_status?: string
           description?: string | null
           foreman?: string | null
@@ -144,14 +212,23 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "projects_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_company: { Args: { _user_id: string }; Returns: string }
+      is_company_member: { Args: { _company_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
