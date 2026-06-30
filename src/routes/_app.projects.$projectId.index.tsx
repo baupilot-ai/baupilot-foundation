@@ -2,7 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
-  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera,
+  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -27,6 +27,8 @@ import { TasksTab } from "@/components/projects/modules/tasks-tab";
 import { DefectsTab } from "@/components/projects/modules/defects-tab";
 import { PhotosTab } from "@/components/projects/modules/photos-tab";
 import { ActivityTab } from "@/components/projects/modules/activity-tab";
+import { DocumentsTab } from "@/components/projects/modules/documents-tab";
+import { PlansTab } from "@/components/projects/modules/plans-tab";
 import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
