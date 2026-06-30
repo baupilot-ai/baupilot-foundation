@@ -164,15 +164,19 @@ function ProjectDetail() {
         <div className="overflow-x-auto">
           <TabsList className="w-max">
             <TabsTrigger value="overview"><FolderKanban className="h-4 w-4" />Overview</TabsTrigger>
+            <TabsTrigger value="daily"><CalendarDays className="h-4 w-4" />Daily Reports</TabsTrigger>
+            <TabsTrigger value="tasks"><CheckSquare className="h-4 w-4" />Tasks</TabsTrigger>
+            <TabsTrigger value="defects"><AlertOctagon className="h-4 w-4" />Defects</TabsTrigger>
+            <TabsTrigger value="photos"><Camera className="h-4 w-4" />Photos</TabsTrigger>
             <TabsTrigger value="team"><Users className="h-4 w-4" />Team</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
-            <TabsTrigger value="documents"><FileText className="h-4 w-4" />Documents</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
           </TabsList>
         </div>
 
         <TabsContent value="overview" className="space-y-4">
+          <ProjectQuickStats projectId={project.id} />
           <div className="grid gap-4 lg:grid-cols-3">
             <Card className="border-border/70 lg:col-span-2">
               <CardHeader><CardTitle className="text-base">Project information</CardTitle></CardHeader>
@@ -207,6 +211,38 @@ function ProjectDetail() {
                 </CardContent>
               </Card>
             )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="daily"><DailyReportsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="tasks"><TasksTab projectId={project.id} /></TabsContent>
+        <TabsContent value="defects"><DefectsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="photos"><PhotosTab projectId={project.id} /></TabsContent>
+
+        <TabsContent value="team" className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card className="border-border/70">
+              <CardHeader><CardTitle className="text-base">Internal team</CardTitle></CardHeader>
+              <CardContent>
+                <dl className="space-y-3">
+                  <Detail label="Project manager" value={project.project_manager} />
+                  <Detail label="Site manager" value={project.site_manager} />
+                  <Detail label="Foreman" value={project.foreman} />
+                  <Detail label="Safety manager" value={project.safety_manager} />
+                </dl>
+              </CardContent>
+            </Card>
+            <Card className="border-border/70">
+              <CardHeader><CardTitle className="text-base">External contacts</CardTitle></CardHeader>
+              <CardContent>
+                <dl className="space-y-3">
+                  <Detail label="Client contact" value={project.client_contact} />
+                  <Detail label="Architect" value={project.architect} />
+                  <Detail label="Structural engineer" value={project.structural_engineer} />
+                  <Detail label="MEP engineer" value={project.mep_engineer} />
+                </dl>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
