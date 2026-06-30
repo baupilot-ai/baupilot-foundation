@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { setAppLanguage, getAppLanguage, type SupportedLanguage } from "@/lib/i18n";
+import { type SupportedLanguage } from "@/lib/i18n";
+import { useLanguagePref } from "@/hooks/use-language-pref";
+
 
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({
@@ -33,22 +35,13 @@ export const Route = createFileRoute("/_app/settings")({
 
 function SettingsPage() {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState<SupportedLanguage>(getAppLanguage());
+  const { language, setLanguage } = useLanguagePref();
   const [savingLang, setSavingLang] = useState(false);
 
-  useEffect(() => {
-    setLanguage(getAppLanguage());
-  }, []);
-
   async function saveLanguage(next: SupportedLanguage) {
-    setLanguage(next);
-    setAppLanguage(next);
     setSavingLang(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        await supabase.from("profiles").update({ language: next }).eq("id", user.id);
-      }
+      await setLanguage(next);
       toast.success(t("settings.languageSaved"));
     } catch {
       toast.error(t("common.saveFailed"));
@@ -56,6 +49,7 @@ function SettingsPage() {
       setSavingLang(false);
     }
   }
+
 
   return (
     <div className="space-y-6">

@@ -16,6 +16,9 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useProfile, profileDisplayName, profileInitials } from "@/hooks/use-profile";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+
+
 
 export function Topbar() {
   const { t } = useTranslation();
@@ -44,14 +47,18 @@ export function Topbar() {
         />
       </div>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="ml-auto md:ml-0 h-9 w-9 text-muted-foreground"
-        aria-label={t("common.notifications")}
-      >
-        <Bell className="h-4.5 w-4.5" />
-      </Button>
+      <div className="ml-auto flex items-center gap-1 md:ml-0">
+        <LanguageSwitcher />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 text-muted-foreground"
+          aria-label={t("common.notifications")}
+        >
+          <Bell className="h-4.5 w-4.5" />
+        </Button>
+      </div>
+
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

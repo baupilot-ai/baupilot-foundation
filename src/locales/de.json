@@ -359,5 +359,104 @@
       "dueThisWeek": "Diese Woche fällig",
       "unreadNotifications": "Ungelesene Benachrichtigungen"
     }
+  },
+  "enums": {
+    "taskStatus": {
+      "open": "Offen",
+      "in_progress": "In Bearbeitung",
+      "done": "Erledigt",
+      "blocked": "Blockiert"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "critical": "Kritisch"
+    },
+    "defectStatus": {
+      "open": "Offen",
+      "in_progress": "In Bearbeitung",
+      "fixed": "Behoben",
+      "accepted": "Abgenommen",
+      "rejected": "Abgelehnt"
+    },
+    "projectStatus": {
+      "planned": "Geplant",
+      "planning": "Planung",
+      "active": "Aktiv",
+      "on_hold": "Pausiert",
+      "completed": "Abgeschlossen",
+      "archived": "Archiviert"
+    },
+    "deliveryStatus": {
+      "expected": "Erwartet",
+      "arrived": "Eingetroffen",
+      "partially_received": "Teilweise erhalten",
+      "received": "Erhalten",
+      "cancelled": "Abgebrochen",
+      "delayed": "Verzögert"
+    },
+    "docStatus": {
+      "draft": "Entwurf",
+      "in_review": "In Prüfung",
+      "approved": "Freigegeben",
+      "superseded": "Ersetzt",
+      "archived": "Archiviert"
+    }
+  },
+  "tasks": {
+    "title": "Aufgaben",
+    "new": "Neue Aufgabe",
+    "edit": "Aufgabe bearbeiten",
+    "create": "Aufgabe erstellen",
+    "empty": "Noch keine Aufgaben",
+    "deleteConfirm": "Aufgabe löschen?",
+    "deleteConfirmDesc": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "filters": {
+      "allStatus": "Alle Status",
+      "allPriority": "Alle Prioritäten",
+      "sortDue": "Fälligkeit",
+      "sortNewest": "Neueste"
+    },
+    "fields": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "status": "Status",
+      "priority": "Priorität",
+      "assignedTo": "Zugewiesen an",
+      "dueDate": "Fälligkeitsdatum"
+    },
+    "titleRequired": "Titel erforderlich"
+  },
+  "defects": {
+    "title": "Mängel",
+    "new": "Neuer Mangel",
+    "edit": "Mangel bearbeiten",
+    "create": "Mangel erstellen",
+    "empty": "Noch keine Mängel",
+    "deleteConfirm": "Mangel löschen?",
+    "deleteConfirmDesc": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "filters": {
+      "allStatus": "Alle Status",
+      "allPriority": "Alle Prioritäten"
+    },
+    "fields": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "location": "Ort",
+      "status": "Status",
+      "priority": "Priorität",
+      "responsible": "Verantwortlich",
+      "photo": "Foto"
+    },
+    "titleRequired": "Titel erforderlich"
+  },
+  "states": {
+    "created": "Erstellt",
+    "updated": "Aktualisiert",
+    "deleted": "Gelöscht",
+    "failed": "Aktion fehlgeschlagen",
+    "statusUpdated": "Status aktualisiert"
   }
 }
+
