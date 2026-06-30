@@ -108,6 +108,14 @@ function DashboardPage() {
     { label: "Employees on projects", value: s.assignedEmployees, icon: UserCheck, tone: "success" as const },
     { label: "Subs on projects", value: s.assignedSubcontractors, icon: Briefcase, tone: "success" as const },
   ];
+  const resItems = [
+    { label: "Available equipment", value: s.equipmentAvailable, icon: Hammer, tone: "success" as const },
+    { label: "Assigned equipment", value: s.equipmentAssigned, icon: Hammer, tone: "info" as const },
+    { label: "Defective equipment", value: s.equipmentDefective, icon: AlertTriangle, tone: "danger" as const },
+    { label: "Materials low stock", value: s.lowStock, icon: Package, tone: "warning" as const },
+    { label: "Deliveries (7d)", value: s.deliveriesUpcoming, icon: Truck, tone: "info" as const },
+    { label: "Deliveries delayed", value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
+    { label: "Maintenance due soon", value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
   return (
     <div className="space-y-8">
       <PageHeader
@@ -135,6 +143,11 @@ function DashboardPage() {
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {teamItems.map((i) => <StatCard key={i.label} {...i} sub="people" />)}
       </section>
+
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
+        {resItems.map((i) => <StatCard key={i.label} {...i} sub="resources" />)}
+      </section>
+
 
 
       <section>
