@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
@@ -18,17 +19,17 @@ export const Route = createFileRoute("/forgot-password")({
 });
 
 function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const [sent, setSent] = useState(false);
 
   return (
     <AuthLayout
-      title="Reset your password"
-      subtitle="Enter the email associated with your account and we'll send you a reset link."
+      title={t("auth.forgotTitle")}
+      subtitle={t("auth.forgotSubtitle")}
       footer={
         <p className="text-center text-muted-foreground">
-          Remembered it?{" "}
           <Link to="/login" className="font-semibold text-primary hover:underline">
-            Back to sign in
+            {t("auth.backToLogin")}
           </Link>
         </p>
       }
@@ -38,10 +39,7 @@ function ForgotPasswordPage() {
           <div className="flex items-start gap-3">
             <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
             <div className="text-sm">
-              <p className="font-semibold text-foreground">Check your inbox</p>
-              <p className="mt-1 text-muted-foreground">
-                If an account exists for that email, a password reset link is on its way.
-              </p>
+              <p className="font-semibold text-foreground">{t("auth.resetEmailSent")}</p>
             </div>
           </div>
         </div>
@@ -54,11 +52,11 @@ function ForgotPasswordPage() {
           className="space-y-4"
         >
           <div className="space-y-2">
-            <Label htmlFor="email">Work email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input id="email" type="email" autoComplete="email" required />
           </div>
           <Button type="submit" className="w-full" size="lg">
-            Send reset link
+            {t("auth.sendResetLink")}
           </Button>
         </form>
       )}
