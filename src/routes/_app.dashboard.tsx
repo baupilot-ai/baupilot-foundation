@@ -83,88 +83,87 @@ function useStats() {
 }
 
 function DashboardPage() {
+  const { t } = useTranslation();
   const { profile } = useProfile();
   const name = profileDisplayName(profile);
   const { stats: s } = useStats();
   const projectItems = [
-    { label: "Active", value: s.active, icon: FolderKanban, tone: "info" as const },
-    { label: "Planned", value: s.planned, icon: FolderKanban, tone: "neutral" as const },
-    { label: "On hold", value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
-    { label: "Completed", value: s.completed, icon: CheckCircle2, tone: "success" as const },
-    { label: "Archived", value: s.archived, icon: Archive, tone: "neutral" as const },
+    { label: t("dashboard.stats.active"), value: s.active, icon: FolderKanban, tone: "info" as const },
+    { label: t("dashboard.stats.planned"), value: s.planned, icon: FolderKanban, tone: "neutral" as const },
+    { label: t("dashboard.stats.onHold"), value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
+    { label: t("dashboard.stats.completed"), value: s.completed, icon: CheckCircle2, tone: "success" as const },
+    { label: t("dashboard.stats.archived"), value: s.archived, icon: Archive, tone: "neutral" as const },
   ];
   const opsItems = [
-    { label: "Daily reports (7d)", value: s.dailyReportsWeek, icon: CalendarDays, tone: "info" as const },
-    { label: "Open tasks", value: s.openTasks, icon: CheckSquare, tone: "warning" as const },
-    { label: "Open defects", value: s.openDefects, icon: AlertOctagon, tone: "danger" as const },
+    { label: t("dashboard.stats.dailyReports7d"), value: s.dailyReportsWeek, icon: CalendarDays, tone: "info" as const },
+    { label: t("dashboard.stats.openTasks"), value: s.openTasks, icon: CheckSquare, tone: "warning" as const },
+    { label: t("dashboard.stats.openDefects"), value: s.openDefects, icon: AlertOctagon, tone: "danger" as const },
   ];
   const docItems = [
-    { label: "Documents (7d)", value: s.docsThisWeek, icon: FileText, tone: "info" as const },
-    { label: "Plans awaiting review", value: s.plansAwaitingReview, icon: Layers, tone: "warning" as const },
-    { label: "Superseded plans", value: s.supersededPlans, icon: FileWarning, tone: "neutral" as const },
+    { label: t("dashboard.stats.documents7d"), value: s.docsThisWeek, icon: FileText, tone: "info" as const },
+    { label: t("dashboard.stats.plansAwaiting"), value: s.plansAwaitingReview, icon: Layers, tone: "warning" as const },
+    { label: t("dashboard.stats.supersededPlans"), value: s.supersededPlans, icon: FileWarning, tone: "neutral" as const },
   ];
   const teamItems = [
-    { label: "Active employees", value: s.activeEmployees, icon: Users2, tone: "info" as const },
-    { label: "Active subcontractors", value: s.activeSubcontractors, icon: Building2, tone: "info" as const },
-    { label: "Employees on projects", value: s.assignedEmployees, icon: UserCheck, tone: "success" as const },
-    { label: "Subs on projects", value: s.assignedSubcontractors, icon: Briefcase, tone: "success" as const },
+    { label: t("dashboard.stats.activeEmployees"), value: s.activeEmployees, icon: Users2, tone: "info" as const },
+    { label: t("dashboard.stats.activeSubs"), value: s.activeSubcontractors, icon: Building2, tone: "info" as const },
+    { label: t("dashboard.stats.employeesOnProjects"), value: s.assignedEmployees, icon: UserCheck, tone: "success" as const },
+    { label: t("dashboard.stats.subsOnProjects"), value: s.assignedSubcontractors, icon: Briefcase, tone: "success" as const },
   ];
   const resItems = [
-    { label: "Available equipment", value: s.equipmentAvailable, icon: Hammer, tone: "success" as const },
-    { label: "Assigned equipment", value: s.equipmentAssigned, icon: Hammer, tone: "info" as const },
-    { label: "Defective equipment", value: s.equipmentDefective, icon: AlertTriangle, tone: "danger" as const },
-    { label: "Materials low stock", value: s.lowStock, icon: Package, tone: "warning" as const },
-    { label: "Deliveries (7d)", value: s.deliveriesUpcoming, icon: Truck, tone: "info" as const },
-    { label: "Deliveries delayed", value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
-    { label: "Maintenance due soon", value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
+    { label: t("dashboard.stats.equipmentAvailable"), value: s.equipmentAvailable, icon: Hammer, tone: "success" as const },
+    { label: t("dashboard.stats.equipmentAssigned"), value: s.equipmentAssigned, icon: Hammer, tone: "info" as const },
+    { label: t("dashboard.stats.equipmentDefective"), value: s.equipmentDefective, icon: AlertTriangle, tone: "danger" as const },
+    { label: t("dashboard.stats.lowStock"), value: s.lowStock, icon: Package, tone: "warning" as const },
+    { label: t("dashboard.stats.deliveries7d"), value: s.deliveriesUpcoming, icon: Truck, tone: "info" as const },
+    { label: t("dashboard.stats.deliveriesDelayed"), value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
+    { label: t("dashboard.stats.maintenanceDueSoon"), value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
   ];
   return (
     <div className="space-y-8">
       <PageHeader
-        title={name ? `Welcome back, ${name.split(" ")[0]}` : "Welcome back"}
-        description="Here's an overview of your workspace."
+        title={name ? t("dashboard.welcomeBackName", { name: name.split(" ")[0] }) : t("dashboard.welcomeBack")}
+        description={t("dashboard.overview")}
         actions={
           <Button asChild>
-            <Link to="/projects/new"><Plus className="h-4 w-4" />New project</Link>
+            <Link to="/projects/new"><Plus className="h-4 w-4" />{t("dashboard.newProject")}</Link>
           </Button>
         }
       />
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
-        {projectItems.map((i) => <StatCard key={i.label} {...i} sub="projects" />)}
+        {projectItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.projects")} />)}
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {opsItems.map((i) => <StatCard key={i.label} {...i} sub="site activity" />)}
+        {opsItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.siteActivity")} />)}
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {docItems.map((i) => <StatCard key={i.label} {...i} sub="documents & plans" />)}
+        {docItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.documentsPlans")} />)}
       </section>
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {teamItems.map((i) => <StatCard key={i.label} {...i} sub="people" />)}
+        {teamItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.people")} />)}
       </section>
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
-        {resItems.map((i) => <StatCard key={i.label} {...i} sub="resources" />)}
+        {resItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.resources")} />)}
       </section>
-
-
 
       <section>
         <Card className="border-border/70">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Get started</CardTitle>
+            <CardTitle>{t("dashboard.getStarted")}</CardTitle>
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/projects">View all<ArrowUpRight className="h-4 w-4" /></Link>
+              <Link to="/projects">{t("common.viewAll")}<ArrowUpRight className="h-4 w-4" /></Link>
             </Button>
           </CardHeader>
           <CardContent className="space-y-3">
             {[
-              { title: "Complete your company profile", desc: "Add your company details, logo, and address.", to: "/company", cta: "Set up" },
-              { title: "Create your first project", desc: "Add a construction project to start organizing your work.", to: "/projects/new", cta: "Create" },
-              { title: "Update your profile", desc: "Add your name, role and contact details.", to: "/profile", cta: "Edit" },
+              { title: t("dashboard.setupCompany"), desc: t("dashboard.setupCompanyDesc"), to: "/company", cta: t("dashboard.setupCompanyCta") },
+              { title: t("dashboard.createFirstProject"), desc: t("dashboard.createFirstProjectDesc"), to: "/projects/new", cta: t("dashboard.createFirstProjectCta") },
+              { title: t("dashboard.updateProfile"), desc: t("dashboard.updateProfileDesc"), to: "/profile", cta: t("dashboard.updateProfileCta") },
             ].map((item) => (
               <div key={item.title} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-border/70 bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/40">
                 <div className="min-w-0">
