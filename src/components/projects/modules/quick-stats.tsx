@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
-import { CalendarDays, CheckSquare, AlertOctagon, Camera, Calendar, FileText, Layers, Users2, Building2, UserSquare } from "lucide-react";
+import { CalendarDays, CheckSquare, AlertOctagon, Camera, Calendar, FileText, Layers, Users2, Building2, UserSquare, Hammer, Settings2, Truck, Package, AlertTriangle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProjectQuickStats } from "@/lib/site-modules";
 import { getDocumentsPlansStats } from "@/lib/documents";
 import { getProjectPeopleStats } from "@/lib/team";
+import { getProjectResourceStats } from "@/lib/resources";
 
 type DocStats = Awaited<ReturnType<typeof getDocumentsPlansStats>>;
 type CoreStats = Awaited<ReturnType<typeof getProjectQuickStats>>;
 type PeopleStats = Awaited<ReturnType<typeof getProjectPeopleStats>>;
+type ResStats = Awaited<ReturnType<typeof getProjectResourceStats>>;
 
 export function ProjectQuickStats({ projectId }: { projectId: string }) {
   const [s, setS] = useState<CoreStats | null>(null);
   const [d, setD] = useState<DocStats | null>(null);
   const [p, setP] = useState<PeopleStats | null>(null);
+  const [r, setR] = useState<ResStats | null>(null);
   useEffect(() => {
     getProjectQuickStats(projectId).then(setS).catch(() => {});
     getDocumentsPlansStats(projectId).then(setD).catch(() => {});
     getProjectPeopleStats(projectId).then(setP).catch(() => {});
+    getProjectResourceStats(projectId).then(setR).catch(() => {});
   }, [projectId]);
   if (!s) return null;
   const items: Array<{ label: string; value: number; icon: React.ComponentType<{ className?: string }>; sub: string }> = [
@@ -29,6 +33,11 @@ export function ProjectQuickStats({ projectId }: { projectId: string }) {
     { label: "Team", value: p?.employees ?? 0, icon: Users2, sub: "employees" },
     { label: "Subcontractors", value: p?.subcontractors ?? 0, icon: Building2, sub: "on project" },
     { label: "Contacts", value: p?.contacts ?? 0, icon: UserSquare, sub: "external" },
+    { label: "Equipment", value: r?.equipmentCount ?? 0, icon: Hammer, sub: "assigned" },
+    { label: "Tools", value: r?.toolsCount ?? 0, icon: Settings2, sub: "assigned" },
+    { label: "Deliveries (7d)", value: r?.deliveriesWeek ?? 0, icon: Truck, sub: "this week" },
+    { label: "Materials used", value: r?.materialUsageCount ?? 0, icon: Package, sub: "entries" },
+    { label: "Maint. overdue", value: r?.overdueMaintenance ?? 0, icon: AlertTriangle, sub: r?.overdueMaintenance ? "needs attention" : "all good" },
   ];
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
