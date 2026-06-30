@@ -81,6 +81,11 @@ function DashboardPage() {
     { label: "Open tasks", value: s.openTasks, icon: CheckSquare, tone: "warning" as const },
     { label: "Open defects", value: s.openDefects, icon: AlertOctagon, tone: "danger" as const },
   ];
+  const docItems = [
+    { label: "Documents (7d)", value: s.docsThisWeek, icon: FileText, tone: "info" as const },
+    { label: "Plans awaiting review", value: s.plansAwaitingReview, icon: Layers, tone: "warning" as const },
+    { label: "Superseded plans", value: s.supersededPlans, icon: FileWarning, tone: "neutral" as const },
+  ];
   return (
     <div className="space-y-8">
       <PageHeader
@@ -100,6 +105,11 @@ function DashboardPage() {
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {opsItems.map((i) => <StatCard key={i.label} {...i} sub="site activity" />)}
       </section>
+
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {docItems.map((i) => <StatCard key={i.label} {...i} sub="documents & plans" />)}
+      </section>
+
 
       <section>
         <Card className="border-border/70">
