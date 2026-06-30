@@ -1,14 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
-  FolderKanban,
-  Archive,
-  CheckCircle2,
-  PauseCircle,
-  ArrowUpRight,
-  Plus,
-  Sparkles,
-  Clock,
+  FolderKanban, Archive, CheckCircle2, PauseCircle, ArrowUpRight, Plus,
+  CalendarDays, CheckSquare, AlertOctagon,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -29,23 +23,35 @@ export const Route = createFileRoute("/_app/dashboard")({
   component: DashboardPage,
 });
 
-function useProjectStats() {
-  const [stats, setStats] = useState({ planned: 0, active: 0, on_hold: 0, completed: 0, archived: 0, total: 0 });
+interface Stats {
+  active: number; planned: number; on_hold: number; completed: number; archived: number;
+  dailyReportsWeek: number; openTasks: number; openDefects: number;
+}
+
+function useStats() {
+  const [stats, setStats] = useState<Stats>({
+    active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
+    dailyReportsWeek: 0, openTasks: 0, openDefects: 0,
+  });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("projects").select("current_status, archived_at");
-      const s = { planned: 0, active: 0, on_hold: 0, completed: 0, archived: 0, total: 0 };
-      for (const p of data ?? []) {
-        s.total++;
+      const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+      const [projects, dr, tk, df] = await Promise.all([
+        supabase.from("projects").select("current_status, archived_at"),
+        supabase.from("daily_reports").select("id", { count: "exact", head: true }).gte("report_date", weekAgo),
+        supabase.from("tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
+        supabase.from("defects").select("id", { count: "exact", head: true }).not("status", "in", '("accepted","rejected","fixed")'),
+      ]);
+      const s: Stats = { active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0, dailyReportsWeek: dr.count ?? 0, openTasks: tk.count ?? 0, openDefects: df.count ?? 0 };
+      for (const p of projects.data ?? []) {
         if (p.archived_at) { s.archived++; continue; }
         if (p.current_status === "active") s.active++;
         else if (p.current_status === "planned" || p.current_status === "planning") s.planned++;
         else if (p.current_status === "on_hold") s.on_hold++;
         else if (p.current_status === "completed") s.completed++;
       }
-      setStats(s);
-      setLoading(false);
+      setStats(s); setLoading(false);
     })();
   }, []);
   return { stats, loading };
@@ -54,6 +60,19 @@ function useProjectStats() {
 function DashboardPage() {
   const { profile } = useProfile();
   const name = profileDisplayName(profile);
+  const { stats: s } = useStats();
+  const projectItems = [
+    { label: "Active", value: s.active, icon: FolderKanban, tone: "info" as const },
+    { label: "Planned", value: s.planned, icon: FolderKanban, tone: "neutral" as const },
+    { label: "On hold", value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
+    { label: "Completed", value: s.completed, icon: CheckCircle2, tone: "success" as const },
+    { label: "Archived", value: s.archived, icon: Archive, tone: "neutral" as const },
+  ];
+  const opsItems = [
+    { label: "Daily reports (7d)", value: s.dailyReportsWeek, icon: CalendarDays, tone: "info" as const },
+    { label: "Open tasks", value: s.openTasks, icon: CheckSquare, tone: "warning" as const },
+    { label: "Open defects", value: s.openDefects, icon: AlertOctagon, tone: "danger" as const },
+  ];
   return (
     <div className="space-y-8">
       <PageHeader
@@ -61,51 +80,21 @@ function DashboardPage() {
         description="Here's an overview of your workspace."
         actions={
           <Button asChild>
-            <Link to="/projects/new">
-              <Plus className="h-4 w-4" />
-              New project
-            </Link>
+            <Link to="/projects/new"><Plus className="h-4 w-4" />New project</Link>
           </Button>
         }
       />
 
-      <DashboardStats />
-    </div>
-  );
-}
-
-function DashboardStats() {
-  const { stats: s } = useProjectStats();
-  const items = [
-    { label: "Active", value: s.active, icon: FolderKanban, tone: "info" as const },
-    { label: "Planned", value: s.planned, icon: Clock, tone: "neutral" as const },
-    { label: "On hold", value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
-    { label: "Completed", value: s.completed, icon: CheckCircle2, tone: "success" as const },
-    { label: "Archived", value: s.archived, icon: Archive, tone: "neutral" as const },
-  ];
-  return (
-    <>
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
-        {items.map((i) => (
-          <Card key={i.label} className="border-border/70">
-            <CardContent className="p-5">
-              <div className="flex items-start justify-between">
-                <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                  <i.icon className="h-5 w-5" />
-                </div>
-                <StatusBadge tone={i.tone} dot={false}>{i.label}</StatusBadge>
-              </div>
-              <div className="mt-4">
-                <div className="text-3xl font-semibold tracking-tight text-foreground">{i.value}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{i.label} projects</div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {projectItems.map((i) => <StatCard key={i.label} {...i} sub="projects" />)}
       </section>
 
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="border-border/70 lg:col-span-2">
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {opsItems.map((i) => <StatCard key={i.label} {...i} sub="site activity" />)}
+      </section>
+
+      <section>
+        <Card className="border-border/70">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Get started</CardTitle>
             <Button variant="ghost" size="sm" asChild>
@@ -130,26 +119,24 @@ function DashboardStats() {
             ))}
           </CardContent>
         </Card>
-
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 via-card to-card">
-          <CardHeader>
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <CardTitle className="mt-3">Coming soon</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>Daily reports, defect tracking, task management and AI-assisted workflows are on the way.</p>
-            <ul className="mt-3 space-y-1.5 text-sm">
-              {["Daily reports", "Tasks & defects", "AI assistant", "Document hub"].map((f) => (
-                <li key={f} className="flex items-center gap-2 text-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />{f}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
       </section>
-    </>
+    </div>
+  );
+}
+
+function StatCard({ label, value, icon: Icon, tone, sub }: { label: string; value: number; icon: React.ComponentType<{ className?: string }>; tone: "info" | "neutral" | "warning" | "success" | "danger"; sub: string }) {
+  return (
+    <Card className="border-border/70">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary"><Icon className="h-5 w-5" /></div>
+          <StatusBadge tone={tone} dot={false}>{label}</StatusBadge>
+        </div>
+        <div className="mt-4">
+          <div className="text-3xl font-semibold tracking-tight text-foreground">{value}</div>
+          <div className="mt-1 text-sm text-muted-foreground">{sub}</div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

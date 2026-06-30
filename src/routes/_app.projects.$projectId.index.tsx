@@ -2,7 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
-  FolderKanban, FileText, History, Users, Wallet,
+  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -22,6 +22,12 @@ import {
   STATUS_OPTIONS, STATUS_TONE, statusLabel,
   type ProjectRow, type ProjectStatus,
 } from "@/lib/projects";
+import { DailyReportsTab } from "@/components/projects/modules/daily-reports-tab";
+import { TasksTab } from "@/components/projects/modules/tasks-tab";
+import { DefectsTab } from "@/components/projects/modules/defects-tab";
+import { PhotosTab } from "@/components/projects/modules/photos-tab";
+import { ActivityTab } from "@/components/projects/modules/activity-tab";
+import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
@@ -158,15 +164,19 @@ function ProjectDetail() {
         <div className="overflow-x-auto">
           <TabsList className="w-max">
             <TabsTrigger value="overview"><FolderKanban className="h-4 w-4" />Overview</TabsTrigger>
+            <TabsTrigger value="daily"><CalendarDays className="h-4 w-4" />Daily Reports</TabsTrigger>
+            <TabsTrigger value="tasks"><CheckSquare className="h-4 w-4" />Tasks</TabsTrigger>
+            <TabsTrigger value="defects"><AlertOctagon className="h-4 w-4" />Defects</TabsTrigger>
+            <TabsTrigger value="photos"><Camera className="h-4 w-4" />Photos</TabsTrigger>
             <TabsTrigger value="team"><Users className="h-4 w-4" />Team</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
-            <TabsTrigger value="documents"><FileText className="h-4 w-4" />Documents</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
           </TabsList>
         </div>
 
         <TabsContent value="overview" className="space-y-4">
+          <ProjectQuickStats projectId={project.id} />
           <div className="grid gap-4 lg:grid-cols-3">
             <Card className="border-border/70 lg:col-span-2">
               <CardHeader><CardTitle className="text-base">Project information</CardTitle></CardHeader>
@@ -201,6 +211,38 @@ function ProjectDetail() {
                 </CardContent>
               </Card>
             )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="daily"><DailyReportsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="tasks"><TasksTab projectId={project.id} /></TabsContent>
+        <TabsContent value="defects"><DefectsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="photos"><PhotosTab projectId={project.id} /></TabsContent>
+
+        <TabsContent value="team" className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card className="border-border/70">
+              <CardHeader><CardTitle className="text-base">Internal team</CardTitle></CardHeader>
+              <CardContent>
+                <dl className="space-y-3">
+                  <Detail label="Project manager" value={project.project_manager} />
+                  <Detail label="Site manager" value={project.site_manager} />
+                  <Detail label="Foreman" value={project.foreman} />
+                  <Detail label="Safety manager" value={project.safety_manager} />
+                </dl>
+              </CardContent>
+            </Card>
+            <Card className="border-border/70">
+              <CardHeader><CardTitle className="text-base">External contacts</CardTitle></CardHeader>
+              <CardContent>
+                <dl className="space-y-3">
+                  <Detail label="Client contact" value={project.client_contact} />
+                  <Detail label="Architect" value={project.architect} />
+                  <Detail label="Structural engineer" value={project.structural_engineer} />
+                  <Detail label="MEP engineer" value={project.mep_engineer} />
+                </dl>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
@@ -271,43 +313,7 @@ function ProjectDetail() {
           </div>
         </TabsContent>
 
-        <TabsContent value="documents">
-          <Card className="border-dashed border-border/70 bg-muted/30">
-            <CardContent className="flex flex-col items-center gap-2 px-6 py-16 text-center">
-              <FileText className="h-8 w-8 text-muted-foreground" />
-              <p className="text-sm font-medium">Documents</p>
-              <p className="max-w-sm text-sm text-muted-foreground">
-                Documents will be added in a later module.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="activity">
-          <Card className="border-border/70">
-            <CardHeader><CardTitle className="text-base">Activity</CardTitle></CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                <ActivityItem
-                  title="Project updated"
-                  description="Most recent change to project data."
-                  at={project.updated_at}
-                />
-                <ActivityItem
-                  title="Project created"
-                  description="Project added to the workspace."
-                  at={project.created_at}
-                />
-                {project.archived_at && (
-                  <ActivityItem title="Project archived" description="Moved to archive." at={project.archived_at} />
-                )}
-              </ul>
-              <p className="mt-6 text-xs text-muted-foreground">
-                A full activity log with team actions arrives in a later module.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <TabsContent value="activity"><ActivityTab projectId={project.id} /></TabsContent>
       </Tabs>
 
       <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
@@ -360,20 +366,6 @@ function TimelineSummary({ project }: { project: ProjectRow }) {
   );
 }
 
-function ActivityItem({ title, description, at }: { title: string; description: string; at: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-sm font-medium text-foreground">{title}</p>
-          <span className="text-xs text-muted-foreground">{new Date(at).toLocaleString()}</span>
-        </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-    </li>
-  );
-}
 
 function Detail({
   label, value, icon: Icon,
