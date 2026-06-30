@@ -170,6 +170,8 @@ function ProjectDetail() {
             <TabsTrigger value="tasks"><CheckSquare className="h-4 w-4" />Tasks</TabsTrigger>
             <TabsTrigger value="defects"><AlertOctagon className="h-4 w-4" />Defects</TabsTrigger>
             <TabsTrigger value="photos"><Camera className="h-4 w-4" />Photos</TabsTrigger>
+            <TabsTrigger value="documents"><FileText className="h-4 w-4" />Documents</TabsTrigger>
+            <TabsTrigger value="plans"><Layers className="h-4 w-4" />Plans</TabsTrigger>
             <TabsTrigger value="team"><Users className="h-4 w-4" />Team</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
@@ -220,6 +222,10 @@ function ProjectDetail() {
         <TabsContent value="tasks"><TasksTab projectId={project.id} /></TabsContent>
         <TabsContent value="defects"><DefectsTab projectId={project.id} /></TabsContent>
         <TabsContent value="photos"><PhotosTab projectId={project.id} /></TabsContent>
+        <TabsContent value="documents"><DocumentsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="plans"><PlansTab projectId={project.id} /></TabsContent>
+
+
 
         <TabsContent value="team" className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
