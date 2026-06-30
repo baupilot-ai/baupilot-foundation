@@ -116,6 +116,9 @@ function DashboardPage() {
     { label: "Deliveries (7d)", value: s.deliveriesUpcoming, icon: Truck, tone: "info" as const },
     { label: "Deliveries delayed", value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
     { label: "Maintenance due soon", value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
+  ];
+  // unused but kept for tone variant breadth
+  void Clock;
   return (
     <div className="space-y-8">
       <PageHeader
