@@ -29,6 +29,18 @@ import {
 import { Logo } from "@/components/branding/logo";
 
 export function AppSidebar() {
+  const { t } = useTranslation();
+  const mainItems = [
+    { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard },
+    { title: t("nav.projects"), url: "/projects", icon: FolderKanban },
+    { title: t("nav.resources"), url: "/resources", icon: Boxes },
+    { title: t("nav.team"), url: "/team", icon: Users2 },
+    { title: t("nav.company"), url: "/company", icon: Building2 },
+  ];
+  const accountItems = [
+    { title: t("nav.profile"), url: "/profile", icon: UserCircle2 },
+    { title: t("nav.settings"), url: "/settings", icon: Settings },
+  ];
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
