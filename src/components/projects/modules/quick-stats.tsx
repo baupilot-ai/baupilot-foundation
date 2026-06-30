@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { CalendarDays, CheckSquare, AlertOctagon, Camera, Calendar, FileText, Layers } from "lucide-react";
+import { CalendarDays, CheckSquare, AlertOctagon, Camera, Calendar, FileText, Layers, Users2, Building2, UserSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProjectQuickStats } from "@/lib/site-modules";
 import { getDocumentsPlansStats } from "@/lib/documents";
+import { getProjectPeopleStats } from "@/lib/team";
 
 type DocStats = Awaited<ReturnType<typeof getDocumentsPlansStats>>;
 type CoreStats = Awaited<ReturnType<typeof getProjectQuickStats>>;
+type PeopleStats = Awaited<ReturnType<typeof getProjectPeopleStats>>;
 
 export function ProjectQuickStats({ projectId }: { projectId: string }) {
   const [s, setS] = useState<CoreStats | null>(null);
   const [d, setD] = useState<DocStats | null>(null);
+  const [p, setP] = useState<PeopleStats | null>(null);
   useEffect(() => {
     getProjectQuickStats(projectId).then(setS).catch(() => {});
     getDocumentsPlansStats(projectId).then(setD).catch(() => {});
+    getProjectPeopleStats(projectId).then(setP).catch(() => {});
   }, [projectId]);
   if (!s) return null;
   const items: Array<{ label: string; value: number; icon: React.ComponentType<{ className?: string }>; sub: string }> = [
@@ -22,6 +26,9 @@ export function ProjectQuickStats({ projectId }: { projectId: string }) {
     { label: "Photos", value: s.photosCount, icon: Camera, sub: "" },
     { label: "Documents", value: d?.documentsCount ?? 0, icon: FileText, sub: d?.latestDocument?.created_at ? `Last: ${new Date(d.latestDocument.created_at).toLocaleDateString()}` : "" },
     { label: "Plans", value: d?.plansCount ?? 0, icon: Layers, sub: d?.latestPlan?.created_at ? `Rev ${d.latestPlan.revision} · ${new Date(d.latestPlan.created_at).toLocaleDateString()}` : "" },
+    { label: "Team", value: p?.employees ?? 0, icon: Users2, sub: "employees" },
+    { label: "Subcontractors", value: p?.subcontractors ?? 0, icon: Building2, sub: "on project" },
+    { label: "Contacts", value: p?.contacts ?? 0, icon: UserSquare, sub: "external" },
   ];
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
