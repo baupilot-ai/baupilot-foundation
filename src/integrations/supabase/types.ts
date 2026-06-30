@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      projects: {
+        Row: {
+          architect: string | null
+          archived_at: string | null
+          building_category: string | null
+          client: string | null
+          client_contact: string | null
+          construction_phase: string | null
+          contract_value: number | null
+          cover_image_url: string | null
+          created_at: string
+          current_status: string
+          description: string | null
+          foreman: string | null
+          gps_lat: number | null
+          gps_lng: number | null
+          id: string
+          mep_engineer: string | null
+          name: string
+          notes: string | null
+          planned_finish: string | null
+          planned_start: string | null
+          project_manager: string | null
+          project_number: string
+          project_type: string | null
+          safety_manager: string | null
+          site_address: string | null
+          site_manager: string | null
+          structural_engineer: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          architect?: string | null
+          archived_at?: string | null
+          building_category?: string | null
+          client?: string | null
+          client_contact?: string | null
+          construction_phase?: string | null
+          contract_value?: number | null
+          cover_image_url?: string | null
+          created_at?: string
+          current_status?: string
+          description?: string | null
+          foreman?: string | null
+          gps_lat?: number | null
+          gps_lng?: number | null
+          id?: string
+          mep_engineer?: string | null
+          name: string
+          notes?: string | null
+          planned_finish?: string | null
+          planned_start?: string | null
+          project_manager?: string | null
+          project_number: string
+          project_type?: string | null
+          safety_manager?: string | null
+          site_address?: string | null
+          site_manager?: string | null
+          structural_engineer?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          architect?: string | null
+          archived_at?: string | null
+          building_category?: string | null
+          client?: string | null
+          client_contact?: string | null
+          construction_phase?: string | null
+          contract_value?: number | null
+          cover_image_url?: string | null
+          created_at?: string
+          current_status?: string
+          description?: string | null
+          foreman?: string | null
+          gps_lat?: number | null
+          gps_lng?: number | null
+          id?: string
+          mep_engineer?: string | null
+          name?: string
+          notes?: string | null
+          planned_finish?: string | null
+          planned_start?: string | null
+          project_manager?: string | null
+          project_number?: string
+          project_type?: string | null
+          safety_manager?: string | null
+          site_address?: string | null
+          site_manager?: string | null
+          structural_engineer?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
