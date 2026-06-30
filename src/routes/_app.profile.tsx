@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -15,8 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_app/profile")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Profile — BauPilot AI" },
@@ -26,10 +30,96 @@ export const Route = createFileRoute("/_app/profile")({
   component: ProfilePage,
 });
 
+const ROLE_LABELS: Record<string, string> = {
+  owner: "Company Owner",
+  pm: "Project Manager",
+  site: "Site Manager",
+  foreman: "Foreman",
+  worker: "Worker",
+  safety: "Safety Manager",
+};
+
+interface ProfileForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  role: string;
+  language: string;
+}
+
+const EMPTY: ProfileForm = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  role: "owner",
+  language: "en",
+};
+
 function ProfilePage() {
-  function onSave(e: React.FormEvent) {
+  const [form, setForm] = useState<ProfileForm>(EMPTY);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (!alive) return;
+      setForm({
+        first_name: data?.first_name ?? (user.user_metadata?.first_name as string) ?? "",
+        last_name: data?.last_name ?? (user.user_metadata?.last_name as string) ?? "",
+        email: data?.email ?? user.email ?? "",
+        phone: data?.phone ?? "",
+        role: data?.role ?? "owner",
+        language: data?.language ?? "en",
+      });
+      setLoading(false);
+    })();
+    return () => { alive = false; };
+  }, []);
+
+  async function onSave(e: React.FormEvent) {
     e.preventDefault();
-    toast.success("Profile updated");
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("profiles").upsert({
+        id: user.id,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        email: form.email,
+        phone: form.phone,
+        role: form.role,
+        language: form.language,
+      });
+      if (error) throw error;
+      toast.success("Profile updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to save");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const initials = ((form.first_name?.[0] ?? "") + (form.last_name?.[0] ?? "")).toUpperCase()
+    || (form.email?.slice(0, 2).toUpperCase() ?? "BP");
+  const fullName = [form.first_name, form.last_name].filter(Boolean).join(" ") || form.email || "Your account";
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24 text-muted-foreground">
+        <Loader2 className="h-5 w-5 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -45,17 +135,14 @@ function ProfilePage() {
           <CardContent className="flex flex-col items-center gap-3 text-center">
             <Avatar className="h-20 w-20">
               <AvatarFallback className="bg-primary/10 text-xl font-semibold text-primary">
-                AM
+                {initials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <div className="text-base font-semibold text-foreground">Alex Müller</div>
-              <div className="text-sm text-muted-foreground">alex@example.com</div>
+              <div className="text-base font-semibold text-foreground">{fullName}</div>
+              <div className="text-sm text-muted-foreground">{form.email}</div>
             </div>
-            <StatusBadge tone="primary">Company Owner</StatusBadge>
-            <Button type="button" variant="outline" size="sm">
-              Change photo
-            </Button>
+            <StatusBadge tone="primary">{ROLE_LABELS[form.role] ?? form.role}</StatusBadge>
           </CardContent>
         </Card>
 
@@ -67,23 +154,23 @@ function ProfilePage() {
           <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="fname">First name</Label>
-              <Input id="fname" defaultValue="Alex" />
+              <Input id="fname" value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="lname">Last name</Label>
-              <Input id="lname" defaultValue="Müller" />
+              <Input id="lname" value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" defaultValue="alex@example.com" />
+              <Input id="email" type="email" value={form.email} disabled />
             </div>
             <div className="space-y-2">
               <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" type="tel" placeholder="+49 …" />
+              <Input id="phone" type="tel" placeholder="+49 …" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label>Role</Label>
-              <Select defaultValue="owner">
+              <Select value={form.role} onValueChange={(v) => setForm({ ...form, role: v })}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -98,7 +185,7 @@ function ProfilePage() {
             </div>
             <div className="space-y-2">
               <Label>Language</Label>
-              <Select defaultValue="en">
+              <Select value={form.language} onValueChange={(v) => setForm({ ...form, language: v })}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -112,10 +199,9 @@ function ProfilePage() {
         </Card>
 
         <div className="lg:col-span-3 flex justify-end gap-2">
-          <Button type="button" variant="ghost">
-            Cancel
+          <Button type="submit" disabled={saving}>
+            {saving ? "Saving…" : "Save changes"}
           </Button>
-          <Button type="submit">Save changes</Button>
         </div>
       </form>
     </div>
