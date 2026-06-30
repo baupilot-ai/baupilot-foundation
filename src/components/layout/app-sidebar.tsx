@@ -119,15 +119,15 @@ export function AppSidebar() {
       <SidebarFooter className="border-t p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Help & support">
+            <SidebarMenuButton tooltip={t("common.help")}>
               <HelpCircle />
-              <span>Help</span>
+              <span>{t("common.help")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
+            <SidebarMenuButton onClick={signOut} tooltip={t("common.signOut")}>
               <LogOut />
-              <span>Sign out</span>
+              <span>{t("common.signOut")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
