@@ -6,6 +6,7 @@ import {
   CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
   Users2, Building2, UserCheck, Briefcase,
   Hammer, Wrench, AlertTriangle, Package, Truck,
+  BarChart3, Flag, Bell, Calendar as CalendarIcon,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -16,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getDashboardDocStats } from "@/lib/documents";
 import { getTeamDashboardStats } from "@/lib/team";
 import { getResourceDashboardStats } from "@/lib/resources";
+import { getPlanningDashboardStats } from "@/lib/planning";
 import { useProfile, profileDisplayName } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_app/dashboard")({
