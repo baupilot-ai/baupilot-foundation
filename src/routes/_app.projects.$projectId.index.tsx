@@ -2,7 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
-  FolderKanban, FileText, History, Users, Wallet,
+  FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -22,6 +22,12 @@ import {
   STATUS_OPTIONS, STATUS_TONE, statusLabel,
   type ProjectRow, type ProjectStatus,
 } from "@/lib/projects";
+import { DailyReportsTab } from "@/components/projects/modules/daily-reports-tab";
+import { TasksTab } from "@/components/projects/modules/tasks-tab";
+import { DefectsTab } from "@/components/projects/modules/defects-tab";
+import { PhotosTab } from "@/components/projects/modules/photos-tab";
+import { ActivityTab } from "@/components/projects/modules/activity-tab";
+import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
