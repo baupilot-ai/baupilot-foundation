@@ -1,13 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Sign in — BauPilot AI" },
@@ -19,10 +21,22 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    toast.success("Signed in (demo)");
+    const form = new FormData(e.currentTarget);
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: String(form.get("email")),
+      password: String(form.get("password")),
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Signed in");
     navigate({ to: "/dashboard" });
   }
 
@@ -42,28 +56,19 @@ function LoginPage() {
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Work email</Label>
-          <Input id="email" type="email" autoComplete="email" placeholder="you@company.com" required />
+          <Input id="email" name="email" type="email" autoComplete="email" required />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Link
-              to="/forgot-password"
-              className="text-xs font-medium text-primary hover:underline"
-            >
-              Forgot password?
+            <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+              Forgot?
             </Link>
           </div>
-          <Input id="password" type="password" autoComplete="current-password" required />
+          <Input id="password" name="password" type="password" autoComplete="current-password" required />
         </div>
-        <div className="flex items-center gap-2">
-          <Checkbox id="remember" defaultChecked />
-          <Label htmlFor="remember" className="text-sm font-normal text-muted-foreground">
-            Keep me signed in
-          </Label>
-        </div>
-        <Button type="submit" className="w-full" size="lg">
-          Sign in
+        <Button type="submit" className="w-full" size="lg" disabled={loading}>
+          {loading ? "Signing in…" : "Sign in"}
         </Button>
       </form>
     </AuthLayout>

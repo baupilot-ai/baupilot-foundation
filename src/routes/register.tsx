@@ -1,20 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/register")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Create account — BauPilot AI" },
@@ -26,10 +21,30 @@ export const Route = createFileRoute("/register")({
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    toast.success("Workspace created (demo)");
+    const form = new FormData(e.currentTarget);
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email: String(form.get("email")),
+      password: String(form.get("password")),
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+        data: {
+          first_name: form.get("fname"),
+          last_name: form.get("lname"),
+          company_name: form.get("company"),
+        },
+      },
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Account created");
     navigate({ to: "/dashboard" });
   }
 
@@ -50,57 +65,28 @@ function RegisterPage() {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
             <Label htmlFor="fname">First name</Label>
-            <Input id="fname" autoComplete="given-name" required />
+            <Input id="fname" name="fname" autoComplete="given-name" required />
           </div>
           <div className="space-y-2">
             <Label htmlFor="lname">Last name</Label>
-            <Input id="lname" autoComplete="family-name" required />
+            <Input id="lname" name="lname" autoComplete="family-name" required />
           </div>
         </div>
         <div className="space-y-2">
           <Label htmlFor="company">Company name</Label>
-          <Input id="company" placeholder="Your construction company" required />
-        </div>
-        <div className="space-y-2">
-          <Label>Your role</Label>
-          <Select defaultValue="owner">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="owner">Company Owner</SelectItem>
-              <SelectItem value="pm">Project Manager</SelectItem>
-              <SelectItem value="site">Site Manager</SelectItem>
-              <SelectItem value="foreman">Foreman</SelectItem>
-              <SelectItem value="worker">Worker</SelectItem>
-            </SelectContent>
-          </Select>
+          <Input id="company" name="company" placeholder="Your construction company" required />
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">Work email</Label>
-          <Input id="email" type="email" autoComplete="email" required />
+          <Input id="email" name="email" type="email" autoComplete="email" required />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" autoComplete="new-password" required />
-          <p className="text-xs text-muted-foreground">Use at least 8 characters.</p>
+          <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} />
+          <p className="text-xs text-muted-foreground">At least 8 characters.</p>
         </div>
-        <div className="flex items-start gap-2">
-          <Checkbox id="terms" required className="mt-0.5" />
-          <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground">
-            I agree to the{" "}
-            <a href="#" className="font-medium text-primary hover:underline">
-              Terms
-            </a>{" "}
-            and{" "}
-            <a href="#" className="font-medium text-primary hover:underline">
-              Privacy Policy
-            </a>
-            .
-          </Label>
-        </div>
-        <Button type="submit" className="w-full" size="lg">
-          Create workspace
+        <Button type="submit" className="w-full" size="lg" disabled={loading}>
+          {loading ? "Creating…" : "Create workspace"}
         </Button>
       </form>
     </AuthLayout>
