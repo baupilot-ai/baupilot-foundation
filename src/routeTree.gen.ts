@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTeamRouteImport } from './routes/_app.team'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -46,6 +47,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/team': typeof AppTeamRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/projects/': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/team': typeof AppTeamRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/projects': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/team': typeof AppTeamRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
   '/_app/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/settings'
+    | '/team'
     | '/projects/new'
     | '/projects/'
     | '/projects/$projectId/edit'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/settings'
+    | '/team'
     | '/projects/new'
     | '/projects'
     | '/projects/$projectId/edit'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/profile'
     | '/_app/settings'
+    | '/_app/team'
     | '/_app/projects/new'
     | '/_app/projects/'
     | '/_app/projects/$projectId/edit'
@@ -224,6 +236,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/team': {
+      id: '/_app/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/settings': {
       id: '/_app/settings'
@@ -289,6 +308,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTeamRoute: typeof AppTeamRoute
   AppProjectsNewRoute: typeof AppProjectsNewRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
   AppProjectsProjectIdEditRoute: typeof AppProjectsProjectIdEditRoute
@@ -300,6 +320,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTeamRoute: AppTeamRoute,
   AppProjectsNewRoute: AppProjectsNewRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
   AppProjectsProjectIdEditRoute: AppProjectsProjectIdEditRoute,
