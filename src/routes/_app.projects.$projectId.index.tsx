@@ -255,6 +255,12 @@ function ProjectDetail() {
         <TabsContent value="materials"><ProjectMaterialsTab projectId={project.id} /></TabsContent>
         <TabsContent value="deliveries"><DeliveriesTab projectId={project.id} /></TabsContent>
 
+        <TabsContent value="calendar"><CalendarTab projectId={project.id} /></TabsContent>
+        <TabsContent value="schedule"><ScheduleTab projectId={project.id} /></TabsContent>
+        <TabsContent value="milestones"><MilestonesTab projectId={project.id} /></TabsContent>
+        <TabsContent value="gantt"><GanttTab projectId={project.id} /></TabsContent>
+        <TabsContent value="notifications"><NotificationsTab projectId={project.id} /></TabsContent>
+
 
 
         <TabsContent value="timeline" className="space-y-4">
