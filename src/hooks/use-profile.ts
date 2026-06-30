@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { setAppLanguage, SUPPORTED_LANGUAGES, type SupportedLanguage } from "@/lib/i18n";
 
 export type Profile = Tables<"profiles">;
 
