@@ -159,7 +159,7 @@ function MonthView({ cursor, events, onEventClick }: { cursor: Date; events: Cal
   return (
     <Card className="border-border/70 overflow-hidden">
       <div className="grid grid-cols-7 border-b border-border/70 bg-muted/40 text-xs font-medium">
-        {Array.from({ length: 7 }, (_, i) => addDays(gridStart, i)).map((d) => (
+        {Array.from({ length: 7 }, (_, i) => addDays(gridStart, i)).map((d, i) => (
           <div key={i} className="p-2 text-center">{d.toLocaleDateString(lang, { weekday: "short" })}</div>
         ))}
       </div>
