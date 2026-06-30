@@ -70,7 +70,7 @@ export function AppSidebar() {
 
       <SidebarContent className="px-2 py-3">
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainItems.map((item) => (
