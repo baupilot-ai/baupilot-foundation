@@ -124,6 +124,10 @@ function DashboardPage() {
         {docItems.map((i) => <StatCard key={i.label} {...i} sub="documents & plans" />)}
       </section>
 
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {teamItems.map((i) => <StatCard key={i.label} {...i} sub="people" />)}
+      </section>
+
 
       <section>
         <Card className="border-border/70">
