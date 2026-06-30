@@ -359,5 +359,104 @@
       "dueThisWeek": "Due this week",
       "unreadNotifications": "Unread notifications"
     }
+  },
+  "enums": {
+    "taskStatus": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "done": "Done",
+      "blocked": "Blocked"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "defectStatus": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "fixed": "Fixed",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "projectStatus": {
+      "planned": "Planned",
+      "planning": "Planning",
+      "active": "Active",
+      "on_hold": "On hold",
+      "completed": "Completed",
+      "archived": "Archived"
+    },
+    "deliveryStatus": {
+      "expected": "Expected",
+      "arrived": "Arrived",
+      "partially_received": "Partially received",
+      "received": "Received",
+      "cancelled": "Cancelled",
+      "delayed": "Delayed"
+    },
+    "docStatus": {
+      "draft": "Draft",
+      "in_review": "In review",
+      "approved": "Approved",
+      "superseded": "Superseded",
+      "archived": "Archived"
+    }
+  },
+  "tasks": {
+    "title": "Tasks",
+    "new": "New task",
+    "edit": "Edit task",
+    "create": "Create task",
+    "empty": "No tasks yet",
+    "deleteConfirm": "Delete task?",
+    "deleteConfirmDesc": "This action cannot be undone.",
+    "filters": {
+      "allStatus": "All status",
+      "allPriority": "All priority",
+      "sortDue": "Due date",
+      "sortNewest": "Newest"
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "status": "Status",
+      "priority": "Priority",
+      "assignedTo": "Assigned to",
+      "dueDate": "Due date"
+    },
+    "titleRequired": "Title required"
+  },
+  "defects": {
+    "title": "Defects",
+    "new": "New defect",
+    "edit": "Edit defect",
+    "create": "Create defect",
+    "empty": "No defects yet",
+    "deleteConfirm": "Delete defect?",
+    "deleteConfirmDesc": "This action cannot be undone.",
+    "filters": {
+      "allStatus": "All status",
+      "allPriority": "All priority"
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "location": "Location",
+      "status": "Status",
+      "priority": "Priority",
+      "responsible": "Responsible",
+      "photo": "Photo"
+    },
+    "titleRequired": "Title required"
+  },
+  "states": {
+    "created": "Created",
+    "updated": "Updated",
+    "deleted": "Deleted",
+    "failed": "Action failed",
+    "statusUpdated": "Status updated"
   }
 }
+
