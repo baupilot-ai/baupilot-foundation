@@ -4,6 +4,7 @@ import {
   FolderKanban, Archive, CheckCircle2, PauseCircle, ArrowUpRight, Plus,
   CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
   Users2, Building2, UserCheck, Briefcase,
+  Hammer, Wrench, AlertTriangle, Package, Truck, Clock,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -13,6 +14,7 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { supabase } from "@/integrations/supabase/client";
 import { getDashboardDocStats } from "@/lib/documents";
 import { getTeamDashboardStats } from "@/lib/team";
+import { getResourceDashboardStats } from "@/lib/resources";
 import { useProfile, profileDisplayName } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_app/dashboard")({
@@ -32,6 +34,8 @@ interface Stats {
   docsThisWeek: number; plansAwaitingReview: number; supersededPlans: number;
   activeEmployees: number; activeSubcontractors: number;
   assignedEmployees: number; assignedSubcontractors: number;
+  equipmentAvailable: number; equipmentAssigned: number; equipmentDefective: number;
+  lowStock: number; deliveriesUpcoming: number; deliveriesDelayed: number; maintenanceDueSoon: number;
 }
 
 function useStats() {
@@ -40,18 +44,21 @@ function useStats() {
     dailyReportsWeek: 0, openTasks: 0, openDefects: 0,
     docsThisWeek: 0, plansAwaitingReview: 0, supersededPlans: 0,
     activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0,
+    equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0,
+    lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0,
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-      const [projects, dr, tk, df, docs, team] = await Promise.all([
+      const [projects, dr, tk, df, docs, team, res] = await Promise.all([
         supabase.from("projects").select("current_status, archived_at"),
         supabase.from("daily_reports").select("id", { count: "exact", head: true }).gte("report_date", weekAgo),
         supabase.from("tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
         supabase.from("defects").select("id", { count: "exact", head: true }).not("status", "in", '("accepted","rejected","fixed")'),
         getDashboardDocStats(),
         getTeamDashboardStats().catch(() => ({ activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0 })),
+        getResourceDashboardStats().catch(() => ({ equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0, lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0 })),
       ]);
       const s: Stats = {
         active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
@@ -59,6 +66,7 @@ function useStats() {
         docsThisWeek: docs.docsThisWeek, plansAwaitingReview: docs.plansAwaitingReview, supersededPlans: docs.supersededPlans,
         activeEmployees: team.activeEmployees, activeSubcontractors: team.activeSubcontractors,
         assignedEmployees: team.assignedEmployees, assignedSubcontractors: team.assignedSubcontractors,
+        ...res,
       };
       for (const p of projects.data ?? []) {
         if (p.archived_at) { s.archived++; continue; }
