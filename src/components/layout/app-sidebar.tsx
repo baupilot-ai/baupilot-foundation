@@ -121,11 +121,9 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Sign out">
-              <Link to="/login">
-                <LogOut />
-                <span>Sign out</span>
-              </Link>
+            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
+              <LogOut />
+              <span>Sign out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
