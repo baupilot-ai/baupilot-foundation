@@ -9,6 +9,7 @@ import {
   Settings,
   LogOut,
   HelpCircle,
+  Boxes,
 } from "lucide-react";
 
 import {
@@ -29,6 +30,7 @@ import { Logo } from "@/components/branding/logo";
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Projects", url: "/projects", icon: FolderKanban },
+  { title: "Resources", url: "/resources", icon: Boxes },
   { title: "Team", url: "/team", icon: Users2 },
   { title: "Company", url: "/company", icon: Building2 },
 ];

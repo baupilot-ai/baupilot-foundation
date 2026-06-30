@@ -1,12 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, FolderKanban, Users2, Building2, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Boxes, Users2, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
   { title: "Home", url: "/dashboard", icon: LayoutDashboard },
   { title: "Projects", url: "/projects", icon: FolderKanban },
+  { title: "Resources", url: "/resources", icon: Boxes },
   { title: "Team", url: "/team", icon: Users2 },
-  { title: "Company", url: "/company", icon: Building2 },
   { title: "Profile", url: "/profile", icon: UserCircle2 },
 ];
 
