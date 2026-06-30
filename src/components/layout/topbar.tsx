@@ -16,6 +16,9 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useProfile, profileDisplayName, profileInitials } from "@/hooks/use-profile";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+
+
 
 export function Topbar() {
   const { t } = useTranslation();
