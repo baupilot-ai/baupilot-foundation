@@ -18,6 +18,7 @@ import { useSession } from "@/hooks/use-session";
 import { useProfile, profileDisplayName, profileInitials } from "@/hooks/use-profile";
 
 export function Topbar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useSession();
   const { profile } = useProfile();
