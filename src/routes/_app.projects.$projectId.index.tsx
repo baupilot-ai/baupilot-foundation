@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
   FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers, UserSquare,
+  Hammer, Package, Truck,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -31,6 +32,9 @@ import { DocumentsTab } from "@/components/projects/modules/documents-tab";
 import { PlansTab } from "@/components/projects/modules/plans-tab";
 import { ProjectTeamTab } from "@/components/projects/modules/project-team-tab";
 import { ProjectContactsTab } from "@/components/projects/modules/project-contacts-tab";
+import { ProjectMaterialsTab } from "@/components/projects/modules/project-materials-tab";
+import { EquipmentTab } from "@/components/resources/equipment-tab";
+import { DeliveriesTab } from "@/components/resources/deliveries-tab";
 import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
@@ -176,6 +180,9 @@ function ProjectDetail() {
             <TabsTrigger value="plans"><Layers className="h-4 w-4" />Plans</TabsTrigger>
             <TabsTrigger value="team"><Users className="h-4 w-4" />Team</TabsTrigger>
             <TabsTrigger value="contacts"><UserSquare className="h-4 w-4" />Contacts</TabsTrigger>
+            <TabsTrigger value="equipment"><Hammer className="h-4 w-4" />Equipment</TabsTrigger>
+            <TabsTrigger value="materials"><Package className="h-4 w-4" />Materials</TabsTrigger>
+            <TabsTrigger value="deliveries"><Truck className="h-4 w-4" />Deliveries</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
@@ -232,6 +239,10 @@ function ProjectDetail() {
 
         <TabsContent value="team"><ProjectTeamTab projectId={project.id} /></TabsContent>
         <TabsContent value="contacts"><ProjectContactsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="equipment"><EquipmentTab projectId={project.id} /></TabsContent>
+        <TabsContent value="materials"><ProjectMaterialsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="deliveries"><DeliveriesTab projectId={project.id} /></TabsContent>
+
 
 
         <TabsContent value="timeline" className="space-y-4">
