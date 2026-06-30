@@ -254,32 +254,6 @@ function ProjectDetail() {
           </div>
         </TabsContent>
 
-        <TabsContent value="team" className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Card className="border-border/70">
-              <CardHeader><CardTitle className="text-base">Internal team</CardTitle></CardHeader>
-              <CardContent>
-                <dl className="space-y-3">
-                  <Detail label="Project manager" value={project.project_manager} />
-                  <Detail label="Site manager" value={project.site_manager} />
-                  <Detail label="Foreman" value={project.foreman} />
-                  <Detail label="Safety manager" value={project.safety_manager} />
-                </dl>
-              </CardContent>
-            </Card>
-            <Card className="border-border/70">
-              <CardHeader><CardTitle className="text-base">External contacts</CardTitle></CardHeader>
-              <CardContent>
-                <dl className="space-y-3">
-                  <Detail label="Client contact" value={project.client_contact} />
-                  <Detail label="Architect" value={project.architect} />
-                  <Detail label="Structural engineer" value={project.structural_engineer} />
-                  <Detail label="MEP engineer" value={project.mep_engineer} />
-                </dl>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
 
         <TabsContent value="timeline" className="space-y-4">
           <Card className="border-border/70">
