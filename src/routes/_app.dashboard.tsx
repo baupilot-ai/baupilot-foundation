@@ -50,12 +50,13 @@ function useStats() {
     activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0,
     equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0,
     lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0,
+    overallProgress: 0, upcomingMilestones: 0, delayedActivities: 0, dueThisWeek: 0, unreadNotifications: 0,
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-      const [projects, dr, tk, df, docs, team, res] = await Promise.all([
+      const [projects, dr, tk, df, docs, team, res, plan] = await Promise.all([
         supabase.from("projects").select("current_status, archived_at"),
         supabase.from("daily_reports").select("id", { count: "exact", head: true }).gte("report_date", weekAgo),
         supabase.from("tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
@@ -63,6 +64,7 @@ function useStats() {
         getDashboardDocStats(),
         getTeamDashboardStats().catch(() => ({ activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0 })),
         getResourceDashboardStats().catch(() => ({ equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0, lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0 })),
+        getPlanningDashboardStats().catch(() => ({ overallProgress: 0, upcomingMilestones: 0, delayedActivities: 0, dueThisWeek: 0, unreadNotifications: 0 })),
       ]);
       const s: Stats = {
         active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
@@ -70,7 +72,7 @@ function useStats() {
         docsThisWeek: docs.docsThisWeek, plansAwaitingReview: docs.plansAwaitingReview, supersededPlans: docs.supersededPlans,
         activeEmployees: team.activeEmployees, activeSubcontractors: team.activeSubcontractors,
         assignedEmployees: team.assignedEmployees, assignedSubcontractors: team.assignedSubcontractors,
-        ...res,
+        ...res, ...plan,
       };
       for (const p of projects.data ?? []) {
         if (p.archived_at) { s.archived++; continue; }
