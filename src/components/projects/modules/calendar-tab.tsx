@@ -96,7 +96,7 @@ export function CalendarTab({ projectId }: { projectId: string }) {
         <div className="flex items-center gap-1">
           <Button size="sm" variant="outline" onClick={() => setCursor((c) => view === "month" ? new Date(c.getFullYear(), c.getMonth() - 1, 1) : view === "week" ? addDays(c, -7) : addDays(c, -1))}>‹</Button>
           <Button size="sm" variant="outline" onClick={() => setCursor(new Date())}>{t("planning.common.today")}</Button>
-          <Button size="sm" variant="outline" onClick={() => setCursor((c) => view === "month" ? new Date(c.getFullYear(), c.getMonth() + 1, 1) : view === "week" ? addDays(c, 7) : addDays(c, 1))}›</Button>
+          <Button size="sm" variant="outline" onClick={() => setCursor((c) => view === "month" ? new Date(c.getFullYear(), c.getMonth() + 1, 1) : view === "week" ? addDays(c, 7) : addDays(c, 1))}>›</Button>
         </div>
         <div className="text-sm font-medium text-muted-foreground">
           {cursor.toLocaleDateString(getAppLanguage() === "de" ? "de-DE" : "en-US", { month: "long", year: "numeric", day: view === "day" ? "numeric" : undefined })}
