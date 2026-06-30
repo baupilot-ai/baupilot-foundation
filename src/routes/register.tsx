@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/register")({
 });
 
 function RegisterPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -44,19 +46,19 @@ function RegisterPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Account created");
+    toast.success(t("auth.accountCreated"));
     navigate({ to: "/dashboard" });
   }
 
   return (
     <AuthLayout
-      title="Create your workspace"
-      subtitle="Set up BauPilot AI for your construction company."
+      title={t("auth.registerTitle")}
+      subtitle={t("auth.registerSubtitle")}
       footer={
         <p className="text-center text-muted-foreground">
-          Already have an account?{" "}
+          {t("auth.haveAccount")}{" "}
           <Link to="/login" className="font-semibold text-primary hover:underline">
-            Sign in
+            {t("auth.signIn")}
           </Link>
         </p>
       }
@@ -64,29 +66,29 @@ function RegisterPage() {
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label htmlFor="fname">First name</Label>
+            <Label htmlFor="fname">{t("auth.firstName")}</Label>
             <Input id="fname" name="fname" autoComplete="given-name" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lname">Last name</Label>
+            <Label htmlFor="lname">{t("auth.lastName")}</Label>
             <Input id="lname" name="lname" autoComplete="family-name" required />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="company">Company name</Label>
-          <Input id="company" name="company" placeholder="Your construction company" required />
+          <Label htmlFor="company">{t("auth.companyName")}</Label>
+          <Input id="company" name="company" placeholder={t("auth.companyPlaceholder")} required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Work email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input id="email" name="email" type="email" autoComplete="email" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} />
-          <p className="text-xs text-muted-foreground">At least 8 characters.</p>
+          <p className="text-xs text-muted-foreground">{t("auth.passwordHint")}</p>
         </div>
         <Button type="submit" className="w-full" size="lg" disabled={loading}>
-          {loading ? "Creating…" : "Create workspace"}
+          {loading ? t("auth.creating") : t("auth.registerCta")}
         </Button>
       </form>
     </AuthLayout>
