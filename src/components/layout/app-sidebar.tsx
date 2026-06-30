@@ -1,4 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard,
@@ -27,20 +28,19 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/branding/logo";
 
-const mainItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Projects", url: "/projects", icon: FolderKanban },
-  { title: "Resources", url: "/resources", icon: Boxes },
-  { title: "Team", url: "/team", icon: Users2 },
-  { title: "Company", url: "/company", icon: Building2 },
-];
-
-const accountItems = [
-  { title: "Profile", url: "/profile", icon: UserCircle2 },
-  { title: "Settings", url: "/settings", icon: Settings },
-];
-
 export function AppSidebar() {
+  const { t } = useTranslation();
+  const mainItems = [
+    { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard },
+    { title: t("nav.projects"), url: "/projects", icon: FolderKanban },
+    { title: t("nav.resources"), url: "/resources", icon: Boxes },
+    { title: t("nav.team"), url: "/team", icon: Users2 },
+    { title: t("nav.company"), url: "/company", icon: Building2 },
+  ];
+  const accountItems = [
+    { title: t("nav.profile"), url: "/profile", icon: UserCircle2 },
+    { title: t("nav.settings"), url: "/settings", icon: Settings },
+  ];
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
@@ -70,7 +70,7 @@ export function AppSidebar() {
 
       <SidebarContent className="px-2 py-3">
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainItems.map((item) => (
@@ -93,7 +93,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("common.account")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {accountItems.map((item) => (
@@ -119,15 +119,15 @@ export function AppSidebar() {
       <SidebarFooter className="border-t p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Help & support">
+            <SidebarMenuButton tooltip={t("common.help")}>
               <HelpCircle />
-              <span>Help</span>
+              <span>{t("common.help")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
+            <SidebarMenuButton onClick={signOut} tooltip={t("common.signOut")}>
               <LogOut />
-              <span>Sign out</span>
+              <span>{t("common.signOut")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

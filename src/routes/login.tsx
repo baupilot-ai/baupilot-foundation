@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -36,39 +38,39 @@ function LoginPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Signed in");
+    toast.success(t("auth.signedIn"));
     navigate({ to: "/dashboard" });
   }
 
   return (
     <AuthLayout
-      title="Sign in"
-      subtitle="Welcome back. Enter your details to access your workspace."
+      title={t("auth.loginTitle")}
+      subtitle={t("auth.loginSubtitle")}
       footer={
         <p className="text-center text-muted-foreground">
-          Don't have an account?{" "}
+          {t("auth.noAccount")}{" "}
           <Link to="/register" className="font-semibold text-primary hover:underline">
-            Create one
+            {t("auth.createOne")}
           </Link>
         </p>
       }
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">Work email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input id="email" name="email" type="email" autoComplete="email" required />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Link to="/forgot-password" className="text-sm text-primary hover:underline">
-              Forgot?
+              {t("auth.forgotPasswordLink")}
             </Link>
           </div>
           <Input id="password" name="password" type="password" autoComplete="current-password" required />
         </div>
         <Button type="submit" className="w-full" size="lg" disabled={loading}>
-          {loading ? "Signing in…" : "Sign in"}
+          {loading ? t("auth.signingIn") : t("auth.signIn")}
         </Button>
       </form>
     </AuthLayout>

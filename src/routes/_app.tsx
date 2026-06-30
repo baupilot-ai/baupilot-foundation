@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Topbar } from "@/components/layout/topbar";
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/_app")({
 });
 
 function AppLayout() {
+  const { t } = useTranslation();
   const { session, loading } = useSession();
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ function AppLayout() {
   if (loading || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-sm text-muted-foreground">Loading…</div>
+        <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
       </div>
     );
   }
