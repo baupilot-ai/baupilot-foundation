@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
   FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers, UserSquare,
-  Hammer, Package, Truck,
+  Hammer, Package, Truck, BarChart3, Flag, Bell, CalendarRange,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -36,6 +36,12 @@ import { ProjectMaterialsTab } from "@/components/projects/modules/project-mater
 import { EquipmentTab } from "@/components/resources/equipment-tab";
 import { DeliveriesTab } from "@/components/resources/deliveries-tab";
 import { ProjectQuickStats } from "@/components/projects/modules/quick-stats";
+import { ScheduleTab } from "@/components/projects/modules/schedule-tab";
+import { MilestonesTab } from "@/components/projects/modules/milestones-tab";
+import { CalendarTab } from "@/components/projects/modules/calendar-tab";
+import { GanttTab } from "@/components/projects/modules/gantt-tab";
+import { NotificationsTab } from "@/components/projects/modules/notifications-tab";
+import { ProjectPlanningCards } from "@/components/projects/modules/planning-cards";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
@@ -183,6 +189,11 @@ function ProjectDetail() {
             <TabsTrigger value="equipment"><Hammer className="h-4 w-4" />Equipment</TabsTrigger>
             <TabsTrigger value="materials"><Package className="h-4 w-4" />Materials</TabsTrigger>
             <TabsTrigger value="deliveries"><Truck className="h-4 w-4" />Deliveries</TabsTrigger>
+            <TabsTrigger value="calendar"><CalendarRange className="h-4 w-4" />Calendar</TabsTrigger>
+            <TabsTrigger value="schedule"><BarChart3 className="h-4 w-4" />Schedule</TabsTrigger>
+            <TabsTrigger value="milestones"><Flag className="h-4 w-4" />Milestones</TabsTrigger>
+            <TabsTrigger value="gantt"><BarChart3 className="h-4 w-4" />Gantt</TabsTrigger>
+            <TabsTrigger value="notifications"><Bell className="h-4 w-4" />Notifications</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
@@ -190,6 +201,7 @@ function ProjectDetail() {
         </div>
 
         <TabsContent value="overview" className="space-y-4">
+          <ProjectPlanningCards projectId={project.id} />
           <ProjectQuickStats projectId={project.id} />
           <div className="grid gap-4 lg:grid-cols-3">
             <Card className="border-border/70 lg:col-span-2">
@@ -242,6 +254,12 @@ function ProjectDetail() {
         <TabsContent value="equipment"><EquipmentTab projectId={project.id} /></TabsContent>
         <TabsContent value="materials"><ProjectMaterialsTab projectId={project.id} /></TabsContent>
         <TabsContent value="deliveries"><DeliveriesTab projectId={project.id} /></TabsContent>
+
+        <TabsContent value="calendar"><CalendarTab projectId={project.id} /></TabsContent>
+        <TabsContent value="schedule"><ScheduleTab projectId={project.id} /></TabsContent>
+        <TabsContent value="milestones"><MilestonesTab projectId={project.id} /></TabsContent>
+        <TabsContent value="gantt"><GanttTab projectId={project.id} /></TabsContent>
+        <TabsContent value="notifications"><NotificationsTab projectId={project.id} /></TabsContent>
 
 
 

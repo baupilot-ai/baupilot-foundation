@@ -192,5 +192,172 @@
     "languageCard": "Language",
     "languageDesc": "Choose your preferred language for the entire application.",
     "languageSaved": "Language updated"
+  },
+  "planning": {
+    "tabs": {
+      "calendar": "Calendar",
+      "schedule": "Schedule",
+      "milestones": "Milestones",
+      "gantt": "Gantt",
+      "notifications": "Notifications"
+    },
+    "overview": {
+      "progress": "Project progress",
+      "nextMilestone": "Next milestone",
+      "delayed": "Delayed activities",
+      "upcomingDeadlines": "Upcoming deadlines",
+      "eventsToday": "Events today",
+      "noMilestone": "No upcoming milestone"
+    },
+    "common": {
+      "empty": "No entries yet.",
+      "deleteConfirm": "Delete entry?",
+      "deleteConfirmDesc": "This action cannot be undone.",
+      "created": "Created",
+      "updated": "Updated",
+      "deleted": "Deleted",
+      "failed": "Action failed",
+      "name": "Name",
+      "description": "Description",
+      "responsible": "Responsible",
+      "status": "Status",
+      "search": "Search…",
+      "allStatus": "All status",
+      "allTypes": "All types",
+      "allResponsible": "All responsible",
+      "today": "Today"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "new": "New activity",
+      "edit": "Edit activity",
+      "activityNumber": "Activity number",
+      "activityName": "Activity name",
+      "startDate": "Start date",
+      "finishDate": "Finish date",
+      "duration": "Duration (days)",
+      "progress": "Progress (%)",
+      "sortBy": "Sort by",
+      "sort": {
+        "start": "Start date",
+        "finish": "Finish date",
+        "number": "Number"
+      },
+      "status": {
+        "not_started": "Not started",
+        "in_progress": "In progress",
+        "delayed": "Delayed",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "milestones": {
+      "title": "Milestones",
+      "new": "New milestone",
+      "edit": "Edit milestone",
+      "plannedDate": "Planned date",
+      "actualDate": "Actual date",
+      "markCompleted": "Mark as completed",
+      "status": {
+        "planned": "Planned",
+        "active": "Active",
+        "completed": "Completed",
+        "delayed": "Delayed"
+      }
+    },
+    "calendar": {
+      "title": "Calendar",
+      "new": "New event",
+      "edit": "Edit event",
+      "eventTitle": "Title",
+      "startDate": "Start",
+      "endDate": "End",
+      "allDay": "All day",
+      "location": "Location",
+      "eventType": "Event type",
+      "view": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "list": "List"
+      },
+      "types": {
+        "task": "Task",
+        "milestone": "Milestone",
+        "delivery": "Delivery",
+        "daily_report": "Daily report",
+        "inspection": "Inspection",
+        "meeting": "Meeting",
+        "schedule_activity": "Schedule activity",
+        "other": "Other"
+      },
+      "status": {
+        "planned": "Planned",
+        "active": "Active",
+        "completed": "Completed",
+        "delayed": "Delayed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "gantt": {
+      "title": "Gantt chart",
+      "zoom": "Zoom",
+      "week": "Week",
+      "month": "Month",
+      "quarter": "Quarter",
+      "empty": "No activities to display. Create schedule activities first."
+    },
+    "dependencies": {
+      "title": "Dependencies",
+      "new": "New dependency",
+      "predecessor": "Predecessor",
+      "successor": "Successor",
+      "lag": "Lag (days)",
+      "types": {
+        "fs": "Finish-to-Start (FS)",
+        "ss": "Start-to-Start (SS)",
+        "ff": "Finish-to-Finish (FF)",
+        "sf": "Start-to-Finish (SF)"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "markRead": "Mark as read",
+      "unreadOnly": "Unread only",
+      "empty": "No notifications.",
+      "settings": "Settings",
+      "frequency": "Frequency",
+      "frequencies": {
+        "immediate": "Immediate",
+        "daily": "Daily summary",
+        "weekly": "Weekly summary",
+        "off": "Off"
+      },
+      "settingsSaved": "Settings saved",
+      "options": {
+        "deadlines": "Notify deadlines",
+        "delays": "Notify delays",
+        "milestones": "Notify milestones",
+        "deliveries": "Notify deliveries",
+        "scheduleChanges": "Notify schedule changes"
+      },
+      "types": {
+        "deadline": "Deadline",
+        "delay": "Delay",
+        "milestone": "Milestone",
+        "delivery": "Delivery",
+        "schedule_change": "Schedule change",
+        "inspection": "Inspection",
+        "general": "General"
+      }
+    },
+    "dashboard": {
+      "overallProgress": "Overall progress",
+      "upcomingMilestones": "Upcoming milestones",
+      "delayedActivities": "Delayed activities",
+      "dueThisWeek": "Due this week",
+      "unreadNotifications": "Unread notifications"
+    }
   }
 }

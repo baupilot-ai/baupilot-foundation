@@ -192,5 +192,172 @@
     "languageCard": "Sprache",
     "languageDesc": "Wählen Sie Ihre bevorzugte Sprache für die gesamte Anwendung.",
     "languageSaved": "Sprache aktualisiert"
+  },
+  "planning": {
+    "tabs": {
+      "calendar": "Kalender",
+      "schedule": "Terminplan",
+      "milestones": "Meilensteine",
+      "gantt": "Gantt",
+      "notifications": "Benachrichtigungen"
+    },
+    "overview": {
+      "progress": "Projektfortschritt",
+      "nextMilestone": "Nächster Meilenstein",
+      "delayed": "Verspätete Aktivitäten",
+      "upcomingDeadlines": "Anstehende Fristen",
+      "eventsToday": "Termine heute",
+      "noMilestone": "Kein anstehender Meilenstein"
+    },
+    "common": {
+      "empty": "Noch keine Einträge.",
+      "deleteConfirm": "Eintrag löschen?",
+      "deleteConfirmDesc": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "deleted": "Gelöscht",
+      "failed": "Aktion fehlgeschlagen",
+      "name": "Name",
+      "description": "Beschreibung",
+      "responsible": "Verantwortlich",
+      "status": "Status",
+      "search": "Suchen…",
+      "allStatus": "Alle Status",
+      "allTypes": "Alle Typen",
+      "allResponsible": "Alle Verantwortlichen",
+      "today": "Heute"
+    },
+    "schedule": {
+      "title": "Terminplan",
+      "new": "Neue Aktivität",
+      "edit": "Aktivität bearbeiten",
+      "activityNumber": "Aktivitätsnummer",
+      "activityName": "Aktivitätsname",
+      "startDate": "Startdatum",
+      "finishDate": "Enddatum",
+      "duration": "Dauer (Tage)",
+      "progress": "Fortschritt (%)",
+      "sortBy": "Sortieren",
+      "sort": {
+        "start": "Startdatum",
+        "finish": "Enddatum",
+        "number": "Nummer"
+      },
+      "status": {
+        "not_started": "Nicht begonnen",
+        "in_progress": "In Arbeit",
+        "delayed": "Verspätet",
+        "completed": "Abgeschlossen",
+        "cancelled": "Abgebrochen"
+      }
+    },
+    "milestones": {
+      "title": "Meilensteine",
+      "new": "Neuer Meilenstein",
+      "edit": "Meilenstein bearbeiten",
+      "plannedDate": "Geplantes Datum",
+      "actualDate": "Tatsächliches Datum",
+      "markCompleted": "Als abgeschlossen markieren",
+      "status": {
+        "planned": "Geplant",
+        "active": "Aktiv",
+        "completed": "Abgeschlossen",
+        "delayed": "Verspätet"
+      }
+    },
+    "calendar": {
+      "title": "Kalender",
+      "new": "Neuer Termin",
+      "edit": "Termin bearbeiten",
+      "eventTitle": "Titel",
+      "startDate": "Start",
+      "endDate": "Ende",
+      "allDay": "Ganztägig",
+      "location": "Ort",
+      "eventType": "Termintyp",
+      "view": {
+        "day": "Tag",
+        "week": "Woche",
+        "month": "Monat",
+        "list": "Liste"
+      },
+      "types": {
+        "task": "Aufgabe",
+        "milestone": "Meilenstein",
+        "delivery": "Lieferung",
+        "daily_report": "Tagesbericht",
+        "inspection": "Inspektion",
+        "meeting": "Besprechung",
+        "schedule_activity": "Terminaktivität",
+        "other": "Sonstiges"
+      },
+      "status": {
+        "planned": "Geplant",
+        "active": "Aktiv",
+        "completed": "Abgeschlossen",
+        "delayed": "Verspätet",
+        "cancelled": "Abgebrochen"
+      }
+    },
+    "gantt": {
+      "title": "Gantt-Diagramm",
+      "zoom": "Zoom",
+      "week": "Woche",
+      "month": "Monat",
+      "quarter": "Quartal",
+      "empty": "Keine Aktivitäten zur Anzeige. Erstellen Sie zuerst Aktivitäten im Terminplan."
+    },
+    "dependencies": {
+      "title": "Abhängigkeiten",
+      "new": "Neue Abhängigkeit",
+      "predecessor": "Vorgänger",
+      "successor": "Nachfolger",
+      "lag": "Verzögerung (Tage)",
+      "types": {
+        "fs": "Ende-Anfang (EA)",
+        "ss": "Anfang-Anfang (AA)",
+        "ff": "Ende-Ende (EE)",
+        "sf": "Anfang-Ende (AE)"
+      }
+    },
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "markAllRead": "Alle als gelesen markieren",
+      "markRead": "Als gelesen markieren",
+      "unreadOnly": "Nur ungelesen",
+      "empty": "Keine Benachrichtigungen.",
+      "settings": "Einstellungen",
+      "frequency": "Häufigkeit",
+      "frequencies": {
+        "immediate": "Sofort",
+        "daily": "Tägliche Zusammenfassung",
+        "weekly": "Wöchentliche Zusammenfassung",
+        "off": "Aus"
+      },
+      "settingsSaved": "Einstellungen gespeichert",
+      "options": {
+        "deadlines": "Fristen benachrichtigen",
+        "delays": "Verzögerungen benachrichtigen",
+        "milestones": "Meilensteine benachrichtigen",
+        "deliveries": "Lieferungen benachrichtigen",
+        "scheduleChanges": "Terminplanänderungen benachrichtigen"
+      },
+      "types": {
+        "deadline": "Frist",
+        "delay": "Verzögerung",
+        "milestone": "Meilenstein",
+        "delivery": "Lieferung",
+        "schedule_change": "Terminplanänderung",
+        "inspection": "Inspektion",
+        "general": "Allgemein"
+      }
+    },
+    "dashboard": {
+      "overallProgress": "Gesamtfortschritt",
+      "upcomingMilestones": "Anstehende Meilensteine",
+      "delayedActivities": "Verspätete Aktivitäten",
+      "dueThisWeek": "Diese Woche fällig",
+      "unreadNotifications": "Ungelesene Benachrichtigungen"
+    }
   }
 }

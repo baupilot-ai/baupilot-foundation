@@ -6,6 +6,7 @@ import {
   CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
   Users2, Building2, UserCheck, Briefcase,
   Hammer, Wrench, AlertTriangle, Package, Truck,
+  BarChart3, Flag, Bell, Calendar as CalendarIcon,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -16,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getDashboardDocStats } from "@/lib/documents";
 import { getTeamDashboardStats } from "@/lib/team";
 import { getResourceDashboardStats } from "@/lib/resources";
+import { getPlanningDashboardStats } from "@/lib/planning";
 import { useProfile, profileDisplayName } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_app/dashboard")({
@@ -37,6 +39,7 @@ interface Stats {
   assignedEmployees: number; assignedSubcontractors: number;
   equipmentAvailable: number; equipmentAssigned: number; equipmentDefective: number;
   lowStock: number; deliveriesUpcoming: number; deliveriesDelayed: number; maintenanceDueSoon: number;
+  overallProgress: number; upcomingMilestones: number; delayedActivities: number; dueThisWeek: number; unreadNotifications: number;
 }
 
 function useStats() {
@@ -47,12 +50,13 @@ function useStats() {
     activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0,
     equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0,
     lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0,
+    overallProgress: 0, upcomingMilestones: 0, delayedActivities: 0, dueThisWeek: 0, unreadNotifications: 0,
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-      const [projects, dr, tk, df, docs, team, res] = await Promise.all([
+      const [projects, dr, tk, df, docs, team, res, plan] = await Promise.all([
         supabase.from("projects").select("current_status, archived_at"),
         supabase.from("daily_reports").select("id", { count: "exact", head: true }).gte("report_date", weekAgo),
         supabase.from("tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
@@ -60,6 +64,7 @@ function useStats() {
         getDashboardDocStats(),
         getTeamDashboardStats().catch(() => ({ activeEmployees: 0, activeSubcontractors: 0, assignedEmployees: 0, assignedSubcontractors: 0 })),
         getResourceDashboardStats().catch(() => ({ equipmentAvailable: 0, equipmentAssigned: 0, equipmentDefective: 0, lowStock: 0, deliveriesUpcoming: 0, deliveriesDelayed: 0, maintenanceDueSoon: 0 })),
+        getPlanningDashboardStats().catch(() => ({ overallProgress: 0, upcomingMilestones: 0, delayedActivities: 0, dueThisWeek: 0, unreadNotifications: 0 })),
       ]);
       const s: Stats = {
         active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
@@ -67,7 +72,7 @@ function useStats() {
         docsThisWeek: docs.docsThisWeek, plansAwaitingReview: docs.plansAwaitingReview, supersededPlans: docs.supersededPlans,
         activeEmployees: team.activeEmployees, activeSubcontractors: team.activeSubcontractors,
         assignedEmployees: team.assignedEmployees, assignedSubcontractors: team.assignedSubcontractors,
-        ...res,
+        ...res, ...plan,
       };
       for (const p of projects.data ?? []) {
         if (p.archived_at) { s.archived++; continue; }
@@ -119,6 +124,13 @@ function DashboardPage() {
     { label: t("dashboard.stats.deliveriesDelayed"), value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
     { label: t("dashboard.stats.maintenanceDueSoon"), value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
   ];
+  const planItems = [
+    { label: t("planning.dashboard.overallProgress"), value: s.overallProgress, icon: BarChart3, tone: "info" as const },
+    { label: t("planning.dashboard.upcomingMilestones"), value: s.upcomingMilestones, icon: Flag, tone: "info" as const },
+    { label: t("planning.dashboard.delayedActivities"), value: s.delayedActivities, icon: AlertTriangle, tone: "danger" as const },
+    { label: t("planning.dashboard.dueThisWeek"), value: s.dueThisWeek, icon: CalendarIcon, tone: "warning" as const },
+    { label: t("planning.dashboard.unreadNotifications"), value: s.unreadNotifications, icon: Bell, tone: "info" as const },
+  ];
   return (
     <div className="space-y-8">
       <PageHeader
@@ -145,6 +157,10 @@ function DashboardPage() {
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {teamItems.map((i) => <StatCard key={i.label} {...i} sub={t("dashboard.sections.people")} />)}
+      </section>
+
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
+        {planItems.map((i) => <StatCard key={i.label} {...i} sub={t("planning.tabs.schedule")} />)}
       </section>
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">

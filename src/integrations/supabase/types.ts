@@ -58,6 +58,71 @@ export type Database = {
           },
         ]
       }
+      calendar_events: {
+        Row: {
+          all_day: boolean
+          color: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          end_datetime: string | null
+          event_type: string
+          id: string
+          location: string | null
+          project_id: string
+          responsible_person: string | null
+          start_datetime: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          all_day?: boolean
+          color?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_datetime?: string | null
+          event_type?: string
+          id?: string
+          location?: string | null
+          project_id: string
+          responsible_person?: string | null
+          start_datetime: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          all_day?: boolean
+          color?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_datetime?: string | null
+          event_type?: string
+          id?: string
+          location?: string | null
+          project_id?: string
+          responsible_person?: string | null
+          start_datetime?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           address: string | null
@@ -1119,6 +1184,106 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_events: {
+        Row: {
+          company_id: string
+          created_at: string
+          event_type: string
+          id: string
+          message: string | null
+          project_id: string | null
+          read_at: string | null
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          message?: string | null
+          project_id?: string | null
+          read_at?: string | null
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          message?: string | null
+          project_id?: string | null
+          read_at?: string | null
+          status?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_settings: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          notification_frequency: string
+          notify_deadlines: boolean
+          notify_delays: boolean
+          notify_deliveries: boolean
+          notify_milestones: boolean
+          notify_schedule_changes: boolean
+          project_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          notification_frequency?: string
+          notify_deadlines?: boolean
+          notify_delays?: boolean
+          notify_deliveries?: boolean
+          notify_milestones?: boolean
+          notify_schedule_changes?: boolean
+          project_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          notification_frequency?: string
+          notify_deadlines?: boolean
+          notify_delays?: boolean
+          notify_deliveries?: boolean
+          notify_milestones?: boolean
+          notify_schedule_changes?: boolean
+          project_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_settings_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plan_revisions: {
         Row: {
           company_id: string
@@ -1284,6 +1449,47 @@ export type Database = {
           },
         ]
       }
+      project_calendar: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          project_id: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          project_id: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          project_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_calendar_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_documents: {
         Row: {
           category: string
@@ -1359,6 +1565,59 @@ export type Database = {
           },
           {
             foreignKeyName: "project_documents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_milestones: {
+        Row: {
+          actual_date: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          planned_date: string | null
+          project_id: string
+          responsible_person: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          actual_date?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          planned_date?: string | null
+          project_id: string
+          responsible_person?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          actual_date?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          planned_date?: string | null
+          project_id?: string
+          responsible_person?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_milestones_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
@@ -1488,6 +1747,68 @@ export type Database = {
           },
           {
             foreignKeyName: "project_plans_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_schedule: {
+        Row: {
+          activity_name: string
+          activity_number: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          duration_days: number | null
+          finish_date: string | null
+          id: string
+          progress_percent: number
+          project_id: string
+          responsible_person: string | null
+          start_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          activity_name: string
+          activity_number?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_days?: number | null
+          finish_date?: string | null
+          id?: string
+          progress_percent?: number
+          project_id: string
+          responsible_person?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          activity_name?: string
+          activity_number?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_days?: number | null
+          finish_date?: string | null
+          id?: string
+          progress_percent?: number
+          project_id?: string
+          responsible_person?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_schedule_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
@@ -1750,6 +2071,67 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schedule_dependencies: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          dependency_type: string
+          id: string
+          lag_days: number
+          predecessor_activity_id: string
+          project_id: string
+          successor_activity_id: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          dependency_type?: string
+          id?: string
+          lag_days?: number
+          predecessor_activity_id: string
+          project_id: string
+          successor_activity_id: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          dependency_type?: string
+          id?: string
+          lag_days?: number
+          predecessor_activity_id?: string
+          project_id?: string
+          successor_activity_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_dependencies_predecessor_activity_id_fkey"
+            columns: ["predecessor_activity_id"]
+            isOneToOne: false
+            referencedRelation: "project_schedule"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_dependencies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_dependencies_successor_activity_id_fkey"
+            columns: ["successor_activity_id"]
+            isOneToOne: false
+            referencedRelation: "project_schedule"
             referencedColumns: ["id"]
           },
         ]
