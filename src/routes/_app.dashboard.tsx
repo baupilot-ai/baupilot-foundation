@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   FolderKanban,
-  Users,
-  Building2,
-  TrendingUp,
+  Archive,
+  CheckCircle2,
+  PauseCircle,
   ArrowUpRight,
   Plus,
   Sparkles,
@@ -13,8 +14,10 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_app/dashboard")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Dashboard — BauPilot AI" },
@@ -24,12 +27,24 @@ export const Route = createFileRoute("/_app/dashboard")({
   component: DashboardPage,
 });
 
-const stats = [
-  { label: "Active projects", value: "0", icon: FolderKanban, hint: "Get started" },
-  { label: "Team members", value: "1", icon: Users, hint: "Invite your team" },
-  { label: "Company", value: "1", icon: Building2, hint: "Set up profile" },
-  { label: "Utilization", value: "—", icon: TrendingUp, hint: "Available soon" },
-];
+function useProjectStats() {
+  const [stats, setStats] = useState({ active: 0, on_hold: 0, completed: 0, archived: 0 });
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("projects").select("current_status, archived_at");
+      if (!data) return;
+      const s = { active: 0, on_hold: 0, completed: 0, archived: 0 };
+      for (const p of data) {
+        if (p.archived_at) s.archived++;
+        else if (p.current_status === "active" || p.current_status === "planning") s.active++;
+        else if (p.current_status === "on_hold") s.on_hold++;
+        else if (p.current_status === "completed") s.completed++;
+      }
+      setStats(s);
+    })();
+  }, []);
+  return stats;
+}
 
 function DashboardPage() {
   return (
@@ -47,23 +62,38 @@ function DashboardPage() {
         }
       />
 
+      <DashboardStats />
+    </div>
+  );
+}
+
+function DashboardStats() {
+  const s = useProjectStats();
+  const items = [
+    { label: "Active projects", value: s.active, icon: FolderKanban, tone: "info" as const },
+    { label: "On hold", value: s.on_hold, icon: PauseCircle, tone: "warning" as const },
+    { label: "Completed", value: s.completed, icon: CheckCircle2, tone: "success" as const },
+    { label: "Archived", value: s.archived, icon: Archive, tone: "neutral" as const },
+  ];
+  return (
+    <>
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((s) => (
-          <Card key={s.label} className="border-border/70">
+        {items.map((i) => (
+          <Card key={i.label} className="border-border/70">
             <CardContent className="p-5">
               <div className="flex items-start justify-between">
                 <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                  <s.icon className="h-5 w-5" />
+                  <i.icon className="h-5 w-5" />
                 </div>
-                <StatusBadge tone="neutral" dot={false}>
-                  {s.hint}
+                <StatusBadge tone={i.tone} dot={false}>
+                  {i.label}
                 </StatusBadge>
               </div>
               <div className="mt-4">
                 <div className="text-3xl font-semibold tracking-tight text-foreground">
-                  {s.value}
+                  {i.value}
                 </div>
-                <div className="mt-1 text-sm text-muted-foreground">{s.label}</div>
+                <div className="mt-1 text-sm text-muted-foreground">{i.label}</div>
               </div>
             </CardContent>
           </Card>
@@ -140,6 +170,7 @@ function DashboardPage() {
           </CardContent>
         </Card>
       </section>
-    </div>
+    </>
   );
 }
+
