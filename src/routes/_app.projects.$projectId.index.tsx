@@ -201,6 +201,7 @@ function ProjectDetail() {
         </div>
 
         <TabsContent value="overview" className="space-y-4">
+          <ProjectPlanningCards projectId={project.id} />
           <ProjectQuickStats projectId={project.id} />
           <div className="grid gap-4 lg:grid-cols-3">
             <Card className="border-border/70 lg:col-span-2">
