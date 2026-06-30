@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   FolderKanban, Archive, CheckCircle2, PauseCircle, ArrowUpRight, Plus,
-  CalendarDays, CheckSquare, AlertOctagon,
+  CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { supabase } from "@/integrations/supabase/client";
+import { getDashboardDocStats } from "@/lib/documents";
 import { useProfile, profileDisplayName } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_app/dashboard")({
@@ -26,24 +27,31 @@ export const Route = createFileRoute("/_app/dashboard")({
 interface Stats {
   active: number; planned: number; on_hold: number; completed: number; archived: number;
   dailyReportsWeek: number; openTasks: number; openDefects: number;
+  docsThisWeek: number; plansAwaitingReview: number; supersededPlans: number;
 }
 
 function useStats() {
   const [stats, setStats] = useState<Stats>({
     active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
     dailyReportsWeek: 0, openTasks: 0, openDefects: 0,
+    docsThisWeek: 0, plansAwaitingReview: 0, supersededPlans: 0,
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-      const [projects, dr, tk, df] = await Promise.all([
+      const [projects, dr, tk, df, docs] = await Promise.all([
         supabase.from("projects").select("current_status, archived_at"),
         supabase.from("daily_reports").select("id", { count: "exact", head: true }).gte("report_date", weekAgo),
         supabase.from("tasks").select("id", { count: "exact", head: true }).neq("status", "done"),
         supabase.from("defects").select("id", { count: "exact", head: true }).not("status", "in", '("accepted","rejected","fixed")'),
+        getDashboardDocStats(),
       ]);
-      const s: Stats = { active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0, dailyReportsWeek: dr.count ?? 0, openTasks: tk.count ?? 0, openDefects: df.count ?? 0 };
+      const s: Stats = {
+        active: 0, planned: 0, on_hold: 0, completed: 0, archived: 0,
+        dailyReportsWeek: dr.count ?? 0, openTasks: tk.count ?? 0, openDefects: df.count ?? 0,
+        docsThisWeek: docs.docsThisWeek, plansAwaitingReview: docs.plansAwaitingReview, supersededPlans: docs.supersededPlans,
+      };
       for (const p of projects.data ?? []) {
         if (p.archived_at) { s.archived++; continue; }
         if (p.current_status === "active") s.active++;
