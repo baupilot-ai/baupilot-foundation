@@ -366,20 +366,6 @@ function TimelineSummary({ project }: { project: ProjectRow }) {
   );
 }
 
-function ActivityItem({ title, description, at }: { title: string; description: string; at: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-sm font-medium text-foreground">{title}</p>
-          <span className="text-xs text-muted-foreground">{new Date(at).toLocaleString()}</span>
-        </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-    </li>
-  );
-}
 
 function Detail({
   label, value, icon: Icon,
