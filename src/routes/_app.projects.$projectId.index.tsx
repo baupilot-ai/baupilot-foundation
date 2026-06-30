@@ -189,6 +189,11 @@ function ProjectDetail() {
             <TabsTrigger value="equipment"><Hammer className="h-4 w-4" />Equipment</TabsTrigger>
             <TabsTrigger value="materials"><Package className="h-4 w-4" />Materials</TabsTrigger>
             <TabsTrigger value="deliveries"><Truck className="h-4 w-4" />Deliveries</TabsTrigger>
+            <TabsTrigger value="calendar"><CalendarRange className="h-4 w-4" />Calendar</TabsTrigger>
+            <TabsTrigger value="schedule"><BarChart3 className="h-4 w-4" />Schedule</TabsTrigger>
+            <TabsTrigger value="milestones"><Flag className="h-4 w-4" />Milestones</TabsTrigger>
+            <TabsTrigger value="gantt"><BarChart3 className="h-4 w-4" />Gantt</TabsTrigger>
+            <TabsTrigger value="notifications"><Bell className="h-4 w-4" />Notifications</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />Timeline</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />Financials</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />Activity</TabsTrigger>
