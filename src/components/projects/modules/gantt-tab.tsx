@@ -60,15 +60,17 @@ export function GanttTab({ projectId }: { projectId: string }) {
   const totalWidth = range.totalDays * pxPerDay;
   const lang = getAppLanguage() === "de" ? "de-DE" : "en-US";
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  const todayOffset = Math.floor((today.getTime() - range.min.getTime()) / 86400000) * pxPerDay;
+  const rangeMin = range.min;
+  const todayOffset = Math.floor((today.getTime() - rangeMin.getTime()) / 86400000) * pxPerDay;
 
   function dayOffset(d: string) {
-    return Math.floor((new Date(d).getTime() - range.min.getTime()) / 86400000) * pxPerDay;
+    return Math.floor((new Date(d).getTime() - rangeMin.getTime()) / 86400000) * pxPerDay;
   }
   function durationPx(start: string, finish: string) {
     const days = Math.max(1, Math.round((new Date(finish).getTime() - new Date(start).getTime()) / 86400000) + 1);
     return days * pxPerDay;
   }
+
 
   // Build month headers
   const monthMarks: { offset: number; label: string }[] = [];
