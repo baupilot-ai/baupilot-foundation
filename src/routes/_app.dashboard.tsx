@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FolderKanban, Archive, CheckCircle2, PauseCircle, ArrowUpRight, Plus,
   CalendarDays, CheckSquare, AlertOctagon, FileText, Layers, FileWarning,
