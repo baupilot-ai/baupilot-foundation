@@ -124,6 +124,13 @@ function DashboardPage() {
     { label: t("dashboard.stats.deliveriesDelayed"), value: s.deliveriesDelayed, icon: Truck, tone: "danger" as const },
     { label: t("dashboard.stats.maintenanceDueSoon"), value: s.maintenanceDueSoon, icon: Wrench, tone: "warning" as const },
   ];
+  const planItems = [
+    { label: t("planning.dashboard.overallProgress"), value: s.overallProgress, icon: BarChart3, tone: "info" as const },
+    { label: t("planning.dashboard.upcomingMilestones"), value: s.upcomingMilestones, icon: Flag, tone: "info" as const },
+    { label: t("planning.dashboard.delayedActivities"), value: s.delayedActivities, icon: AlertTriangle, tone: "danger" as const },
+    { label: t("planning.dashboard.dueThisWeek"), value: s.dueThisWeek, icon: CalendarIcon, tone: "warning" as const },
+    { label: t("planning.dashboard.unreadNotifications"), value: s.unreadNotifications, icon: Bell, tone: "info" as const },
+  ];
   return (
     <div className="space-y-8">
       <PageHeader
