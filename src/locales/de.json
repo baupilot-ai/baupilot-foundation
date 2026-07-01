@@ -1955,6 +1955,42 @@
     "report": "Bericht",
     "defects": "Mängel",
     "plans": "Pläne",
-    "tasks": "Aufgaben"
+    "tasks": "Aufgaben",
+    "more": "Mehr"
+  },
+  "more": {
+    "title": "Mehr",
+    "subtitle": "Weitere Bereiche und Einstellungen",
+    "sections": {
+      "workspace": "Arbeitsbereich",
+      "management": "Verwaltung",
+      "account": "Konto"
+    },
+    "items": {
+      "projects": "Projekte",
+      "projectsDesc": "Alle Projekte durchsuchen",
+      "calendar": "Kalender",
+      "calendarDesc": "Termine und Fristen",
+      "quality": "Qualität & Sicherheit",
+      "qualityDesc": "Prüfungen, Mängel, HSE",
+      "resources": "Ressourcen",
+      "resourcesDesc": "Geräte, Werkzeuge, Material",
+      "team": "Team",
+      "teamDesc": "Mitarbeiter und Nachunternehmer",
+      "ai": "AI Center",
+      "aiDesc": "Assistenten und Analysen",
+      "company": "Unternehmen",
+      "companyDesc": "Firmendaten",
+      "profile": "Profil",
+      "profileDesc": "Persönliche Daten",
+      "settings": "Einstellungen",
+      "settingsDesc": "Sprache, Benachrichtigungen"
+    }
+  },
+  "picker": {
+    "chooseProject": "Projekt wählen",
+    "chooseProjectDesc": "Bitte wähle das Projekt für diesen Bereich.",
+    "noActiveProject": "Kein aktives Projekt",
+    "createFirst": "Erstelle zunächst ein Projekt, um loszulegen."
   }
 }

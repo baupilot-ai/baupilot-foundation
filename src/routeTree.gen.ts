@@ -15,9 +15,14 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTeamRouteImport } from './routes/_app.team'
+import { Route as AppTasksRouteImport } from './routes/_app.tasks'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppResourcesRouteImport } from './routes/_app.resources'
+import { Route as AppReportRouteImport } from './routes/_app.report'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
+import { Route as AppPlansRouteImport } from './routes/_app.plans'
+import { Route as AppMoreRouteImport } from './routes/_app.more'
+import { Route as AppDefectsRouteImport } from './routes/_app.defects'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCompanyRouteImport } from './routes/_app.company'
 import { Route as AppAiRouteImport } from './routes/_app.ai'
@@ -64,6 +69,11 @@ const AppTeamRoute = AppTeamRouteImport.update({
   path: '/team',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -74,9 +84,29 @@ const AppResourcesRoute = AppResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReportRoute = AppReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlansRoute = AppPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoreRoute = AppMoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDefectsRoute = AppDefectsRouteImport.update({
+  id: '/defects',
+  path: '/defects',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -170,9 +200,14 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AppAiRouteWithChildren
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/defects': typeof AppDefectsRoute
+  '/more': typeof AppMoreRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
+  '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -195,9 +230,14 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/defects': typeof AppDefectsRoute
+  '/more': typeof AppMoreRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
+  '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -223,9 +263,14 @@ export interface FileRoutesById {
   '/_app/ai': typeof AppAiRouteWithChildren
   '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/defects': typeof AppDefectsRoute
+  '/_app/more': typeof AppMoreRoute
+  '/_app/plans': typeof AppPlansRoute
   '/_app/profile': typeof AppProfileRoute
+  '/_app/report': typeof AppReportRoute
   '/_app/resources': typeof AppResourcesRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/tasks': typeof AppTasksRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/ai/daily-report': typeof AppAiDailyReportRoute
   '/_app/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -251,9 +296,14 @@ export interface FileRouteTypes {
     | '/ai'
     | '/company'
     | '/dashboard'
+    | '/defects'
+    | '/more'
+    | '/plans'
     | '/profile'
+    | '/report'
     | '/resources'
     | '/settings'
+    | '/tasks'
     | '/team'
     | '/ai/daily-report'
     | '/ai/knowledge'
@@ -276,9 +326,14 @@ export interface FileRouteTypes {
     | '/register'
     | '/company'
     | '/dashboard'
+    | '/defects'
+    | '/more'
+    | '/plans'
     | '/profile'
+    | '/report'
     | '/resources'
     | '/settings'
+    | '/tasks'
     | '/team'
     | '/ai/daily-report'
     | '/ai/knowledge'
@@ -303,9 +358,14 @@ export interface FileRouteTypes {
     | '/_app/ai'
     | '/_app/company'
     | '/_app/dashboard'
+    | '/_app/defects'
+    | '/_app/more'
+    | '/_app/plans'
     | '/_app/profile'
+    | '/_app/report'
     | '/_app/resources'
     | '/_app/settings'
+    | '/_app/tasks'
     | '/_app/team'
     | '/_app/ai/daily-report'
     | '/_app/ai/knowledge'
@@ -374,6 +434,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTeamRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/tasks': {
+      id: '/_app/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/settings': {
       id: '/_app/settings'
       path: '/settings'
@@ -388,11 +455,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppResourcesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/report': {
+      id: '/_app/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof AppReportRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/profile': {
       id: '/_app/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/plans': {
+      id: '/_app/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof AppPlansRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/more': {
+      id: '/_app/more'
+      path: '/more'
+      fullPath: '/more'
+      preLoaderRoute: typeof AppMoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/defects': {
+      id: '/_app/defects'
+      path: '/defects'
+      fullPath: '/defects'
+      preLoaderRoute: typeof AppDefectsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -540,9 +635,14 @@ interface AppRouteChildren {
   AppAiRoute: typeof AppAiRouteWithChildren
   AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDefectsRoute: typeof AppDefectsRoute
+  AppMoreRoute: typeof AppMoreRoute
+  AppPlansRoute: typeof AppPlansRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppReportRoute: typeof AppReportRoute
   AppResourcesRoute: typeof AppResourcesRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTasksRoute: typeof AppTasksRoute
   AppTeamRoute: typeof AppTeamRoute
   AppProjectsNewRoute: typeof AppProjectsNewRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
@@ -554,9 +654,14 @@ const AppRouteChildren: AppRouteChildren = {
   AppAiRoute: AppAiRouteWithChildren,
   AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppDefectsRoute: AppDefectsRoute,
+  AppMoreRoute: AppMoreRoute,
+  AppPlansRoute: AppPlansRoute,
   AppProfileRoute: AppProfileRoute,
+  AppReportRoute: AppReportRoute,
   AppResourcesRoute: AppResourcesRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTasksRoute: AppTasksRoute,
   AppTeamRoute: AppTeamRoute,
   AppProjectsNewRoute: AppProjectsNewRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
