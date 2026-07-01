@@ -24,6 +24,7 @@ import { Route as AppAiRouteImport } from './routes/_app.ai'
 import { Route as AppProjectsIndexRouteImport } from './routes/_app.projects.index'
 import { Route as AppAiIndexRouteImport } from './routes/_app.ai.index'
 import { Route as AppProjectsNewRouteImport } from './routes/_app.projects.new'
+import { Route as AppAiTaskRouteImport } from './routes/_app.ai.task'
 import { Route as AppAiDailyReportRouteImport } from './routes/_app.ai.daily-report'
 import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/_app.projects.$projectId.index'
 import { Route as AppProjectsProjectIdEditRouteImport } from './routes/_app.projects.$projectId.edit'
@@ -102,6 +103,11 @@ const AppProjectsNewRoute = AppProjectsNewRouteImport.update({
   path: '/projects/new',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiTaskRoute = AppAiTaskRouteImport.update({
+  id: '/task',
+  path: '/task',
+  getParentRoute: () => AppAiRoute,
+} as any)
 const AppAiDailyReportRoute = AppAiDailyReportRouteImport.update({
   id: '/daily-report',
   path: '/daily-report',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
+  '/ai/task': typeof AppAiTaskRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/ai/': typeof AppAiIndexRoute
   '/projects/': typeof AppProjectsIndexRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
+  '/ai/task': typeof AppAiTaskRoute
   '/projects/new': typeof AppProjectsNewRoute
   '/ai': typeof AppAiIndexRoute
   '/projects': typeof AppProjectsIndexRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/ai/daily-report': typeof AppAiDailyReportRoute
+  '/_app/ai/task': typeof AppAiTaskRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
   '/_app/ai/': typeof AppAiIndexRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/ai/daily-report'
+    | '/ai/task'
     | '/projects/new'
     | '/ai/'
     | '/projects/'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/ai/daily-report'
+    | '/ai/task'
     | '/projects/new'
     | '/ai'
     | '/projects'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/_app/settings'
     | '/_app/team'
     | '/_app/ai/daily-report'
+    | '/_app/ai/task'
     | '/_app/projects/new'
     | '/_app/ai/'
     | '/_app/projects/'
@@ -353,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsNewRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai/task': {
+      id: '/_app/ai/task'
+      path: '/task'
+      fullPath: '/ai/task'
+      preLoaderRoute: typeof AppAiTaskRouteImport
+      parentRoute: typeof AppAiRoute
+    }
     '/_app/ai/daily-report': {
       id: '/_app/ai/daily-report'
       path: '/daily-report'
@@ -379,11 +398,13 @@ declare module '@tanstack/react-router' {
 
 interface AppAiRouteChildren {
   AppAiDailyReportRoute: typeof AppAiDailyReportRoute
+  AppAiTaskRoute: typeof AppAiTaskRoute
   AppAiIndexRoute: typeof AppAiIndexRoute
 }
 
 const AppAiRouteChildren: AppAiRouteChildren = {
   AppAiDailyReportRoute: AppAiDailyReportRoute,
+  AppAiTaskRoute: AppAiTaskRoute,
   AppAiIndexRoute: AppAiIndexRoute,
 }
 
