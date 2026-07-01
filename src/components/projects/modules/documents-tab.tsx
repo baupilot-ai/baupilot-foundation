@@ -36,6 +36,7 @@ import { usePermissions } from "@/hooks/use-permissions";
 import { Send, CheckCircle2, XCircle, Archive } from "lucide-react";
 
 export function DocumentsTab({ projectId }: { projectId: string }) {
+  const { can } = usePermissions();
   const [docs, setDocs] = useState<ProjectDocument[]>([]);
   const [folders, setFolders] = useState<DocumentFolder[]>([]);
   const [loading, setLoading] = useState(true);
