@@ -121,7 +121,7 @@ export function NotificationsBell() {
                         <div className="line-clamp-2 text-xs text-muted-foreground">{n.message}</div>
                       )}
                       <div className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground">
-                        {formatDate(n.created_at, i18n.language, { dateStyle: "medium", timeStyle: "short" })}
+                        {formatDate(n.created_at, i18n.language as "de" | "en")}
                       </div>
                     </div>
                     {isUnread && (
