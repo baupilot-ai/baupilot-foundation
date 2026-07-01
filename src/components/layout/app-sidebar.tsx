@@ -11,6 +11,7 @@ import {
   LogOut,
   HelpCircle,
   Boxes,
+  Sparkles,
 } from "lucide-react";
 
 import {
