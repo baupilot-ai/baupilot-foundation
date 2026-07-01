@@ -17,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useProfile, profileDisplayName, profileInitials } from "@/hooks/use-profile";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { NotificationsBell } from "@/components/layout/notifications-bell";
 
 
 
