@@ -12,13 +12,13 @@ export function MobileNav() {
     url === "/dashboard" ? pathname === url : pathname === url || pathname.startsWith(url + "/");
 
   const { can } = usePermissions();
-  const items: Array<{ title: string; url: string; icon: typeof LayoutDashboard; permission?: Permission }> = [
-    { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" },
-    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" },
-    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" },
-    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" },
-    { title: t("nav.profile"), url: "/profile", icon: UserCircle2 },
-  ].filter((item) => !item.permission || can(item.permission));
+  const items = ([
+    { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" as Permission | undefined },
+    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" as Permission | undefined },
+    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" as Permission | undefined },
+    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" as Permission | undefined },
+    { title: t("nav.profile"), url: "/profile", icon: UserCircle2, permission: undefined as Permission | undefined },
+  ]).filter((item) => !item.permission || can(item.permission));
 
   return (
     <nav
