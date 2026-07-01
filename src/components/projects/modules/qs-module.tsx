@@ -1025,4 +1025,3 @@ export function SafetyTab({ projectId }: { projectId: string }) {
   );
 }
 
-// Signature icon export unused reference cleanup: keep PenLine referenced to avoid unused-import if strict
