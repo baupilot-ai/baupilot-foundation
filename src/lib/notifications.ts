@@ -42,11 +42,8 @@ export async function createNotification(input: {
     event_type: input.event_type,
     title: input.title,
     message: input.message ?? null,
-    // @ts-expect-error - columns added by migration, types regen after apply
     entity_type: input.entity_type ?? null,
-    // @ts-expect-error - see above
     entity_id: input.entity_id ?? null,
-    // @ts-expect-error - see above
     link_url: input.link_url ?? null,
     status: "unread",
   };
