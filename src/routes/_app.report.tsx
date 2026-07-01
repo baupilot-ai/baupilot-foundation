@@ -1,0 +1,8 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { ProjectFocusRedirect } from "@/components/layout/project-focus-redirect";
+
+export const Route = createFileRoute("/_app/report")({
+  ssr: false,
+  head: () => ({ meta: [{ title: "Bericht — BauPilot" }] }),
+  component: () => <ProjectFocusRedirect hash="daily-reports" headerKey="report" />,
+});
