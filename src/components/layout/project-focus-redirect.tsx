@@ -16,7 +16,7 @@ export function ProjectFocusRedirect({
   hash,
   headerKey,
 }: {
-  hash: "daily-reports" | "defects" | "plans" | "tasks";
+  hash: "daily" | "defects" | "plans" | "tasks";
   headerKey: "report" | "defects" | "plans" | "tasks";
 }) {
   const { t } = useTranslation();
