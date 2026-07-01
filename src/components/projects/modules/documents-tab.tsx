@@ -24,6 +24,7 @@ import {
 
 import {
   listDocuments, uploadDocument, updateDocument, deleteDocument,
+  submitDocumentForReview, approveDocument, rejectDocument, archiveDocument,
   uploadNewDocumentVersion, listDocumentVersions, getSignedUrl,
   listFolders, createFolder, renameFolder, deleteFolder,
   DOCUMENT_CATEGORIES, DOCUMENT_STATUS, categoryLabel, docStatusMeta,
