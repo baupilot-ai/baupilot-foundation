@@ -2331,8 +2331,11 @@ export type Database = {
         Row: {
           company_id: string
           created_at: string
+          entity_id: string | null
+          entity_type: string | null
           event_type: string
           id: string
+          link_url: string | null
           message: string | null
           project_id: string | null
           read_at: string | null
@@ -2343,8 +2346,11 @@ export type Database = {
         Insert: {
           company_id: string
           created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
           event_type?: string
           id?: string
+          link_url?: string | null
           message?: string | null
           project_id?: string | null
           read_at?: string | null
@@ -2355,8 +2361,11 @@ export type Database = {
         Update: {
           company_id?: string
           created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
           event_type?: string
           id?: string
+          link_url?: string | null
           message?: string | null
           project_id?: string | null
           read_at?: string | null
@@ -2692,6 +2701,8 @@ export type Database = {
       }
       project_documents: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           category: string
           company_id: string
           created_at: string
@@ -2703,14 +2714,27 @@ export type Database = {
           file_url: string
           folder_id: string | null
           id: string
+          is_current: boolean
+          last_synced_at: string | null
           project_id: string
+          rejected_at: string | null
+          rejected_by: string | null
+          rejected_reason: string | null
           status: string
+          submitted_for_review_at: string | null
+          submitted_for_review_by: string | null
+          sync_status: string
+          tags: string[]
           title: string
           updated_at: string
           uploaded_by: string | null
           version: number
+          version_major: number
+          version_minor: number
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           category?: string
           company_id: string
           created_at?: string
@@ -2722,14 +2746,27 @@ export type Database = {
           file_url: string
           folder_id?: string | null
           id?: string
+          is_current?: boolean
+          last_synced_at?: string | null
           project_id: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejected_reason?: string | null
           status?: string
+          submitted_for_review_at?: string | null
+          submitted_for_review_by?: string | null
+          sync_status?: string
+          tags?: string[]
           title: string
           updated_at?: string
           uploaded_by?: string | null
           version?: number
+          version_major?: number
+          version_minor?: number
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           category?: string
           company_id?: string
           created_at?: string
@@ -2741,12 +2778,23 @@ export type Database = {
           file_url?: string
           folder_id?: string | null
           id?: string
+          is_current?: boolean
+          last_synced_at?: string | null
           project_id?: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejected_reason?: string | null
           status?: string
+          submitted_for_review_at?: string | null
+          submitted_for_review_by?: string | null
+          sync_status?: string
+          tags?: string[]
           title?: string
           updated_at?: string
           uploaded_by?: string | null
           version?: number
+          version_major?: number
+          version_minor?: number
         }
         Relationships: [
           {
@@ -2776,49 +2824,70 @@ export type Database = {
         Row: {
           actual_date: string | null
           company_id: string
+          completed_at: string | null
           created_at: string
           created_by: string | null
           deleted_at: string | null
           description: string | null
+          due_date: string | null
           id: string
+          last_synced_at: string | null
           name: string
           notes: string | null
           planned_date: string | null
+          priority: string
           project_id: string
           responsible_person: string | null
+          responsible_user_id: string | null
+          start_date: string | null
           status: string
+          sync_status: string
           updated_at: string
         }
         Insert: {
           actual_date?: string | null
           company_id: string
+          completed_at?: string | null
           created_at?: string
           created_by?: string | null
           deleted_at?: string | null
           description?: string | null
+          due_date?: string | null
           id?: string
+          last_synced_at?: string | null
           name: string
           notes?: string | null
           planned_date?: string | null
+          priority?: string
           project_id: string
           responsible_person?: string | null
+          responsible_user_id?: string | null
+          start_date?: string | null
           status?: string
+          sync_status?: string
           updated_at?: string
         }
         Update: {
           actual_date?: string | null
           company_id?: string
+          completed_at?: string | null
           created_at?: string
           created_by?: string | null
           deleted_at?: string | null
           description?: string | null
+          due_date?: string | null
           id?: string
+          last_synced_at?: string | null
           name?: string
           notes?: string | null
           planned_date?: string | null
+          priority?: string
           project_id?: string
           responsible_person?: string | null
+          responsible_user_id?: string | null
+          start_date?: string | null
           status?: string
+          sync_status?: string
           updated_at?: string
         }
         Relationships: [
