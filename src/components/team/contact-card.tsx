@@ -1,10 +1,12 @@
 import { Phone, Mail, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 
 interface Props {
   title: string;
@@ -22,8 +24,11 @@ interface Props {
 
 export function ContactCard({
   title, subtitle, email, phone, status, badges, rating,
-  onEdit, onDelete, deleteLabel = "Delete", extraActions,
+  onEdit, onDelete, deleteLabel, extraActions,
 }: Props) {
+  const { t } = useTranslation();
+  const delLabel = deleteLabel ?? t("contactCard.delete");
+
   return (
     <Card className="border-border/70">
       <CardContent className="p-4">
@@ -45,13 +50,14 @@ export function ContactCard({
                 <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0"><MoreVertical className="h-4 w-4" /></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {onEdit && <DropdownMenuItem onClick={onEdit}><Pencil className="h-4 w-4" />Edit</DropdownMenuItem>}
+                {onEdit && <DropdownMenuItem onClick={onEdit}><Pencil className="h-4 w-4" />{t("common.edit")}</DropdownMenuItem>}
                 {extraActions}
                 {onDelete && (
                   <DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
-                    <Trash2 className="h-4 w-4" />{deleteLabel}
+                    <Trash2 className="h-4 w-4" />{delLabel}
                   </DropdownMenuItem>
                 )}
+
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -65,8 +71,9 @@ export function ContactCard({
             )}
             {email && (
               <Button asChild variant="outline" size="sm">
-                <a href={`mailto:${email}`}><Mail className="h-4 w-4" />Email</a>
+                <a href={`mailto:${email}`}><Mail className="h-4 w-4" />{t("contactCard.email")}</a>
               </Button>
+
             )}
           </div>
         )}

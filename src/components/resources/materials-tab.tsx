@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2, Search, Package } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ import {
 } from "@/lib/resources";
 
 export function MaterialsTab() {
+  const { t } = useTranslation();
   const [items, setItems] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -28,10 +30,10 @@ export function MaterialsTab() {
   async function load() {
     setLoading(true);
     try { setItems(await listMaterials({ includeArchived: true })); }
-    catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+    catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
     finally { setLoading(false); }
   }
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
 
   const filtered = items.filter((m) => {
     if (category && m.category !== category) return false;
@@ -48,17 +50,17 @@ export function MaterialsTab() {
         <div className="flex flex-1 flex-wrap gap-2">
           <div className="relative flex-1 min-w-[160px]">
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search materials…" className="pl-8" />
+            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("resources.search.materials")} className="pl-8" />
           </div>
           <Select value={category || "all"} onValueChange={(v) => setCategory(v === "all" ? "" : v)}>
-            <SelectTrigger className="w-[160px]"><SelectValue placeholder="Category" /></SelectTrigger>
+            <SelectTrigger className="w-[160px]"><SelectValue placeholder={t("resources.filters.category")} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All categories</SelectItem>
-              {MATERIAL_CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              <SelectItem value="all">{t("resources.filters.allCategories")}</SelectItem>
+              {MATERIAL_CATEGORIES.map((c) => <SelectItem key={c} value={c}>{t(`resources.materialCategories.${c}`, c)}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={() => { setEditing(null); setOpen(true); }}><Plus className="h-4 w-4" />New material</Button>
+        <Button onClick={() => { setEditing(null); setOpen(true); }}><Plus className="h-4 w-4" />{t("resources.actions.newMaterial")}</Button>
       </div>
 
       {loading ? (
@@ -67,8 +69,8 @@ export function MaterialsTab() {
         <Card className="border-dashed border-border/70 bg-muted/30">
           <CardContent className="flex flex-col items-center gap-3 px-6 py-16 text-center">
             <Package className="h-8 w-8 text-muted-foreground" />
-            <p className="text-sm font-medium">No materials yet</p>
-            <Button onClick={() => { setEditing(null); setOpen(true); }}><Plus className="h-4 w-4" />Add material</Button>
+            <p className="text-sm font-medium">{t("resources.empty.materials")}</p>
+            <Button onClick={() => { setEditing(null); setOpen(true); }}><Plus className="h-4 w-4" />{t("resources.actions.addMaterial")}</Button>
           </CardContent>
         </Card>
       ) : (
@@ -80,17 +82,17 @@ export function MaterialsTab() {
                   <div className="min-w-0">
                     <div className="font-mono text-[11px] text-muted-foreground">{m.material_number ?? "—"}</div>
                     <h3 className="font-semibold truncate">{m.name}</h3>
-                    <p className="text-xs text-muted-foreground">{m.category ?? "—"}</p>
+                    <p className="text-xs text-muted-foreground">{m.category ? t(`resources.materialCategories.${m.category}`, m.category) : "—"}</p>
                   </div>
                   <div className="text-right text-xs">
                     <div className="font-medium">{m.unit}</div>
                     {m.default_price != null && <div className="text-muted-foreground">€{Number(m.default_price).toFixed(2)}</div>}
                   </div>
                 </div>
-                {m.supplier && <div className="text-xs text-muted-foreground">Supplier: {m.supplier}</div>}
-                {m.minimum_stock != null && <div className="text-xs text-muted-foreground">Min stock: {m.minimum_stock} {m.unit}</div>}
+                {m.supplier && <div className="text-xs text-muted-foreground">{t("resources.fields.supplier")}: {m.supplier}</div>}
+                {m.minimum_stock != null && <div className="text-xs text-muted-foreground">{t("resources.fields.minimumStock")}: {m.minimum_stock} {m.unit}</div>}
                 <div className="flex gap-1 pt-1">
-                  <Button size="sm" variant="ghost" onClick={() => { setEditing(m); setOpen(true); }}><Edit className="h-3.5 w-3.5" />Edit</Button>
+                  <Button size="sm" variant="ghost" onClick={() => { setEditing(m); setOpen(true); }}><Edit className="h-3.5 w-3.5" />{t("common.edit")}</Button>
                   <Button size="sm" variant="ghost" onClick={() => setConfirmDel(m)}><Trash2 className="h-3.5 w-3.5 text-destructive" /></Button>
                 </div>
               </CardContent>
@@ -103,14 +105,14 @@ export function MaterialsTab() {
 
       <AlertDialog open={!!confirmDel} onOpenChange={(o) => !o && setConfirmDel(null)}>
         <AlertDialogContent>
-          <AlertDialogHeader><AlertDialogTitle>Delete material?</AlertDialogTitle><AlertDialogDescription>Linked stock and usage may be removed.</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogHeader><AlertDialogTitle>{t("resources.dialogs.deleteMaterial")}</AlertDialogTitle><AlertDialogDescription>{t("resources.dialogs.deleteMaterialDesc")}</AlertDialogDescription></AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction className="bg-destructive text-destructive-foreground" onClick={async () => {
               if (!confirmDel) return;
-              try { await deleteMaterial(confirmDel.id); toast.success("Deleted"); setConfirmDel(null); load(); }
-              catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
-            }}>Delete</AlertDialogAction>
+              try { await deleteMaterial(confirmDel.id); toast.success(t("states.deleted")); setConfirmDel(null); load(); }
+              catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
+            }}>{t("common.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -119,6 +121,7 @@ export function MaterialsTab() {
 }
 
 function MaterialDialog({ open, onOpenChange, editing, onSaved }: { open: boolean; onOpenChange: (v: boolean) => void; editing: Material | null; onSaved: () => void }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState<Partial<Material>>({});
   const [saving, setSaving] = useState(false);
 
@@ -127,44 +130,44 @@ function MaterialDialog({ open, onOpenChange, editing, onSaved }: { open: boolea
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name) { toast.error("Name is required"); return; }
+    if (!form.name) { toast.error(t("states.nameRequired")); return; }
     setSaving(true);
     try {
       if (editing) await updateMaterial(editing.id, form);
       else await createMaterial(form as never);
-      toast.success("Saved"); onOpenChange(false); onSaved();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+      toast.success(t("states.saved")); onOpenChange(false); onSaved();
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
     finally { setSaving(false); }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-        <DialogHeader><DialogTitle>{editing ? "Edit material" : "New material"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle>{editing ? t("resources.dialogs.editMaterial") : t("resources.dialogs.newMaterial")}</DialogTitle></DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2">
-            <Field label="Name *"><Input required value={form.name ?? ""} onChange={(e) => set("name", e.target.value)} /></Field>
-            <Field label="Material number"><Input value={form.material_number ?? ""} onChange={(e) => set("material_number", e.target.value)} /></Field>
-            <Field label="Category">
+            <Field label={`${t("resources.fields.name")} *`}><Input required value={form.name ?? ""} onChange={(e) => set("name", e.target.value)} /></Field>
+            <Field label={t("resources.fields.materialNumber")}><Input value={form.material_number ?? ""} onChange={(e) => set("material_number", e.target.value)} /></Field>
+            <Field label={t("resources.fields.category")}>
               <Select value={form.category ?? ""} onValueChange={(v) => set("category", v)}>
-                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                <SelectContent>{MATERIAL_CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+                <SelectTrigger><SelectValue placeholder={t("resources.empty.select")} /></SelectTrigger>
+                <SelectContent>{MATERIAL_CATEGORIES.map((c) => <SelectItem key={c} value={c}>{t(`resources.materialCategories.${c}`, c)}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
-            <Field label="Unit *">
+            <Field label={`${t("resources.fields.unit")} *`}>
               <Select value={form.unit ?? "pcs"} onValueChange={(v) => set("unit", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>{MATERIAL_UNITS.map((u) => <SelectItem key={u} value={u}>{u}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
-            <Field label="Supplier"><Input value={form.supplier ?? ""} onChange={(e) => set("supplier", e.target.value)} /></Field>
-            <Field label="Default price (€)"><Input type="number" step="0.01" value={form.default_price ?? ""} onChange={(e) => set("default_price", e.target.value ? Number(e.target.value) : null)} /></Field>
-            <Field label="Minimum stock"><Input type="number" step="0.001" value={form.minimum_stock ?? ""} onChange={(e) => set("minimum_stock", e.target.value ? Number(e.target.value) : null)} /></Field>
+            <Field label={t("resources.fields.supplier")}><Input value={form.supplier ?? ""} onChange={(e) => set("supplier", e.target.value)} /></Field>
+            <Field label={t("resources.fields.defaultPrice")}><Input type="number" step="0.01" value={form.default_price ?? ""} onChange={(e) => set("default_price", e.target.value ? Number(e.target.value) : null)} /></Field>
+            <Field label={t("resources.fields.minimumStock")}><Input type="number" step="0.001" value={form.minimum_stock ?? ""} onChange={(e) => set("minimum_stock", e.target.value ? Number(e.target.value) : null)} /></Field>
           </div>
-          <Field label="Notes"><Textarea rows={2} value={form.notes ?? ""} onChange={(e) => set("notes", e.target.value)} /></Field>
+          <Field label={t("resources.fields.notes")}><Textarea rows={2} value={form.notes ?? ""} onChange={(e) => set("notes", e.target.value)} /></Field>
           <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
-            <Button type="submit" disabled={saving}>{saving && <Loader2 className="h-4 w-4 animate-spin" />}Save</Button>
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>{t("common.cancel")}</Button>
+            <Button type="submit" disabled={saving}>{saving && <Loader2 className="h-4 w-4 animate-spin" />}{t("common.save")}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
