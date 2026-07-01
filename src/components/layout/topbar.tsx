@@ -50,15 +50,9 @@ export function Topbar() {
 
       <div className="ml-auto flex items-center gap-1 md:ml-0">
         <LanguageSwitcher />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9 text-muted-foreground"
-          aria-label={t("common.notifications")}
-        >
-          <Bell className="h-4.5 w-4.5" />
-        </Button>
+        <NotificationsBell />
       </div>
+
 
 
       <DropdownMenu>
