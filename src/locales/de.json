@@ -735,6 +735,156 @@
       "Snow": "Schnee",
       "Wind": "Wind",
       "Fog": "Nebel"
+    },
+    "searchPlaceholder": "Berichte suchen…",
+    "rejectionReason": "Ablehnungsgrund",
+    "reportStatus": {
+      "draft": "Entwurf",
+      "submitted": "Eingereicht",
+      "reviewed": "Geprüft",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt"
+    },
+    "filters": { "all": "Alle Status" },
+    "sections": {
+      "general": "Allgemein",
+      "weather": "Wetter",
+      "workforce": "Personal",
+      "equipment": "Geräte",
+      "materials": "Material",
+      "work": "Ausgeführte Arbeiten",
+      "delays": "Behinderungen",
+      "visitors": "Besucher",
+      "photos": "Fotos",
+      "signatures": "Unterschriften",
+      "attachments": "Anhänge"
+    },
+    "weatherFields": {
+      "feelsLike": "Gefühlt (°C)",
+      "windSpeed": "Windstärke (km/h)",
+      "rainfall": "Niederschlag (mm)",
+      "snow": "Schnee (mm)",
+      "humidity": "Luftfeuchtigkeit (%)",
+      "groundCondition": "Bodenzustand",
+      "workingConditions": "Arbeitsbedingungen",
+      "sunrise": "Sonnenaufgang",
+      "sunset": "Sonnenuntergang",
+      "notes": "Wetternotizen"
+    },
+    "workforce": {
+      "add": "Personal hinzufügen",
+      "company": "Firma",
+      "trade": "Gewerk",
+      "supervisor": "Vorarbeiter",
+      "ownWorkers": "Eigene Arbeiter",
+      "subWorkers": "Subunternehmer-Arbeiter",
+      "workingHours": "Arbeitsstunden",
+      "overtime": "Überstunden",
+      "nightShift": "Nachtschicht",
+      "total": "Gesamt-Arbeiter"
+    },
+    "equipment": {
+      "add": "Gerät hinzufügen",
+      "equipment": "Gerät",
+      "quantity": "Menge",
+      "workingHours": "Betriebsstunden",
+      "operator": "Bediener",
+      "status": "Status"
+    },
+    "materials": {
+      "add": "Material hinzufügen",
+      "material": "Material",
+      "quantity": "Menge",
+      "unit": "Einheit",
+      "supplier": "Lieferant",
+      "deliveryNumber": "Lieferschein-Nr."
+    },
+    "work": {
+      "add": "Arbeitseintrag hinzufügen",
+      "area": "Bereich",
+      "section": "Bauabschnitt",
+      "floor": "Geschoss",
+      "trade": "Gewerk",
+      "progress": "Fortschritt %",
+      "description": "Beschreibung"
+    },
+    "delays": {
+      "add": "Behinderung hinzufügen",
+      "type": "Art der Behinderung",
+      "responsible": "Verantwortliche Partei",
+      "impact": "Auswirkung",
+      "description": "Beschreibung",
+      "mitigation": "Gegenmaßnahmen",
+      "affected": "Betroffene Aktivitäten"
+    },
+    "delayTypes": {
+      "weather": "Wetter",
+      "missing_material": "Fehlendes Material",
+      "equipment_failure": "Geräteausfall",
+      "design_change": "Planungsänderung",
+      "client": "Bauherr",
+      "authority": "Behörde",
+      "subcontractor": "Subunternehmer",
+      "other": "Sonstiges"
+    },
+    "visitors": {
+      "add": "Besucher hinzufügen",
+      "name": "Name",
+      "company": "Firma",
+      "purpose": "Zweck",
+      "arrival": "Ankunft",
+      "departure": "Abfahrt"
+    },
+    "photos": {
+      "upload": "Fotos hochladen",
+      "empty": "Keine Fotos angehängt",
+      "description": "Beschreibung"
+    },
+    "photoCategories": {
+      "progress": "Baufortschritt",
+      "quality": "Qualität",
+      "safety": "Sicherheit",
+      "defect": "Mangel",
+      "delivery": "Lieferung",
+      "equipment": "Gerät",
+      "material": "Material",
+      "general": "Allgemein"
+    },
+    "signatures": {
+      "name": "Name des Unterzeichners",
+      "clear": "Löschen",
+      "nameRequired": "Name erforderlich",
+      "roles": {
+        "foreman": "Unterschrift Polier",
+        "project_manager": "Unterschrift Projektleiter",
+        "client": "Unterschrift Bauherr"
+      }
+    },
+    "attachments": {
+      "upload": "Dateien hochladen",
+      "empty": "Keine Anhänge"
+    },
+    "approvals": {
+      "submit": "Einreichen",
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "reason": "Ablehnungsgrund",
+      "submitted": "Bericht eingereicht",
+      "approved": "Bericht genehmigt",
+      "rejected": "Bericht abgelehnt"
+    },
+    "export": {
+      "email": "E-Mail",
+      "pdfPending": "PDF-Export folgt in Kürze",
+      "xlsxPending": "Excel-Export folgt in Kürze",
+      "emailPending": "E-Mail-Versand folgt in Kürze"
+    },
+    "overview": {
+      "lastReport": "Letzter Bericht",
+      "thisWeek": "Diese Woche",
+      "thisMonth": "Dieser Monat",
+      "pending": "Ausstehende Freigaben",
+      "workersToday": "Arbeiter heute"
     }
   },
   "photos": {

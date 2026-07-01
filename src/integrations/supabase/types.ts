@@ -165,76 +165,788 @@ export type Database = {
         }
         Relationships: []
       }
-      daily_reports: {
+      daily_report_attachments: {
+        Row: {
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          file_path: string
+          file_size: number | null
+          filename: string | null
+          id: string
+          mime_type: string | null
+          project_id: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          file_path: string
+          file_size?: number | null
+          filename?: string | null
+          id?: string
+          mime_type?: string | null
+          project_id: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          file_path?: string
+          file_size?: number | null
+          filename?: string | null
+          id?: string
+          mime_type?: string | null
+          project_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_attachments_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_attachments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_delays: {
+        Row: {
+          affected_activities: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          delay_type: string | null
+          description: string | null
+          id: string
+          impact: string | null
+          mitigation: string | null
+          photos: Json | null
+          project_id: string
+          responsible_party: string | null
+          updated_at: string
+        }
+        Insert: {
+          affected_activities?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          delay_type?: string | null
+          description?: string | null
+          id?: string
+          impact?: string | null
+          mitigation?: string | null
+          photos?: Json | null
+          project_id: string
+          responsible_party?: string | null
+          updated_at?: string
+        }
+        Update: {
+          affected_activities?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          delay_type?: string | null
+          description?: string | null
+          id?: string
+          impact?: string | null
+          mitigation?: string | null
+          photos?: Json | null
+          project_id?: string
+          responsible_party?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_delays_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_delays_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_equipment: {
         Row: {
           company_id: string
           created_at: string
           created_by: string | null
-          delays: string | null
-          equipment_used: string | null
+          daily_report_id: string
+          equipment_id: string | null
+          equipment_name: string | null
           id: string
-          materials_delivered: string | null
           notes: string | null
+          operator: string | null
           project_id: string
-          report_date: string
-          safety_notes: string | null
-          site_status: string | null
-          subcontractors: string | null
-          temperature: number | null
+          quantity: number | null
+          status: string | null
           updated_at: string
-          visitors: string | null
-          weather_condition: string | null
-          wind: string | null
-          work_performed: string | null
-          workers_count: number | null
-          working_hours_end: string | null
-          working_hours_start: string | null
+          working_hours: number | null
         }
         Insert: {
           company_id: string
           created_at?: string
           created_by?: string | null
-          delays?: string | null
-          equipment_used?: string | null
+          daily_report_id: string
+          equipment_id?: string | null
+          equipment_name?: string | null
           id?: string
-          materials_delivered?: string | null
           notes?: string | null
+          operator?: string | null
           project_id: string
-          report_date?: string
-          safety_notes?: string | null
-          site_status?: string | null
-          subcontractors?: string | null
-          temperature?: number | null
+          quantity?: number | null
+          status?: string | null
           updated_at?: string
-          visitors?: string | null
-          weather_condition?: string | null
-          wind?: string | null
-          work_performed?: string | null
-          workers_count?: number | null
-          working_hours_end?: string | null
-          working_hours_start?: string | null
+          working_hours?: number | null
         }
         Update: {
           company_id?: string
           created_at?: string
           created_by?: string | null
+          daily_report_id?: string
+          equipment_id?: string | null
+          equipment_name?: string | null
+          id?: string
+          notes?: string | null
+          operator?: string | null
+          project_id?: string
+          quantity?: number | null
+          status?: string | null
+          updated_at?: string
+          working_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_equipment_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_equipment_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_equipment_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_links: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          entity_id: string
+          entity_type: string
+          id: string
+          label: string | null
+          project_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          label?: string | null
+          project_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          label?: string | null
+          project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_links_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_links_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_materials: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          delivery_number: string | null
+          id: string
+          material_id: string | null
+          material_name: string | null
+          notes: string | null
+          project_id: string
+          quantity: number | null
+          supplier: string | null
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          delivery_number?: string | null
+          id?: string
+          material_id?: string | null
+          material_name?: string | null
+          notes?: string | null
+          project_id: string
+          quantity?: number | null
+          supplier?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          delivery_number?: string | null
+          id?: string
+          material_id?: string | null
+          material_name?: string | null
+          notes?: string | null
+          project_id?: string
+          quantity?: number | null
+          supplier?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_materials_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_materials_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_materials_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_photos: {
+        Row: {
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          description: string | null
+          id: string
+          project_id: string
+          project_photo_id: string | null
+          storage_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          description?: string | null
+          id?: string
+          project_id: string
+          project_photo_id?: string | null
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          description?: string | null
+          id?: string
+          project_id?: string
+          project_photo_id?: string | null
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_photos_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_photos_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_photos_project_photo_id_fkey"
+            columns: ["project_photo_id"]
+            isOneToOne: false
+            referencedRelation: "project_photos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_signatures: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          id: string
+          project_id: string
+          role: string
+          signature_data: string | null
+          signed_at: string
+          signer_name: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          id?: string
+          project_id: string
+          role: string
+          signature_data?: string | null
+          signed_at?: string
+          signer_name: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          id?: string
+          project_id?: string
+          role?: string
+          signature_data?: string | null
+          signed_at?: string
+          signer_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_signatures_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_signatures_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_visitors: {
+        Row: {
+          arrival: string | null
+          company_id: string
+          company_name: string | null
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          departure: string | null
+          id: string
+          name: string | null
+          notes: string | null
+          project_id: string
+          purpose: string | null
+          updated_at: string
+        }
+        Insert: {
+          arrival?: string | null
+          company_id: string
+          company_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          departure?: string | null
+          id?: string
+          name?: string | null
+          notes?: string | null
+          project_id: string
+          purpose?: string | null
+          updated_at?: string
+        }
+        Update: {
+          arrival?: string | null
+          company_id?: string
+          company_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          departure?: string | null
+          id?: string
+          name?: string | null
+          notes?: string | null
+          project_id?: string
+          purpose?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_visitors_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_visitors_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_work_performed: {
+        Row: {
+          area: string | null
+          building_section: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          description: string | null
+          floor: string | null
+          id: string
+          notes: string | null
+          progress_pct: number | null
+          project_id: string
+          schedule_activity_id: string | null
+          trade: string | null
+          updated_at: string
+        }
+        Insert: {
+          area?: string | null
+          building_section?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          description?: string | null
+          floor?: string | null
+          id?: string
+          notes?: string | null
+          progress_pct?: number | null
+          project_id: string
+          schedule_activity_id?: string | null
+          trade?: string | null
+          updated_at?: string
+        }
+        Update: {
+          area?: string | null
+          building_section?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          description?: string | null
+          floor?: string | null
+          id?: string
+          notes?: string | null
+          progress_pct?: number | null
+          project_id?: string
+          schedule_activity_id?: string | null
+          trade?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_work_performed_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_work_performed_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_work_performed_schedule_activity_id_fkey"
+            columns: ["schedule_activity_id"]
+            isOneToOne: false
+            referencedRelation: "project_schedule"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_report_workforce: {
+        Row: {
+          company_id: string
+          company_name: string | null
+          created_at: string
+          created_by: string | null
+          daily_report_id: string
+          id: string
+          night_shift: boolean | null
+          notes: string | null
+          overtime: number | null
+          own_workers: number | null
+          project_id: string
+          subcontractor_workers: number | null
+          supervisor: string | null
+          trade: string | null
+          updated_at: string
+          working_hours: number | null
+        }
+        Insert: {
+          company_id: string
+          company_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_report_id: string
+          id?: string
+          night_shift?: boolean | null
+          notes?: string | null
+          overtime?: number | null
+          own_workers?: number | null
+          project_id: string
+          subcontractor_workers?: number | null
+          supervisor?: string | null
+          trade?: string | null
+          updated_at?: string
+          working_hours?: number | null
+        }
+        Update: {
+          company_id?: string
+          company_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_report_id?: string
+          id?: string
+          night_shift?: boolean | null
+          notes?: string | null
+          overtime?: number | null
+          own_workers?: number | null
+          project_id?: string
+          subcontractor_workers?: number | null
+          supervisor?: string | null
+          trade?: string | null
+          updated_at?: string
+          working_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_report_workforce_daily_report_id_fkey"
+            columns: ["daily_report_id"]
+            isOneToOne: false
+            referencedRelation: "daily_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_report_workforce_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_reports: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          delays: string | null
+          equipment_used: string | null
+          feels_like: number | null
+          foreman_id: string | null
+          ground_condition: string | null
+          humidity: number | null
+          id: string
+          materials_delivered: string | null
+          notes: string | null
+          project_id: string
+          rainfall_mm: number | null
+          rejected_at: string | null
+          rejected_by: string | null
+          rejection_reason: string | null
+          report_date: string
+          safety_notes: string | null
+          site_status: string | null
+          snow_mm: number | null
+          status: string
+          subcontractors: string | null
+          submitted_at: string | null
+          submitted_by: string | null
+          sunrise: string | null
+          sunset: string | null
+          temperature: number | null
+          updated_at: string
+          visitors: string | null
+          weather_condition: string | null
+          weather_notes: string | null
+          wind: string | null
+          wind_speed: number | null
+          work_performed: string | null
+          workers_count: number | null
+          working_conditions: string | null
+          working_hours_end: string | null
+          working_hours_start: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
           delays?: string | null
           equipment_used?: string | null
+          feels_like?: number | null
+          foreman_id?: string | null
+          ground_condition?: string | null
+          humidity?: number | null
           id?: string
           materials_delivered?: string | null
           notes?: string | null
-          project_id?: string
+          project_id: string
+          rainfall_mm?: number | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
           report_date?: string
           safety_notes?: string | null
           site_status?: string | null
+          snow_mm?: number | null
+          status?: string
           subcontractors?: string | null
+          submitted_at?: string | null
+          submitted_by?: string | null
+          sunrise?: string | null
+          sunset?: string | null
           temperature?: number | null
           updated_at?: string
           visitors?: string | null
           weather_condition?: string | null
+          weather_notes?: string | null
           wind?: string | null
+          wind_speed?: number | null
           work_performed?: string | null
           workers_count?: number | null
+          working_conditions?: string | null
+          working_hours_end?: string | null
+          working_hours_start?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          delays?: string | null
+          equipment_used?: string | null
+          feels_like?: number | null
+          foreman_id?: string | null
+          ground_condition?: string | null
+          humidity?: number | null
+          id?: string
+          materials_delivered?: string | null
+          notes?: string | null
+          project_id?: string
+          rainfall_mm?: number | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          report_date?: string
+          safety_notes?: string | null
+          site_status?: string | null
+          snow_mm?: number | null
+          status?: string
+          subcontractors?: string | null
+          submitted_at?: string | null
+          submitted_by?: string | null
+          sunrise?: string | null
+          sunset?: string | null
+          temperature?: number | null
+          updated_at?: string
+          visitors?: string | null
+          weather_condition?: string | null
+          weather_notes?: string | null
+          wind?: string | null
+          wind_speed?: number | null
+          work_performed?: string | null
+          workers_count?: number | null
+          working_conditions?: string | null
           working_hours_end?: string | null
           working_hours_start?: string | null
         }
