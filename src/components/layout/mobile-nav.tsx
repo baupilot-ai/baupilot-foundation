@@ -1,9 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard, FolderKanban, Sparkles, Users2, UserCircle2 } from "lucide-react";
+import { Home, FileText, AlertOctagon, Layers, CheckSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { usePermissions } from "@/hooks/use-permissions";
-import { type Permission } from "@/lib/security/permissions";
+
+const ITEMS = [
+  { key: "today", url: "/dashboard", icon: Home },
+  { key: "report", url: "/projects", icon: FileText, hash: "daily-reports" },
+  { key: "defects", url: "/projects", icon: AlertOctagon, hash: "defects" },
+  { key: "plans", url: "/projects", icon: Layers, hash: "plans" },
+  { key: "tasks", url: "/projects", icon: CheckSquare, hash: "tasks" },
+] as const;
 
 export function MobileNav() {
   const { t } = useTranslation();
@@ -11,34 +17,33 @@ export function MobileNav() {
   const isActive = (url: string) =>
     url === "/dashboard" ? pathname === url : pathname === url || pathname.startsWith(url + "/");
 
-  const { can } = usePermissions();
-  const items = ([
-    { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" as Permission | undefined },
-    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" as Permission | undefined },
-    { title: "AI", url: "/ai", icon: Sparkles, permission: "ai.chat" as Permission | undefined },
-    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" as Permission | undefined },
-    { title: t("nav.profile"), url: "/profile", icon: UserCircle2, permission: undefined as Permission | undefined },
-  ]).filter((item) => !item.permission || can(item.permission));
-
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/75 md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto grid max-w-md grid-cols-5">
-        {items.map((item) => {
-          const active = isActive(item.url);
+        {ITEMS.map((item) => {
+          const active = isActive(item.url) && (item.key === "today" || pathname === item.url);
+          const href = "hash" in item && item.hash ? `${item.url}#${item.hash}` : item.url;
           return (
-            <li key={item.url}>
+            <li key={item.key}>
               <Link
-                to={item.url}
+                to={href}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-1 py-2.5 text-[10px] font-medium transition-colors",
+                  "relative flex flex-col items-center justify-center gap-1 px-1 pb-2 pt-2.5 text-[10px] font-medium transition-colors",
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <item.icon className={cn("h-5 w-5", active && "stroke-[2.4]")} />
-                <span className="truncate">{item.title}</span>
+                <span
+                  className={cn(
+                    "grid h-9 w-9 place-items-center rounded-xl transition-colors",
+                    active ? "bg-primary/10" : "",
+                  )}
+                >
+                  <item.icon className={cn("h-[22px] w-[22px]", active && "stroke-[2.3]")} />
+                </span>
+                <span className="truncate">{t(`nav5.${item.key}`)}</span>
               </Link>
             </li>
           );

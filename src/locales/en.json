@@ -1913,5 +1913,48 @@
       "autoDetected": "Auto-detected: end date has passed",
       "empty": "No delays recorded."
     }
+  },
+  "heute": {
+    "morning": "Good morning",
+    "day": "day",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "night": "Late shift",
+    "greeting": "{{greeting}}",
+    "greetingName": "{{greeting}}, {{name}}",
+    "weather": "Weather",
+    "loadingWeather": "Loading weather…",
+    "noWeather": "Weather unavailable",
+    "enableLocation": "Enable location",
+    "project": "Project",
+    "noProject": "No active project",
+    "siteLabel": "Site",
+    "todayPlanned": "Planned today",
+    "quickActions": "Quick actions",
+    "actions": {
+      "dailyReport": "Daily report",
+      "photo": "Photo",
+      "defect": "Report defect",
+      "plan": "Open plan",
+      "task": "Task"
+    },
+    "openTasks": "open tasks",
+    "openDefects": "open defects",
+    "reportMissing": "Report missing",
+    "reportSubmitted": "Report submitted",
+    "windLabel": "Wind",
+    "precipLabel": "Precipitation",
+    "temp": {
+      "morning": "Morning",
+      "noon": "Noon",
+      "evening": "Evening"
+    }
+  },
+  "nav5": {
+    "today": "Today",
+    "report": "Report",
+    "defects": "Defects",
+    "plans": "Plans",
+    "tasks": "Tasks"
   }
 }
