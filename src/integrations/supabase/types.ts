@@ -1394,8 +1394,10 @@ export type Database = {
       }
       daily_reports: {
         Row: {
+          ai_generated_summary: string | null
           approved_at: string | null
           approved_by: string | null
+          companies_on_site: string | null
           company_id: string
           created_at: string
           created_by: string | null
@@ -1406,8 +1408,11 @@ export type Database = {
           ground_condition: string | null
           humidity: number | null
           id: string
+          incidents: string | null
           materials_delivered: string | null
+          next_steps: string | null
           notes: string | null
+          precipitation: string | null
           project_id: string
           rainfall_mm: number | null
           rejected_at: string | null
@@ -1425,8 +1430,14 @@ export type Database = {
           sunset: string | null
           temperature: number | null
           updated_at: string
+          updated_by: string | null
           visitors: string | null
           weather_condition: string | null
+          weather_evening_temp: number | null
+          weather_impact: boolean | null
+          weather_impact_notes: string | null
+          weather_morning_temp: number | null
+          weather_noon_temp: number | null
           weather_notes: string | null
           wind: string | null
           wind_speed: number | null
@@ -1437,8 +1448,10 @@ export type Database = {
           working_hours_start: string | null
         }
         Insert: {
+          ai_generated_summary?: string | null
           approved_at?: string | null
           approved_by?: string | null
+          companies_on_site?: string | null
           company_id: string
           created_at?: string
           created_by?: string | null
@@ -1449,8 +1462,11 @@ export type Database = {
           ground_condition?: string | null
           humidity?: number | null
           id?: string
+          incidents?: string | null
           materials_delivered?: string | null
+          next_steps?: string | null
           notes?: string | null
+          precipitation?: string | null
           project_id: string
           rainfall_mm?: number | null
           rejected_at?: string | null
@@ -1468,8 +1484,14 @@ export type Database = {
           sunset?: string | null
           temperature?: number | null
           updated_at?: string
+          updated_by?: string | null
           visitors?: string | null
           weather_condition?: string | null
+          weather_evening_temp?: number | null
+          weather_impact?: boolean | null
+          weather_impact_notes?: string | null
+          weather_morning_temp?: number | null
+          weather_noon_temp?: number | null
           weather_notes?: string | null
           wind?: string | null
           wind_speed?: number | null
@@ -1480,8 +1502,10 @@ export type Database = {
           working_hours_start?: string | null
         }
         Update: {
+          ai_generated_summary?: string | null
           approved_at?: string | null
           approved_by?: string | null
+          companies_on_site?: string | null
           company_id?: string
           created_at?: string
           created_by?: string | null
@@ -1492,8 +1516,11 @@ export type Database = {
           ground_condition?: string | null
           humidity?: number | null
           id?: string
+          incidents?: string | null
           materials_delivered?: string | null
+          next_steps?: string | null
           notes?: string | null
+          precipitation?: string | null
           project_id?: string
           rainfall_mm?: number | null
           rejected_at?: string | null
@@ -1511,8 +1538,14 @@ export type Database = {
           sunset?: string | null
           temperature?: number | null
           updated_at?: string
+          updated_by?: string | null
           visitors?: string | null
           weather_condition?: string | null
+          weather_evening_temp?: number | null
+          weather_impact?: boolean | null
+          weather_impact_notes?: string | null
+          weather_morning_temp?: number | null
+          weather_noon_temp?: number | null
           weather_notes?: string | null
           wind?: string | null
           wind_speed?: number | null

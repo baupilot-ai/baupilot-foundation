@@ -29,6 +29,9 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
   const [dateFilter, setDateFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
+  const [onlyDelays, setOnlyDelays] = useState(false);
+  const [onlyIncidents, setOnlyIncidents] = useState(false);
+  const [onlyImpact, setOnlyImpact] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -44,6 +47,13 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [projectId, statusFilter, dateFilter]);
+
+  const filtered = items.filter((r) => {
+    if (onlyDelays && !(r.delays && r.delays.trim())) return false;
+    if (onlyIncidents && !(r.incidents && r.incidents.trim())) return false;
+    if (onlyImpact && !r.weather_impact) return false;
+    return true;
+  });
 
   function exportPlaceholder(kind: "pdf" | "xlsx" | "email") {
     toast.info(t(`dailyReports.export.${kind}Pending`));
