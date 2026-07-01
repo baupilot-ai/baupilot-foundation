@@ -50,13 +50,14 @@ export function ContactCard({
                 <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0"><MoreVertical className="h-4 w-4" /></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {onEdit && <DropdownMenuItem onClick={onEdit}><Pencil className="h-4 w-4" />Edit</DropdownMenuItem>}
+                {onEdit && <DropdownMenuItem onClick={onEdit}><Pencil className="h-4 w-4" />{t("common.edit")}</DropdownMenuItem>}
                 {extraActions}
                 {onDelete && (
                   <DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
-                    <Trash2 className="h-4 w-4" />{deleteLabel}
+                    <Trash2 className="h-4 w-4" />{delLabel}
                   </DropdownMenuItem>
                 )}
+
               </DropdownMenuContent>
             </DropdownMenu>
           )}
