@@ -20,8 +20,11 @@ import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCompanyRouteImport } from './routes/_app.company'
+import { Route as AppAiRouteImport } from './routes/_app.ai'
 import { Route as AppProjectsIndexRouteImport } from './routes/_app.projects.index'
+import { Route as AppAiIndexRouteImport } from './routes/_app.ai.index'
 import { Route as AppProjectsNewRouteImport } from './routes/_app.projects.new'
+import { Route as AppAiDailyReportRouteImport } from './routes/_app.ai.daily-report'
 import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/_app.projects.$projectId.index'
 import { Route as AppProjectsProjectIdEditRouteImport } from './routes/_app.projects.$projectId.edit'
 
@@ -79,15 +82,30 @@ const AppCompanyRoute = AppCompanyRouteImport.update({
   path: '/company',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProjectsIndexRoute = AppProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiIndexRoute = AppAiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAiRoute,
+} as any)
 const AppProjectsNewRoute = AppProjectsNewRouteImport.update({
   id: '/projects/new',
   path: '/projects/new',
   getParentRoute: () => AppRoute,
+} as any)
+const AppAiDailyReportRoute = AppAiDailyReportRouteImport.update({
+  id: '/daily-report',
+  path: '/daily-report',
+  getParentRoute: () => AppAiRoute,
 } as any)
 const AppProjectsProjectIdIndexRoute =
   AppProjectsProjectIdIndexRouteImport.update({
@@ -107,13 +125,16 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/ai': typeof AppAiRouteWithChildren
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/ai/daily-report': typeof AppAiDailyReportRoute
   '/projects/new': typeof AppProjectsNewRoute
+  '/ai/': typeof AppAiIndexRoute
   '/projects/': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
@@ -129,7 +150,9 @@ export interface FileRoutesByTo {
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/ai/daily-report': typeof AppAiDailyReportRoute
   '/projects/new': typeof AppProjectsNewRoute
+  '/ai': typeof AppAiIndexRoute
   '/projects': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/projects/$projectId': typeof AppProjectsProjectIdIndexRoute
@@ -141,13 +164,16 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_app/ai': typeof AppAiRouteWithChildren
   '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/resources': typeof AppResourcesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
+  '/_app/ai/daily-report': typeof AppAiDailyReportRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
+  '/_app/ai/': typeof AppAiIndexRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
   '/_app/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/_app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
@@ -159,13 +185,16 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/ai'
     | '/company'
     | '/dashboard'
     | '/profile'
     | '/resources'
     | '/settings'
     | '/team'
+    | '/ai/daily-report'
     | '/projects/new'
+    | '/ai/'
     | '/projects/'
     | '/projects/$projectId/edit'
     | '/projects/$projectId/'
@@ -181,7 +210,9 @@ export interface FileRouteTypes {
     | '/resources'
     | '/settings'
     | '/team'
+    | '/ai/daily-report'
     | '/projects/new'
+    | '/ai'
     | '/projects'
     | '/projects/$projectId/edit'
     | '/projects/$projectId'
@@ -192,13 +223,16 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/_app/ai'
     | '/_app/company'
     | '/_app/dashboard'
     | '/_app/profile'
     | '/_app/resources'
     | '/_app/settings'
     | '/_app/team'
+    | '/_app/ai/daily-report'
     | '/_app/projects/new'
+    | '/_app/ai/'
     | '/_app/projects/'
     | '/_app/projects/$projectId/edit'
     | '/_app/projects/$projectId/'
@@ -291,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCompanyRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai': {
+      id: '/_app/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/projects/': {
       id: '/_app/projects/'
       path: '/projects'
@@ -298,12 +339,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai/': {
+      id: '/_app/ai/'
+      path: '/'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AppAiIndexRouteImport
+      parentRoute: typeof AppAiRoute
+    }
     '/_app/projects/new': {
       id: '/_app/projects/new'
       path: '/projects/new'
       fullPath: '/projects/new'
       preLoaderRoute: typeof AppProjectsNewRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/_app/ai/daily-report': {
+      id: '/_app/ai/daily-report'
+      path: '/daily-report'
+      fullPath: '/ai/daily-report'
+      preLoaderRoute: typeof AppAiDailyReportRouteImport
+      parentRoute: typeof AppAiRoute
     }
     '/_app/projects/$projectId/': {
       id: '/_app/projects/$projectId/'
@@ -322,7 +377,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppAiRouteChildren {
+  AppAiDailyReportRoute: typeof AppAiDailyReportRoute
+  AppAiIndexRoute: typeof AppAiIndexRoute
+}
+
+const AppAiRouteChildren: AppAiRouteChildren = {
+  AppAiDailyReportRoute: AppAiDailyReportRoute,
+  AppAiIndexRoute: AppAiIndexRoute,
+}
+
+const AppAiRouteWithChildren = AppAiRoute._addFileChildren(AppAiRouteChildren)
+
 interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRouteWithChildren
   AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -336,6 +404,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRouteWithChildren,
   AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
