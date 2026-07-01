@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard, FolderKanban, Boxes, Users2, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Sparkles, Users2, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePermissions } from "@/hooks/use-permissions";
 import { type Permission } from "@/lib/security/permissions";
@@ -15,7 +15,7 @@ export function MobileNav() {
   const items = ([
     { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" as Permission | undefined },
     { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" as Permission | undefined },
-    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" as Permission | undefined },
+    { title: "AI", url: "/ai", icon: Sparkles, permission: "ai.chat" as Permission | undefined },
     { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" as Permission | undefined },
     { title: t("nav.profile"), url: "/profile", icon: UserCircle2, permission: undefined as Permission | undefined },
   ]).filter((item) => !item.permission || can(item.permission));

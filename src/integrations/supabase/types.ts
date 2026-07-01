@@ -214,6 +214,294 @@ export type Database = {
           },
         ]
       }
+      ai_conversations: {
+        Row: {
+          archived_at: string | null
+          company_id: string
+          created_at: string
+          feature: string
+          id: string
+          model: string
+          project_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archived_at?: string | null
+          company_id: string
+          created_at?: string
+          feature?: string
+          id?: string
+          model?: string
+          project_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          archived_at?: string | null
+          company_id?: string
+          created_at?: string
+          feature?: string
+          id?: string
+          model?: string
+          project_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_conversations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_conversations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_feedback: {
+        Row: {
+          comment: string | null
+          company_id: string
+          created_at: string
+          id: string
+          message_id: string | null
+          rating: string
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          message_id?: string | null
+          rating: string
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          message_id?: string | null
+          rating?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_feedback_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_feedback_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "ai_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_messages: {
+        Row: {
+          company_id: string
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          role: string
+          tokens_in: number | null
+          tokens_out: number | null
+        }
+        Insert: {
+          company_id: string
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          role: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+        }
+        Update: {
+          company_id?: string
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          role?: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_prompts: {
+        Row: {
+          category: string | null
+          company_id: string
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_shared: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          company_id: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_shared?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_shared?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_prompts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_settings: {
+        Row: {
+          company_id: string
+          created_at: string
+          default_model: string
+          id: string
+          max_tokens: number
+          provider: string
+          system_prompt: string | null
+          temperature: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          default_model?: string
+          id?: string
+          max_tokens?: number
+          provider?: string
+          system_prompt?: string | null
+          temperature?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          default_model?: string
+          id?: string
+          max_tokens?: number
+          provider?: string
+          system_prompt?: string | null
+          temperature?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_settings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_usage: {
+        Row: {
+          company_id: string
+          created_at: string
+          feature: string
+          id: string
+          metadata: Json
+          model: string | null
+          status: string
+          tokens_in: number | null
+          tokens_out: number | null
+          user_id: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          feature: string
+          id?: string
+          metadata?: Json
+          model?: string | null
+          status?: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          feature?: string
+          id?: string
+          metadata?: Json
+          model?: string | null
+          status?: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_usage_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_events: {
         Row: {
           action: string

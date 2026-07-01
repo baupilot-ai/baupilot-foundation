@@ -20,8 +20,18 @@ import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCompanyRouteImport } from './routes/_app.company'
+import { Route as AppAiRouteImport } from './routes/_app.ai'
 import { Route as AppProjectsIndexRouteImport } from './routes/_app.projects.index'
+import { Route as AppAiIndexRouteImport } from './routes/_app.ai.index'
 import { Route as AppProjectsNewRouteImport } from './routes/_app.projects.new'
+import { Route as AppAiTaskRouteImport } from './routes/_app.ai.task'
+import { Route as AppAiSummaryRouteImport } from './routes/_app.ai.summary'
+import { Route as AppAiSettingsRouteImport } from './routes/_app.ai.settings'
+import { Route as AppAiSearchRouteImport } from './routes/_app.ai.search'
+import { Route as AppAiRiskRouteImport } from './routes/_app.ai.risk'
+import { Route as AppAiProtocolRouteImport } from './routes/_app.ai.protocol'
+import { Route as AppAiKnowledgeRouteImport } from './routes/_app.ai.knowledge'
+import { Route as AppAiDailyReportRouteImport } from './routes/_app.ai.daily-report'
 import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/_app.projects.$projectId.index'
 import { Route as AppProjectsProjectIdEditRouteImport } from './routes/_app.projects.$projectId.edit'
 
@@ -79,15 +89,65 @@ const AppCompanyRoute = AppCompanyRouteImport.update({
   path: '/company',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProjectsIndexRoute = AppProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiIndexRoute = AppAiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAiRoute,
+} as any)
 const AppProjectsNewRoute = AppProjectsNewRouteImport.update({
   id: '/projects/new',
   path: '/projects/new',
   getParentRoute: () => AppRoute,
+} as any)
+const AppAiTaskRoute = AppAiTaskRouteImport.update({
+  id: '/task',
+  path: '/task',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiSummaryRoute = AppAiSummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiSettingsRoute = AppAiSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiSearchRoute = AppAiSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiRiskRoute = AppAiRiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiProtocolRoute = AppAiProtocolRouteImport.update({
+  id: '/protocol',
+  path: '/protocol',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiKnowledgeRoute = AppAiKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AppAiRoute,
+} as any)
+const AppAiDailyReportRoute = AppAiDailyReportRouteImport.update({
+  id: '/daily-report',
+  path: '/daily-report',
+  getParentRoute: () => AppAiRoute,
 } as any)
 const AppProjectsProjectIdIndexRoute =
   AppProjectsProjectIdIndexRouteImport.update({
@@ -107,13 +167,23 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/ai': typeof AppAiRouteWithChildren
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/ai/daily-report': typeof AppAiDailyReportRoute
+  '/ai/knowledge': typeof AppAiKnowledgeRoute
+  '/ai/protocol': typeof AppAiProtocolRoute
+  '/ai/risk': typeof AppAiRiskRoute
+  '/ai/search': typeof AppAiSearchRoute
+  '/ai/settings': typeof AppAiSettingsRoute
+  '/ai/summary': typeof AppAiSummaryRoute
+  '/ai/task': typeof AppAiTaskRoute
   '/projects/new': typeof AppProjectsNewRoute
+  '/ai/': typeof AppAiIndexRoute
   '/projects/': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
@@ -129,7 +199,16 @@ export interface FileRoutesByTo {
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/ai/daily-report': typeof AppAiDailyReportRoute
+  '/ai/knowledge': typeof AppAiKnowledgeRoute
+  '/ai/protocol': typeof AppAiProtocolRoute
+  '/ai/risk': typeof AppAiRiskRoute
+  '/ai/search': typeof AppAiSearchRoute
+  '/ai/settings': typeof AppAiSettingsRoute
+  '/ai/summary': typeof AppAiSummaryRoute
+  '/ai/task': typeof AppAiTaskRoute
   '/projects/new': typeof AppProjectsNewRoute
+  '/ai': typeof AppAiIndexRoute
   '/projects': typeof AppProjectsIndexRoute
   '/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/projects/$projectId': typeof AppProjectsProjectIdIndexRoute
@@ -141,13 +220,23 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_app/ai': typeof AppAiRouteWithChildren
   '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/resources': typeof AppResourcesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
+  '/_app/ai/daily-report': typeof AppAiDailyReportRoute
+  '/_app/ai/knowledge': typeof AppAiKnowledgeRoute
+  '/_app/ai/protocol': typeof AppAiProtocolRoute
+  '/_app/ai/risk': typeof AppAiRiskRoute
+  '/_app/ai/search': typeof AppAiSearchRoute
+  '/_app/ai/settings': typeof AppAiSettingsRoute
+  '/_app/ai/summary': typeof AppAiSummaryRoute
+  '/_app/ai/task': typeof AppAiTaskRoute
   '/_app/projects/new': typeof AppProjectsNewRoute
+  '/_app/ai/': typeof AppAiIndexRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
   '/_app/projects/$projectId/edit': typeof AppProjectsProjectIdEditRoute
   '/_app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
@@ -159,13 +248,23 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/ai'
     | '/company'
     | '/dashboard'
     | '/profile'
     | '/resources'
     | '/settings'
     | '/team'
+    | '/ai/daily-report'
+    | '/ai/knowledge'
+    | '/ai/protocol'
+    | '/ai/risk'
+    | '/ai/search'
+    | '/ai/settings'
+    | '/ai/summary'
+    | '/ai/task'
     | '/projects/new'
+    | '/ai/'
     | '/projects/'
     | '/projects/$projectId/edit'
     | '/projects/$projectId/'
@@ -181,7 +280,16 @@ export interface FileRouteTypes {
     | '/resources'
     | '/settings'
     | '/team'
+    | '/ai/daily-report'
+    | '/ai/knowledge'
+    | '/ai/protocol'
+    | '/ai/risk'
+    | '/ai/search'
+    | '/ai/settings'
+    | '/ai/summary'
+    | '/ai/task'
     | '/projects/new'
+    | '/ai'
     | '/projects'
     | '/projects/$projectId/edit'
     | '/projects/$projectId'
@@ -192,13 +300,23 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/_app/ai'
     | '/_app/company'
     | '/_app/dashboard'
     | '/_app/profile'
     | '/_app/resources'
     | '/_app/settings'
     | '/_app/team'
+    | '/_app/ai/daily-report'
+    | '/_app/ai/knowledge'
+    | '/_app/ai/protocol'
+    | '/_app/ai/risk'
+    | '/_app/ai/search'
+    | '/_app/ai/settings'
+    | '/_app/ai/summary'
+    | '/_app/ai/task'
     | '/_app/projects/new'
+    | '/_app/ai/'
     | '/_app/projects/'
     | '/_app/projects/$projectId/edit'
     | '/_app/projects/$projectId/'
@@ -291,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCompanyRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai': {
+      id: '/_app/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/projects/': {
       id: '/_app/projects/'
       path: '/projects'
@@ -298,12 +423,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/ai/': {
+      id: '/_app/ai/'
+      path: '/'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AppAiIndexRouteImport
+      parentRoute: typeof AppAiRoute
+    }
     '/_app/projects/new': {
       id: '/_app/projects/new'
       path: '/projects/new'
       fullPath: '/projects/new'
       preLoaderRoute: typeof AppProjectsNewRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/_app/ai/task': {
+      id: '/_app/ai/task'
+      path: '/task'
+      fullPath: '/ai/task'
+      preLoaderRoute: typeof AppAiTaskRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/summary': {
+      id: '/_app/ai/summary'
+      path: '/summary'
+      fullPath: '/ai/summary'
+      preLoaderRoute: typeof AppAiSummaryRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/settings': {
+      id: '/_app/ai/settings'
+      path: '/settings'
+      fullPath: '/ai/settings'
+      preLoaderRoute: typeof AppAiSettingsRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/search': {
+      id: '/_app/ai/search'
+      path: '/search'
+      fullPath: '/ai/search'
+      preLoaderRoute: typeof AppAiSearchRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/risk': {
+      id: '/_app/ai/risk'
+      path: '/risk'
+      fullPath: '/ai/risk'
+      preLoaderRoute: typeof AppAiRiskRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/protocol': {
+      id: '/_app/ai/protocol'
+      path: '/protocol'
+      fullPath: '/ai/protocol'
+      preLoaderRoute: typeof AppAiProtocolRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/knowledge': {
+      id: '/_app/ai/knowledge'
+      path: '/knowledge'
+      fullPath: '/ai/knowledge'
+      preLoaderRoute: typeof AppAiKnowledgeRouteImport
+      parentRoute: typeof AppAiRoute
+    }
+    '/_app/ai/daily-report': {
+      id: '/_app/ai/daily-report'
+      path: '/daily-report'
+      fullPath: '/ai/daily-report'
+      preLoaderRoute: typeof AppAiDailyReportRouteImport
+      parentRoute: typeof AppAiRoute
     }
     '/_app/projects/$projectId/': {
       id: '/_app/projects/$projectId/'
@@ -322,7 +510,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppAiRouteChildren {
+  AppAiDailyReportRoute: typeof AppAiDailyReportRoute
+  AppAiKnowledgeRoute: typeof AppAiKnowledgeRoute
+  AppAiProtocolRoute: typeof AppAiProtocolRoute
+  AppAiRiskRoute: typeof AppAiRiskRoute
+  AppAiSearchRoute: typeof AppAiSearchRoute
+  AppAiSettingsRoute: typeof AppAiSettingsRoute
+  AppAiSummaryRoute: typeof AppAiSummaryRoute
+  AppAiTaskRoute: typeof AppAiTaskRoute
+  AppAiIndexRoute: typeof AppAiIndexRoute
+}
+
+const AppAiRouteChildren: AppAiRouteChildren = {
+  AppAiDailyReportRoute: AppAiDailyReportRoute,
+  AppAiKnowledgeRoute: AppAiKnowledgeRoute,
+  AppAiProtocolRoute: AppAiProtocolRoute,
+  AppAiRiskRoute: AppAiRiskRoute,
+  AppAiSearchRoute: AppAiSearchRoute,
+  AppAiSettingsRoute: AppAiSettingsRoute,
+  AppAiSummaryRoute: AppAiSummaryRoute,
+  AppAiTaskRoute: AppAiTaskRoute,
+  AppAiIndexRoute: AppAiIndexRoute,
+}
+
+const AppAiRouteWithChildren = AppAiRoute._addFileChildren(AppAiRouteChildren)
+
 interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRouteWithChildren
   AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -336,6 +551,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRouteWithChildren,
   AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,

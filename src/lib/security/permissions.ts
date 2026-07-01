@@ -51,6 +51,13 @@ export const PERMISSIONS = [
   'team.delete',
   'settings.read',
   'settings.update',
+  'ai.chat',
+  'ai.daily_reports',
+  'ai.protocols',
+  'ai.search',
+  'ai.summary',
+  'ai.settings',
+  'ai.admin',
 ] as const
 
 export type Permission = (typeof PERMISSIONS)[number]
@@ -83,6 +90,7 @@ export const ROLE_PERMISSIONS: Record<AppRole, readonly Permission[]> = {
     'resources.write',
     'team.read',
     'settings.read',
+    'ai.chat','ai.daily_reports','ai.protocols','ai.search','ai.summary','ai.settings',
   ],
   polier: [
     'dashboard.read',
@@ -102,6 +110,7 @@ export const ROLE_PERMISSIONS: Record<AppRole, readonly Permission[]> = {
     'resources.write',
     'team.read',
     'settings.read',
+    'ai.chat','ai.daily_reports','ai.search','ai.summary',
   ],
   subcontractor: [
     'dashboard.read',
