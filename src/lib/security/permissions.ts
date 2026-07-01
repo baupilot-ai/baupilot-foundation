@@ -110,6 +110,7 @@ export const ROLE_PERMISSIONS: Record<AppRole, readonly Permission[]> = {
     'resources.write',
     'team.read',
     'settings.read',
+    'ai.chat','ai.daily_reports','ai.search','ai.summary',
   ],
   subcontractor: [
     'dashboard.read',
