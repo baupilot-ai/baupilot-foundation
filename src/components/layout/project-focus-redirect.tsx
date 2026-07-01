@@ -28,11 +28,11 @@ export function ProjectFocusRedirect({
     (async () => {
       const { data } = await supabase
         .from("projects")
-        .select("id,name,address_city,current_status,archived_at,updated_at")
+        .select("id,name,site_address,current_status,archived_at,updated_at")
         .is("archived_at", null)
         .order("updated_at", { ascending: false });
       if (cancelled) return;
-      const list = ((data ?? []) as Array<FocusProject & { current_status: string }>);
+      const list = ((data ?? []) as unknown) as Array<FocusProject & { current_status: string }>;
       const active = list.filter((p) => p.current_status === "active");
       const pick = active[0] ?? list[0];
       if (pick) {
