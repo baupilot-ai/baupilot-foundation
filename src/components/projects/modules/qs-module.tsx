@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   Plus, Edit, Trash2, Loader2, Copy, ClipboardList, ShieldCheck, ClipboardCheck,
   ListChecks, AlertOctagon, Handshake, Search, Calendar, MapPin, User,
-  AlertTriangle, HardHat, Wrench, FileWarning, PenLine,
+  AlertTriangle, HardHat, Wrench, FileWarning,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -1026,4 +1026,3 @@ export function SafetyTab({ projectId }: { projectId: string }) {
 }
 
 // Signature icon export unused reference cleanup: keep PenLine referenced to avoid unused-import if strict
-void PenLine;
