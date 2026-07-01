@@ -76,7 +76,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive(item.url) && (item.key === "today" || pathname === item.url)}
+                    isActive={isActive(item.url)}
                     tooltip={t(`nav5.${item.key}`)}
                     className="data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-semibold"
                   >
