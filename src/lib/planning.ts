@@ -293,3 +293,126 @@ export async function getPlanningDashboardStats() {
     unreadNotifications: unread.count ?? 0,
   };
 }
+
+// ============= Package 9: Schedule Management extensions =============
+
+export type ProgressUpdate = Tables<"progress_updates">;
+export type DelayEvent = Tables<"delay_events">;
+
+export const TASK_PRIORITY = [
+  { value: "low", labelKey: "schedule.priority.low", tone: "neutral" as const },
+  { value: "normal", labelKey: "schedule.priority.normal", tone: "info" as const },
+  { value: "high", labelKey: "schedule.priority.high", tone: "warning" as const },
+  { value: "critical", labelKey: "schedule.priority.critical", tone: "danger" as const },
+];
+
+export const DELAY_STATUS = [
+  { value: "open", labelKey: "schedule.delays.status.open", tone: "danger" as const },
+  { value: "mitigating", labelKey: "schedule.delays.status.mitigating", tone: "warning" as const },
+  { value: "resolved", labelKey: "schedule.delays.status.resolved", tone: "success" as const },
+];
+
+// Progress updates
+export async function listProgressUpdates(taskId: string) {
+  const { data, error } = await supabase
+    .from("progress_updates").select("*").eq("task_id", taskId)
+    .order("update_date", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as ProgressUpdate[];
+}
+export async function addProgressUpdate(input: TablesInsert<"progress_updates">) {
+  const { data, error } = await supabase.from("progress_updates").insert(input).select().single();
+  if (error) throw error;
+  // Also update the task itself
+  await supabase.from("project_schedule").update({
+    progress_percent: input.progress_percent,
+    status: input.progress_percent >= 100 ? "completed" : input.progress_percent > 0 ? "in_progress" : "not_started",
+  }).eq("id", input.task_id);
+  await logActivity({ project_id: input.project_id, entity_type: "schedule_activity", entity_id: input.task_id, action: "progress_updated", description: `${input.progress_percent}%` });
+  return data as ProgressUpdate;
+}
+
+// Delay events
+export async function listDelayEvents(projectId: string) {
+  const { data, error } = await supabase
+    .from("delay_events").select("*").eq("project_id", projectId)
+    .is("deleted_at", null)
+    .order("detected_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as DelayEvent[];
+}
+export async function createDelayEvent(input: TablesInsert<"delay_events">) {
+  const { data, error } = await supabase.from("delay_events").insert(input).select().single();
+  if (error) throw error;
+  await logActivity({ project_id: input.project_id, entity_type: "delay_event", entity_id: data.id, action: "created", description: input.reason ?? undefined });
+  return data as DelayEvent;
+}
+export async function updateDelayEvent(id: string, patch: TablesUpdate<"delay_events">) {
+  const { data, error } = await supabase.from("delay_events").update(patch).eq("id", id).select().single();
+  if (error) throw error;
+  return data as DelayEvent;
+}
+export async function deleteDelayEvent(id: string) {
+  const { error } = await supabase.from("delay_events").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+  if (error) throw error;
+}
+
+// Critical path heuristic: mark tasks with no float or already delayed
+export function computeCriticalPath(activities: ScheduleActivity[]): ScheduleActivity[] {
+  return activities.map((a) => ({
+    ...a,
+    is_critical: a.is_critical || (a.float_days != null && a.float_days <= 0) || a.status === "delayed",
+  }));
+}
+
+// Auto-detect overdue tasks (client-side helper)
+export function detectOverdueTasks(activities: ScheduleActivity[]): ScheduleActivity[] {
+  const today = new Date().toISOString().slice(0, 10);
+  return activities.filter(
+    (a) => a.finish_date && a.finish_date < today && a.status !== "completed" && a.status !== "cancelled",
+  );
+}
+
+// Enhanced project schedule stats for the module summary
+export interface ScheduleModuleStats {
+  overallProgress: number;
+  totalTasks: number;
+  criticalTasks: number;
+  delayedTasks: number;
+  dueToday: number;
+  dueThisWeek: number;
+  openMilestones: number;
+  earliestFinish: string | null;
+  avgFloatDays: number | null;
+}
+export async function getScheduleModuleStats(projectId: string): Promise<ScheduleModuleStats> {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().slice(0, 10);
+  const in7 = new Date(today.getTime() + 7 * 86400000).toISOString().slice(0, 10);
+
+  const [acts, ms] = await Promise.all([
+    supabase.from("project_schedule").select("*").eq("project_id", projectId),
+    supabase.from("project_milestones").select("id", { count: "exact", head: true }).eq("project_id", projectId).neq("status", "completed"),
+  ]);
+  const activities = (acts.data ?? []) as ScheduleActivity[];
+  const total = activities.length;
+  const overall = total > 0 ? Math.round(activities.reduce((s, a) => s + (a.progress_percent ?? 0), 0) / total) : 0;
+  const critical = activities.filter((a) => a.is_critical || (a.float_days != null && a.float_days <= 0)).length;
+  const delayed = activities.filter((a) => a.status === "delayed" || (a.finish_date && a.finish_date < todayStr && a.status !== "completed" && a.status !== "cancelled")).length;
+  const dueToday = activities.filter((a) => a.finish_date === todayStr && a.status !== "completed").length;
+  const dueThisWeek = activities.filter((a) => a.finish_date && a.finish_date >= todayStr && a.finish_date <= in7 && a.status !== "completed").length;
+  const finishes = activities.filter((a) => a.finish_date && a.status !== "completed" && a.status !== "cancelled").map((a) => a.finish_date!).sort();
+  const floats = activities.map((a) => a.float_days).filter((f): f is number => f != null);
+  return {
+    overallProgress: overall,
+    totalTasks: total,
+    criticalTasks: critical,
+    delayedTasks: delayed,
+    dueToday,
+    dueThisWeek,
+    openMilestones: ms.count ?? 0,
+    earliestFinish: finishes[0] ?? null,
+    avgFloatDays: floats.length > 0 ? Math.round(floats.reduce((s, f) => s + f, 0) / floats.length) : null,
+  };
+}
+
