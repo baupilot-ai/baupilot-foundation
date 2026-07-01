@@ -20,6 +20,7 @@ import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppReportRouteImport } from './routes/_app.report'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppMoreRouteImport } from './routes/_app.more'
+import { Route as AppDefectsRouteImport } from './routes/_app.defects'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCompanyRouteImport } from './routes/_app.company'
 import { Route as AppAiRouteImport } from './routes/_app.ai'
@@ -89,6 +90,11 @@ const AppProfileRoute = AppProfileRouteImport.update({
 const AppMoreRoute = AppMoreRouteImport.update({
   id: '/more',
   path: '/more',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDefectsRoute = AppDefectsRouteImport.update({
+  id: '/defects',
+  path: '/defects',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AppAiRouteWithChildren
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/defects': typeof AppDefectsRoute
   '/more': typeof AppMoreRoute
   '/profile': typeof AppProfileRoute
   '/report': typeof AppReportRoute
@@ -209,6 +216,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/company': typeof AppCompanyRoute
   '/dashboard': typeof AppDashboardRoute
+  '/defects': typeof AppDefectsRoute
   '/more': typeof AppMoreRoute
   '/profile': typeof AppProfileRoute
   '/report': typeof AppReportRoute
@@ -239,6 +247,7 @@ export interface FileRoutesById {
   '/_app/ai': typeof AppAiRouteWithChildren
   '/_app/company': typeof AppCompanyRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/defects': typeof AppDefectsRoute
   '/_app/more': typeof AppMoreRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/report': typeof AppReportRoute
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/company'
     | '/dashboard'
+    | '/defects'
     | '/more'
     | '/profile'
     | '/report'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/company'
     | '/dashboard'
+    | '/defects'
     | '/more'
     | '/profile'
     | '/report'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/_app/ai'
     | '/_app/company'
     | '/_app/dashboard'
+    | '/_app/defects'
     | '/_app/more'
     | '/_app/profile'
     | '/_app/report'
@@ -431,6 +443,13 @@ declare module '@tanstack/react-router' {
       path: '/more'
       fullPath: '/more'
       preLoaderRoute: typeof AppMoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/defects': {
+      id: '/_app/defects'
+      path: '/defects'
+      fullPath: '/defects'
+      preLoaderRoute: typeof AppDefectsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -578,6 +597,7 @@ interface AppRouteChildren {
   AppAiRoute: typeof AppAiRouteWithChildren
   AppCompanyRoute: typeof AppCompanyRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDefectsRoute: typeof AppDefectsRoute
   AppMoreRoute: typeof AppMoreRoute
   AppProfileRoute: typeof AppProfileRoute
   AppReportRoute: typeof AppReportRoute
@@ -594,6 +614,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAiRoute: AppAiRouteWithChildren,
   AppCompanyRoute: AppCompanyRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppDefectsRoute: AppDefectsRoute,
   AppMoreRoute: AppMoreRoute,
   AppProfileRoute: AppProfileRoute,
   AppReportRoute: AppReportRoute,
