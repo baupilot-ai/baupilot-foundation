@@ -71,8 +71,9 @@ export function ContactCard({
             )}
             {email && (
               <Button asChild variant="outline" size="sm">
-                <a href={`mailto:${email}`}><Mail className="h-4 w-4" />Email</a>
+                <a href={`mailto:${email}`}><Mail className="h-4 w-4" />{t("contactCard.email")}</a>
               </Button>
+
             )}
           </div>
         )}
