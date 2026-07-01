@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Home, FileText, AlertOctagon, Layers, CheckSquare,
-  UserCircle2, Settings, LogOut, MoreHorizontal,
+  MoreHorizontal, UserCircle2, Settings, LogOut,
 } from "lucide-react";
 
 import {
@@ -26,10 +26,11 @@ import { Logo } from "@/components/branding/logo";
 
 const CORE = [
   { key: "today", url: "/dashboard", icon: Home },
-  { key: "report", url: "/projects", icon: FileText },
-  { key: "defects", url: "/projects", icon: AlertOctagon },
-  { key: "plans", url: "/projects", icon: Layers },
-  { key: "tasks", url: "/projects", icon: CheckSquare },
+  { key: "report", url: "/report", icon: FileText },
+  { key: "defects", url: "/defects", icon: AlertOctagon },
+  { key: "plans", url: "/plans", icon: Layers },
+  { key: "tasks", url: "/tasks", icon: CheckSquare },
+  { key: "more", url: "/more", icon: MoreHorizontal },
 ] as const;
 
 const MORE = [
