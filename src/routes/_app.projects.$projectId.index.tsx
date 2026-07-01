@@ -197,7 +197,7 @@ function ProjectDetail() {
         </div>
       </Card>
 
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs value={tab} onValueChange={(v) => { setTab(v); if (typeof window !== "undefined") window.history.replaceState(null, "", `#${v}`); }} className="space-y-4">
         <div className="overflow-x-auto">
           <TabsList className="w-max">
             <TabsTrigger value="overview"><FolderKanban className="h-4 w-4" />{t("projects.tabs.overview")}</TabsTrigger>
