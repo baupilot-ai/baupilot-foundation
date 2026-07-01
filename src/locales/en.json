@@ -1955,6 +1955,42 @@
     "report": "Report",
     "defects": "Defects",
     "plans": "Plans",
-    "tasks": "Tasks"
+    "tasks": "Tasks",
+    "more": "More"
+  },
+  "more": {
+    "title": "More",
+    "subtitle": "Additional areas and settings",
+    "sections": {
+      "workspace": "Workspace",
+      "management": "Management",
+      "account": "Account"
+    },
+    "items": {
+      "projects": "Projects",
+      "projectsDesc": "Browse all projects",
+      "calendar": "Calendar",
+      "calendarDesc": "Dates and deadlines",
+      "quality": "Quality & Safety",
+      "qualityDesc": "Inspections, defects, HSE",
+      "resources": "Resources",
+      "resourcesDesc": "Equipment, tools, materials",
+      "team": "Team",
+      "teamDesc": "Employees and subcontractors",
+      "ai": "AI Center",
+      "aiDesc": "Assistants and analysis",
+      "company": "Company",
+      "companyDesc": "Company data",
+      "profile": "Profile",
+      "profileDesc": "Personal data",
+      "settings": "Settings",
+      "settingsDesc": "Language, notifications"
+    }
+  },
+  "picker": {
+    "chooseProject": "Choose project",
+    "chooseProjectDesc": "Please pick a project for this area.",
+    "noActiveProject": "No active project",
+    "createFirst": "Create a project first to get started."
   }
 }
