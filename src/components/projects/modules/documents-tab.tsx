@@ -178,8 +178,37 @@ export function DocumentsTab({ projectId }: { projectId: string }) {
                         <DropdownMenuItem onClick={() => setNewVersionFor(d)}><Upload className="h-4 w-4" />New version</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setVersionsFor(d)}><History className="h-4 w-4" />Versions</DropdownMenuItem>
                         <DropdownMenuSeparator />
+                        {can("documents.upload") && (d.status === "draft" || d.status === "rejected") && (
+                          <DropdownMenuItem onClick={async () => {
+                            try { await submitDocumentForReview(d); toast.success("Zur Prüfung gesendet"); load(); }
+                            catch (e) { toast.error((e as Error).message); }
+                          }}><Send className="h-4 w-4" />Zur Prüfung senden</DropdownMenuItem>
+                        )}
+                        {can("documents.approve") && d.status === "review" && (
+                          <>
+                            <DropdownMenuItem onClick={async () => {
+                              try { await approveDocument(d); toast.success("Freigegeben"); load(); }
+                              catch (e) { toast.error((e as Error).message); }
+                            }}><CheckCircle2 className="h-4 w-4" />Freigeben</DropdownMenuItem>
+                            <DropdownMenuItem onClick={async () => {
+                              const reason = window.prompt("Grund der Ablehnung?") ?? "";
+                              if (!reason) return;
+                              try { await rejectDocument(d, reason); toast.success("Abgelehnt"); load(); }
+                              catch (e) { toast.error((e as Error).message); }
+                            }}><XCircle className="h-4 w-4" />Ablehnen</DropdownMenuItem>
+                          </>
+                        )}
+                        {can("documents.archive") && d.status !== "archived" && (
+                          <DropdownMenuItem onClick={async () => {
+                            try { await archiveDocument(d); toast.success("Archiviert"); load(); }
+                            catch (e) { toast.error((e as Error).message); }
+                          }}><Archive className="h-4 w-4" />Archivieren</DropdownMenuItem>
+                        )}
+                        <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => setEditing(d)}><Pencil className="h-4 w-4" />Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive" onClick={() => setConfirmDel(d)}><Trash2 className="h-4 w-4" />Delete</DropdownMenuItem>
+                        {can("documents.delete") && (
+                          <DropdownMenuItem className="text-destructive" onClick={() => setConfirmDel(d)}><Trash2 className="h-4 w-4" />Delete</DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
