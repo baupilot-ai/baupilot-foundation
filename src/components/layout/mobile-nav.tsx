@@ -1,35 +1,34 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { Home, FileText, AlertOctagon, Layers, CheckSquare } from "lucide-react";
+import { Home, FileText, AlertOctagon, Layers, CheckSquare, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
   { key: "today", url: "/dashboard", icon: Home },
-  { key: "report", url: "/projects", icon: FileText, hash: "daily-reports" },
-  { key: "defects", url: "/projects", icon: AlertOctagon, hash: "defects" },
-  { key: "plans", url: "/projects", icon: Layers, hash: "plans" },
-  { key: "tasks", url: "/projects", icon: CheckSquare, hash: "tasks" },
+  { key: "report", url: "/report", icon: FileText },
+  { key: "defects", url: "/defects", icon: AlertOctagon },
+  { key: "plans", url: "/plans", icon: Layers },
+  { key: "tasks", url: "/tasks", icon: CheckSquare },
+  { key: "more", url: "/more", icon: MoreHorizontal },
 ] as const;
 
 export function MobileNav() {
   const { t } = useTranslation();
   const pathname = useRouterState({ select: (r) => r.location.pathname });
-  const isActive = (url: string) =>
-    url === "/dashboard" ? pathname === url : pathname === url || pathname.startsWith(url + "/");
+  const isActive = (url: string) => pathname === url || pathname.startsWith(url + "/");
 
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/75 md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <ul className="mx-auto grid max-w-md grid-cols-5">
+      <ul className="mx-auto grid max-w-lg grid-cols-6">
         {ITEMS.map((item) => {
-          const active = isActive(item.url) && (item.key === "today" || pathname === item.url);
-          const href = "hash" in item && item.hash ? `${item.url}#${item.hash}` : item.url;
+          const active = isActive(item.url);
           return (
             <li key={item.key}>
               <Link
-                to={href}
+                to={item.url}
                 className={cn(
                   "relative flex flex-col items-center justify-center gap-1 px-1 pb-2 pt-2.5 text-[10px] font-medium transition-colors",
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground",

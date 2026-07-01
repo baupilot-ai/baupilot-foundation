@@ -15,6 +15,7 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTeamRouteImport } from './routes/_app.team'
+import { Route as AppTasksRouteImport } from './routes/_app.tasks'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppReportRouteImport } from './routes/_app.report'
@@ -66,6 +67,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppTeamRoute = AppTeamRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -230,6 +237,7 @@ export interface FileRoutesByTo {
   '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
   '/settings': typeof AppSettingsRoute
+  '/tasks': typeof AppTasksRoute
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -262,6 +270,7 @@ export interface FileRoutesById {
   '/_app/report': typeof AppReportRoute
   '/_app/resources': typeof AppResourcesRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/tasks': typeof AppTasksRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/ai/daily-report': typeof AppAiDailyReportRoute
   '/_app/ai/knowledge': typeof AppAiKnowledgeRoute
@@ -294,6 +303,7 @@ export interface FileRouteTypes {
     | '/report'
     | '/resources'
     | '/settings'
+    | '/tasks'
     | '/team'
     | '/ai/daily-report'
     | '/ai/knowledge'
@@ -323,6 +333,7 @@ export interface FileRouteTypes {
     | '/report'
     | '/resources'
     | '/settings'
+    | '/tasks'
     | '/team'
     | '/ai/daily-report'
     | '/ai/knowledge'
@@ -354,6 +365,7 @@ export interface FileRouteTypes {
     | '/_app/report'
     | '/_app/resources'
     | '/_app/settings'
+    | '/_app/tasks'
     | '/_app/team'
     | '/_app/ai/daily-report'
     | '/_app/ai/knowledge'
@@ -420,6 +432,13 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/tasks': {
+      id: '/_app/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/settings': {
@@ -623,6 +642,7 @@ interface AppRouteChildren {
   AppReportRoute: typeof AppReportRoute
   AppResourcesRoute: typeof AppResourcesRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTasksRoute: typeof AppTasksRoute
   AppTeamRoute: typeof AppTeamRoute
   AppProjectsNewRoute: typeof AppProjectsNewRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
@@ -641,6 +661,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppReportRoute: AppReportRoute,
   AppResourcesRoute: AppResourcesRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTasksRoute: AppTasksRoute,
   AppTeamRoute: AppTeamRoute,
   AppProjectsNewRoute: AppProjectsNewRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
