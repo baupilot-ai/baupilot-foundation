@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 
-type FocusProject = { id: string; name: string; address_city: string | null };
+type FocusProject = { id: string; name: string; site_address: string | null };
 
 /**
  * Auto-redirects to the newest active project's tab, otherwise renders a picker.
