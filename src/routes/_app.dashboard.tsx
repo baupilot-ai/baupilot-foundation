@@ -223,7 +223,7 @@ function HeuteScreen() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <QuickAction
             to={project ? `/projects/${project.id}` : "/projects"}
-            hash={project ? "daily-reports" : undefined}
+            hash={project ? "daily" : undefined}
             icon={FileText}
             label={t("heute.actions.dailyReport")}
             emphasis={!reportToday}
