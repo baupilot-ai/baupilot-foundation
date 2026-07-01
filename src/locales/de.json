@@ -1913,5 +1913,48 @@
       "autoDetected": "Automatisch erkannt: Enddatum überschritten",
       "empty": "Keine Verzögerungen erfasst."
     }
+  },
+  "heute": {
+    "morning": "Guten Morgen",
+    "day": "Tag",
+    "afternoon": "Guten Tag",
+    "evening": "Guten Abend",
+    "night": "Späte Schicht",
+    "greeting": "{{greeting}}",
+    "greetingName": "{{greeting}}, {{name}}",
+    "weather": "Wetter",
+    "loadingWeather": "Wetter wird geladen…",
+    "noWeather": "Wetter nicht verfügbar",
+    "enableLocation": "Standort aktivieren",
+    "project": "Projekt",
+    "noProject": "Kein aktives Projekt",
+    "siteLabel": "Baustelle",
+    "todayPlanned": "Heute geplant",
+    "quickActions": "Schnellzugriff",
+    "actions": {
+      "dailyReport": "Bautagesbericht",
+      "photo": "Foto",
+      "defect": "Mangel melden",
+      "plan": "Plan öffnen",
+      "task": "Aufgabe"
+    },
+    "openTasks": "offene Aufgaben",
+    "openDefects": "offene Mängel",
+    "reportMissing": "Bericht fehlt",
+    "reportSubmitted": "Bericht abgegeben",
+    "windLabel": "Wind",
+    "precipLabel": "Niederschlag",
+    "temp": {
+      "morning": "Morgen",
+      "noon": "Mittag",
+      "evening": "Abend"
+    }
+  },
+  "nav5": {
+    "today": "Heute",
+    "report": "Bericht",
+    "defects": "Mängel",
+    "plans": "Pläne",
+    "tasks": "Aufgaben"
   }
 }
