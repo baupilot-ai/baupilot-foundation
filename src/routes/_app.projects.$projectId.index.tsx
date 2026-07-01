@@ -198,6 +198,7 @@ function ProjectDetail() {
             <TabsTrigger value="materials"><Package className="h-4 w-4" />{t("projects.tabs.materials")}</TabsTrigger>
             <TabsTrigger value="deliveries"><Truck className="h-4 w-4" />{t("projects.tabs.deliveries")}</TabsTrigger>
             <TabsTrigger value="calendar"><CalendarRange className="h-4 w-4" />{t("projects.tabs.calendar")}</TabsTrigger>
+            <TabsTrigger value="terminplan"><BarChart3 className="h-4 w-4" />{t("projects.tabs.terminplan")}</TabsTrigger>
             <TabsTrigger value="schedule"><BarChart3 className="h-4 w-4" />{t("projects.tabs.schedule")}</TabsTrigger>
             <TabsTrigger value="milestones"><Flag className="h-4 w-4" />{t("projects.tabs.milestones")}</TabsTrigger>
             <TabsTrigger value="gantt"><BarChart3 className="h-4 w-4" />{t("projects.tabs.gantt")}</TabsTrigger>
