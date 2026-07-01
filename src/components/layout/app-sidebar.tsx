@@ -40,6 +40,7 @@ export function AppSidebar() {
     { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" as Permission },
     { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" as Permission },
     { title: t("nav.company"), url: "/company", icon: Building2, permission: "company.read" as Permission },
+    { title: "AI Center", url: "/ai", icon: Sparkles, permission: "ai.chat" as Permission },
   ]).filter((item) => can(item.permission));
   const accountItems = ([
     { title: t("nav.profile"), url: "/profile", icon: UserCircle2, permission: undefined as Permission | undefined },
