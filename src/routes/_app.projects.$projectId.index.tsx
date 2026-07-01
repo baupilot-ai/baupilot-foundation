@@ -44,6 +44,7 @@ import { MilestonesTab } from "@/components/projects/modules/milestones-tab";
 import { CalendarTab } from "@/components/projects/modules/calendar-tab";
 import { GanttTab } from "@/components/projects/modules/gantt-tab";
 import { NotificationsTab } from "@/components/projects/modules/notifications-tab";
+import { ScheduleModule } from "@/components/projects/modules/schedule-module";
 import { ProjectPlanningCards } from "@/components/projects/modules/planning-cards";
 import {
   QualityTab, SafetyTab, ChecklistsTab, InspectionsTab, AcceptancesTab, PunchListTab, NcrTab,
@@ -197,6 +198,7 @@ function ProjectDetail() {
             <TabsTrigger value="materials"><Package className="h-4 w-4" />{t("projects.tabs.materials")}</TabsTrigger>
             <TabsTrigger value="deliveries"><Truck className="h-4 w-4" />{t("projects.tabs.deliveries")}</TabsTrigger>
             <TabsTrigger value="calendar"><CalendarRange className="h-4 w-4" />{t("projects.tabs.calendar")}</TabsTrigger>
+            <TabsTrigger value="terminplan"><BarChart3 className="h-4 w-4" />{t("projects.tabs.terminplan")}</TabsTrigger>
             <TabsTrigger value="schedule"><BarChart3 className="h-4 w-4" />{t("projects.tabs.schedule")}</TabsTrigger>
             <TabsTrigger value="milestones"><Flag className="h-4 w-4" />{t("projects.tabs.milestones")}</TabsTrigger>
             <TabsTrigger value="gantt"><BarChart3 className="h-4 w-4" />{t("projects.tabs.gantt")}</TabsTrigger>
@@ -270,6 +272,7 @@ function ProjectDetail() {
         <TabsContent value="deliveries"><DeliveriesTab projectId={project.id} /></TabsContent>
 
         <TabsContent value="calendar"><CalendarTab projectId={project.id} /></TabsContent>
+        <TabsContent value="terminplan"><ScheduleModule projectId={project.id} /></TabsContent>
         <TabsContent value="schedule"><ScheduleTab projectId={project.id} /></TabsContent>
         <TabsContent value="milestones"><MilestonesTab projectId={project.id} /></TabsContent>
         <TabsContent value="gantt"><GanttTab projectId={project.id} /></TabsContent>

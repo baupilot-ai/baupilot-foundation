@@ -217,7 +217,8 @@
       "notifications": "Benachrichtigungen",
       "timeline": "Zeitplan",
       "financials": "Finanzen",
-      "activity": "Aktivität"
+      "activity": "Aktivität",
+      "terminplan": "Terminplan"
     },
     "fields": {
       "projectNumber": "Projektnummer",
@@ -1824,6 +1825,93 @@
         "site_rules": "Baustellenregeln",
         "custom": "Individuell"
       }
+    }
+  },
+  "schedule": {
+    "title": "Terminplan",
+    "newTask": "Neue Aktivität",
+    "editTask": "Aktivität bearbeiten",
+    "markCompleted": "Als erledigt markieren",
+    "updateProgress": "Fortschritt aktualisieren",
+    "views": {
+      "list": "Liste",
+      "gantt": "Gantt",
+      "calendar": "Kalender",
+      "week": "Wochenplan",
+      "milestones": "Meilensteine",
+      "delays": "Verzögerungen"
+    },
+    "summary": {
+      "overallProgress": "Gesamtfortschritt",
+      "criticalPath": "Kritischer Pfad",
+      "delayedTasks": "Verspätet",
+      "dueThisWeek": "Diese Woche fällig",
+      "dueToday": "Heute fällig",
+      "openMilestones": "Offene Meilensteine",
+      "earliestFinish": "Früheste Fertigstellung",
+      "floatDays": "Puffer (Ø)"
+    },
+    "fields": {
+      "trade": "Gewerk",
+      "companyName": "Firma",
+      "location": "Ort",
+      "buildingSection": "Bauabschnitt",
+      "floor": "Geschoss",
+      "room": "Raum",
+      "priority": "Priorität",
+      "baselineStart": "Basisplan Start",
+      "baselineEnd": "Basisplan Ende",
+      "actualStart": "Ist-Start",
+      "actualEnd": "Ist-Ende",
+      "floatDays": "Puffer (Tage)",
+      "isCritical": "Kritischer Pfad"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "normal": "Normal",
+      "high": "Hoch",
+      "critical": "Kritisch"
+    },
+    "criticalPath": "Kritischer Pfad",
+    "delayed": "Verspätet",
+    "dueToday": "Heute fällig",
+    "dueThisWeek": "Diese Woche fällig",
+    "overdue": "Überfällig",
+    "thisWeek": "Diese Woche",
+    "nextWeek": "Nächste Woche",
+    "later": "Später",
+    "empty": "Noch keine Aktivitäten.",
+    "progressUpdated": "Fortschritt aktualisiert",
+    "todayLine": "Heute",
+    "milestoneSuggestions": {
+      "title": "Standard-Meilensteine",
+      "add": "Hinzufügen",
+      "items": {
+        "start": "Baustart",
+        "shell": "Rohbau fertig",
+        "roof": "Dach dicht",
+        "facade": "Fassade fertig",
+        "mep": "TGA fertig",
+        "screed": "Estrich fertig",
+        "acceptance": "Abnahme",
+        "handover": "Übergabe"
+      }
+    },
+    "delays": {
+      "title": "Verzögerungen",
+      "new": "Neue Verzögerung",
+      "reason": "Grund",
+      "impactDays": "Auswirkung (Tage)",
+      "detectedAt": "Erkannt",
+      "resolvedAt": "Behoben",
+      "responsibleParty": "Verantwortlich",
+      "status": {
+        "open": "Offen",
+        "mitigating": "In Bearbeitung",
+        "resolved": "Behoben"
+      },
+      "autoDetected": "Automatisch erkannt: Enddatum überschritten",
+      "empty": "Keine Verzögerungen erfasst."
     }
   }
 }
