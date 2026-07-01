@@ -19,6 +19,7 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppResourcesRouteImport } from './routes/_app.resources'
 import { Route as AppReportRouteImport } from './routes/_app.report'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
+import { Route as AppPlansRouteImport } from './routes/_app.plans'
 import { Route as AppMoreRouteImport } from './routes/_app.more'
 import { Route as AppDefectsRouteImport } from './routes/_app.defects'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -85,6 +86,11 @@ const AppReportRoute = AppReportRouteImport.update({
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlansRoute = AppPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMoreRoute = AppMoreRouteImport.update({
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/defects': typeof AppDefectsRoute
   '/more': typeof AppMoreRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/defects': typeof AppDefectsRoute
   '/more': typeof AppMoreRoute
+  '/plans': typeof AppPlansRoute
   '/profile': typeof AppProfileRoute
   '/report': typeof AppReportRoute
   '/resources': typeof AppResourcesRoute
@@ -249,6 +257,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/defects': typeof AppDefectsRoute
   '/_app/more': typeof AppMoreRoute
+  '/_app/plans': typeof AppPlansRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/report': typeof AppReportRoute
   '/_app/resources': typeof AppResourcesRoute
@@ -280,6 +289,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/defects'
     | '/more'
+    | '/plans'
     | '/profile'
     | '/report'
     | '/resources'
@@ -308,6 +318,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/defects'
     | '/more'
+    | '/plans'
     | '/profile'
     | '/report'
     | '/resources'
@@ -338,6 +349,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/defects'
     | '/_app/more'
+    | '/_app/plans'
     | '/_app/profile'
     | '/_app/report'
     | '/_app/resources'
@@ -436,6 +448,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/plans': {
+      id: '/_app/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof AppPlansRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/more': {
@@ -599,6 +618,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppDefectsRoute: typeof AppDefectsRoute
   AppMoreRoute: typeof AppMoreRoute
+  AppPlansRoute: typeof AppPlansRoute
   AppProfileRoute: typeof AppProfileRoute
   AppReportRoute: typeof AppReportRoute
   AppResourcesRoute: typeof AppResourcesRoute
@@ -616,6 +636,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppDefectsRoute: AppDefectsRoute,
   AppMoreRoute: AppMoreRoute,
+  AppPlansRoute: AppPlansRoute,
   AppProfileRoute: AppProfileRoute,
   AppReportRoute: AppReportRoute,
   AppResourcesRoute: AppResourcesRoute,
