@@ -80,94 +80,95 @@ export interface ProjectTeamMember {
 }
 
 // ------- Constants -------
+// Note: `label` fields hold i18n keys. Consumers should render them via t().
 export const EMPLOYEE_ROLES = [
-  { value: "owner", label: "Company Owner" },
-  { value: "project_manager", label: "Project Manager" },
-  { value: "site_manager", label: "Site Manager" },
-  { value: "foreman", label: "Foreman" },
-  { value: "worker", label: "Worker" },
-  { value: "safety_manager", label: "Safety Manager" },
-  { value: "quality_manager", label: "Quality Manager" },
-  { value: "accountant", label: "Accountant" },
-  { value: "admin", label: "Admin" },
+  { value: "owner", label: "team.roles.owner" },
+  { value: "project_manager", label: "team.roles.project_manager" },
+  { value: "site_manager", label: "team.roles.site_manager" },
+  { value: "foreman", label: "team.roles.foreman" },
+  { value: "worker", label: "team.roles.worker" },
+  { value: "safety_manager", label: "team.roles.safety_manager" },
+  { value: "quality_manager", label: "team.roles.quality_manager" },
+  { value: "accountant", label: "team.roles.accountant" },
+  { value: "admin", label: "team.roles.admin" },
 ];
 
 export const TRADES = [
-  { value: "general", label: "General" },
-  { value: "concrete", label: "Concrete" },
-  { value: "formwork", label: "Formwork" },
-  { value: "reinforcement", label: "Reinforcement" },
-  { value: "masonry", label: "Masonry" },
-  { value: "roofing", label: "Roofing" },
-  { value: "electrical", label: "Electrical" },
-  { value: "plumbing", label: "Plumbing" },
-  { value: "hvac", label: "HVAC" },
-  { value: "drywall", label: "Drywall" },
-  { value: "painting", label: "Painting" },
-  { value: "flooring", label: "Flooring" },
-  { value: "other", label: "Other" },
+  { value: "general", label: "team.trades.general" },
+  { value: "concrete", label: "team.trades.concrete" },
+  { value: "formwork", label: "team.trades.formwork" },
+  { value: "reinforcement", label: "team.trades.reinforcement" },
+  { value: "masonry", label: "team.trades.masonry" },
+  { value: "roofing", label: "team.trades.roofing" },
+  { value: "electrical", label: "team.trades.electrical" },
+  { value: "plumbing", label: "team.trades.plumbing" },
+  { value: "hvac", label: "team.trades.hvac" },
+  { value: "drywall", label: "team.trades.drywall" },
+  { value: "painting", label: "team.trades.painting" },
+  { value: "flooring", label: "team.trades.flooring" },
+  { value: "other", label: "team.trades.other" },
 ];
 
 export const EMPLOYMENT_TYPES = [
-  { value: "full_time", label: "Full-time" },
-  { value: "part_time", label: "Part-time" },
-  { value: "temporary", label: "Temporary" },
-  { value: "external", label: "External" },
-  { value: "apprentice", label: "Apprentice" },
+  { value: "full_time", label: "team.employmentTypes.full_time" },
+  { value: "part_time", label: "team.employmentTypes.part_time" },
+  { value: "temporary", label: "team.employmentTypes.temporary" },
+  { value: "external", label: "team.employmentTypes.external" },
+  { value: "apprentice", label: "team.employmentTypes.apprentice" },
 ];
 
 export const EMPLOYEE_STATUS = [
-  { value: "active", label: "Active", tone: "success" as const },
-  { value: "inactive", label: "Inactive", tone: "neutral" as const },
-  { value: "on_leave", label: "On leave", tone: "warning" as const },
-  { value: "archived", label: "Archived", tone: "neutral" as const },
+  { value: "active", label: "team.employeeStatus.active", tone: "success" as const },
+  { value: "inactive", label: "team.employeeStatus.inactive", tone: "neutral" as const },
+  { value: "on_leave", label: "team.employeeStatus.on_leave", tone: "warning" as const },
+  { value: "archived", label: "team.employeeStatus.archived", tone: "neutral" as const },
 ];
 
 export const INSURANCE_STATUS = [
-  { value: "unknown", label: "Unknown", tone: "neutral" as const },
-  { value: "valid", label: "Valid", tone: "success" as const },
-  { value: "expired", label: "Expired", tone: "danger" as const },
-  { value: "missing", label: "Missing", tone: "warning" as const },
+  { value: "unknown", label: "team.insuranceStatus.unknown", tone: "neutral" as const },
+  { value: "valid", label: "team.insuranceStatus.valid", tone: "success" as const },
+  { value: "expired", label: "team.insuranceStatus.expired", tone: "danger" as const },
+  { value: "missing", label: "team.insuranceStatus.missing", tone: "warning" as const },
 ];
 
 export const QUALIFICATION_STATUS = [
-  { value: "not_checked", label: "Not checked", tone: "neutral" as const },
-  { value: "approved", label: "Approved", tone: "success" as const },
-  { value: "missing_documents", label: "Missing documents", tone: "warning" as const },
-  { value: "blocked", label: "Blocked", tone: "danger" as const },
+  { value: "not_checked", label: "team.qualificationStatus.not_checked", tone: "neutral" as const },
+  { value: "approved", label: "team.qualificationStatus.approved", tone: "success" as const },
+  { value: "missing_documents", label: "team.qualificationStatus.missing_documents", tone: "warning" as const },
+  { value: "blocked", label: "team.qualificationStatus.blocked", tone: "danger" as const },
 ];
 
 export const SUBCONTRACTOR_STATUS = [
-  { value: "active", label: "Active", tone: "success" as const },
-  { value: "inactive", label: "Inactive", tone: "neutral" as const },
-  { value: "blocked", label: "Blocked", tone: "danger" as const },
-  { value: "archived", label: "Archived", tone: "neutral" as const },
+  { value: "active", label: "team.subcontractorStatus.active", tone: "success" as const },
+  { value: "inactive", label: "team.subcontractorStatus.inactive", tone: "neutral" as const },
+  { value: "blocked", label: "team.subcontractorStatus.blocked", tone: "danger" as const },
+  { value: "archived", label: "team.subcontractorStatus.archived", tone: "neutral" as const },
 ];
 
 export const CONTACT_TYPES = [
-  { value: "client", label: "Client" },
-  { value: "architect", label: "Architect" },
-  { value: "structural_engineer", label: "Structural Engineer" },
-  { value: "mep_engineer", label: "MEP Engineer" },
-  { value: "authority", label: "Authority" },
-  { value: "surveyor", label: "Surveyor" },
-  { value: "consultant", label: "Consultant" },
-  { value: "supplier", label: "Supplier" },
-  { value: "other", label: "Other" },
+  { value: "client", label: "team.contactTypes.client" },
+  { value: "architect", label: "team.contactTypes.architect" },
+  { value: "structural_engineer", label: "team.contactTypes.structural_engineer" },
+  { value: "mep_engineer", label: "team.contactTypes.mep_engineer" },
+  { value: "authority", label: "team.contactTypes.authority" },
+  { value: "surveyor", label: "team.contactTypes.surveyor" },
+  { value: "consultant", label: "team.contactTypes.consultant" },
+  { value: "supplier", label: "team.contactTypes.supplier" },
+  { value: "other", label: "team.contactTypes.other" },
 ];
 
 export const PROJECT_ROLES = [
-  { value: "project_manager", label: "Project Manager" },
-  { value: "site_manager", label: "Site Manager" },
-  { value: "foreman", label: "Foreman" },
-  { value: "worker", label: "Worker" },
-  { value: "safety_manager", label: "Safety Manager" },
-  { value: "quality_manager", label: "Quality Manager" },
-  { value: "subcontractor", label: "Subcontractor" },
-  { value: "client_contact", label: "Client Contact" },
-  { value: "architect", label: "Architect" },
-  { value: "engineer", label: "Engineer" },
-  { value: "consultant", label: "Consultant" },
+  { value: "project_manager", label: "team.roles.project_manager" },
+  { value: "site_manager", label: "team.roles.site_manager" },
+  { value: "foreman", label: "team.roles.foreman" },
+  { value: "worker", label: "team.roles.worker" },
+  { value: "safety_manager", label: "team.roles.safety_manager" },
+  { value: "quality_manager", label: "team.roles.quality_manager" },
+  { value: "subcontractor", label: "team.roles.subcontractor" },
+  { value: "client_contact", label: "team.roles.client_contact" },
+  { value: "architect", label: "team.roles.architect" },
+  { value: "engineer", label: "team.roles.engineer" },
+  { value: "consultant", label: "team.roles.consultant" },
 ];
 
 export function labelOf(arr: { value: string; label: string }[], v: string | null | undefined) {
@@ -178,6 +179,7 @@ export function labelOf(arr: { value: string; label: string }[], v: string | nul
 export function fullName(p: { first_name?: string | null; last_name?: string | null }) {
   return `${p.first_name ?? ""} ${p.last_name ?? ""}`.trim();
 }
+
 
 // ------- Employees -------
 export async function listEmployees(): Promise<Employee[]> {
