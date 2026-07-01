@@ -32,6 +32,8 @@ import {
   type ProjectDocument, type DocumentFolder, type DocumentVersion,
 } from "@/lib/documents";
 import { FileViewer, type ViewerFile } from "./file-viewer";
+import { usePermissions } from "@/hooks/use-permissions";
+import { Send, CheckCircle2, XCircle, Archive } from "lucide-react";
 
 export function DocumentsTab({ projectId }: { projectId: string }) {
   const [docs, setDocs] = useState<ProjectDocument[]>([]);
