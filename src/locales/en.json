@@ -38,7 +38,9 @@
     "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
     "errorTitle": "This page didn't load",
     "errorDesc": "Something went wrong. Try again or head back home.",
-    "searchPlaceholder": "Search projects, people…"
+    "searchPlaceholder": "Search projects, people…",
+    "deleteConfirm": "Delete this record?",
+    "deleteConfirmDesc": "This action cannot be undone."
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -745,7 +747,9 @@
       "approved": "Approved",
       "rejected": "Rejected"
     },
-    "filters": { "all": "All statuses" },
+    "filters": {
+      "all": "All statuses"
+    },
     "sections": {
       "general": "General",
       "weather": "Weather",
@@ -946,7 +950,8 @@
     "nameRequired": "Name is required",
     "titleRequired": "Title is required",
     "fillAllFields": "Fill all fields",
-    "statusUpdated": "Status updated"
+    "statusUpdated": "Status updated",
+    "duplicated": "Duplicated"
   },
   "resources": {
     "title": "Resources",
@@ -1545,6 +1550,280 @@
       "51_200": "51–200",
       "200_plus": "200+"
     }
+  },
+  "qs": {
+    "tabs": {
+      "quality": "Quality",
+      "safety": "Safety",
+      "checklists": "Checklists",
+      "inspections": "Inspections",
+      "acceptances": "Acceptances",
+      "punch": "Punch list",
+      "ncr": "NCR"
+    },
+    "filters": {
+      "allStatus": "All statuses",
+      "allPriority": "All priorities"
+    },
+    "validation": {
+      "required": "{{field}} is required"
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "number": "Number",
+      "type": "Type",
+      "status": "Status",
+      "priority": "Priority",
+      "severity": "Severity",
+      "result": "Result",
+      "date": "Date",
+      "time": "Time",
+      "dueDate": "Due date",
+      "completionDate": "Completion date",
+      "location": "Location",
+      "inspector": "Inspector",
+      "contractor": "Contractor",
+      "clientContact": "Client contact",
+      "responsible": "Responsible person",
+      "trainer": "Trainer",
+      "participants": "Participants",
+      "topic": "Topic",
+      "injuredPerson": "Injured person",
+      "witnesses": "Witnesses",
+      "immediateAction": "Immediate action",
+      "correctiveAction": "Corrective action",
+      "preventiveAction": "Preventive action",
+      "rootCause": "Root cause",
+      "sourceType": "Source type",
+      "notes": "Notes",
+      "comment": "Comment"
+    },
+    "quality": {
+      "description": "Quality management overview",
+      "hint": "Use checklists, inspections, acceptances, punch list and NCR to track quality on this project."
+    },
+    "safety": {
+      "description": "Safety management overview"
+    },
+    "stats": {
+      "openChecklists": "Open checklists",
+      "failedItems": "Failed items",
+      "upcomingInspections": "Upcoming inspections",
+      "completedInspections": "Completed inspections",
+      "openNcrs": "Open NCRs",
+      "openPunchItems": "Open punch items",
+      "pendingAcceptances": "Pending acceptances",
+      "qualityScore": "Quality score",
+      "openObservations": "Open observations",
+      "accidentsThisMonth": "Accidents this month",
+      "nearMisses": "Near misses",
+      "upcomingToolbox": "Upcoming toolbox talks",
+      "openCorrectiveActions": "Open corrective actions",
+      "safetyScore": "Safety score"
+    },
+    "checklists": {
+      "new": "New checklist",
+      "edit": "Edit checklist",
+      "empty": "No checklists yet",
+      "titleRequired": "Title is required",
+      "addItem": "Add item",
+      "addItemPlaceholder": "Item title",
+      "noItems": "No items yet"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "new": "New inspection",
+      "empty": "No inspections yet"
+    },
+    "acceptances": {
+      "title": "Acceptances",
+      "new": "New acceptance",
+      "empty": "No acceptances yet"
+    },
+    "punch": {
+      "title": "Punch list",
+      "list": "Punch list",
+      "newList": "New punch list",
+      "newItem": "New item",
+      "needList": "Create a punch list first",
+      "emptyItems": "No punch items yet"
+    },
+    "ncr": {
+      "title": "NCR",
+      "new": "New NCR",
+      "empty": "No NCRs yet"
+    },
+    "safetyInspections": {
+      "title": "Safety inspections",
+      "new": "New safety inspection",
+      "empty": "No safety inspections yet"
+    },
+    "toolbox": {
+      "title": "Toolbox talks",
+      "new": "New toolbox talk",
+      "empty": "No toolbox talks yet"
+    },
+    "observations": {
+      "title": "Safety observations",
+      "new": "New observation",
+      "empty": "No observations yet"
+    },
+    "accidents": {
+      "title": "Accident reports",
+      "new": "New accident report",
+      "empty": "No accident reports yet"
+    },
+    "corrective": {
+      "title": "Corrective actions",
+      "new": "New corrective action",
+      "empty": "No corrective actions yet"
+    },
+    "enums": {
+      "checklistType": {
+        "concrete": "Concrete",
+        "reinforcement": "Reinforcement",
+        "formwork": "Formwork",
+        "masonry": "Masonry",
+        "waterproofing": "Waterproofing",
+        "facade": "Facade",
+        "roof": "Roof",
+        "drywall": "Drywall",
+        "electrical": "Electrical",
+        "plumbing": "Plumbing",
+        "hvac": "HVAC",
+        "fire_protection": "Fire protection",
+        "safety": "Safety",
+        "quality": "Quality",
+        "custom": "Custom"
+      },
+      "checklistStatus": {
+        "draft": "Draft",
+        "in_progress": "In progress",
+        "completed": "Completed",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "archived": "Archived"
+      },
+      "itemResult": {
+        "passed": "Passed",
+        "failed": "Failed",
+        "not_applicable": "Not applicable",
+        "not_checked": "Not checked",
+        "": "—"
+      },
+      "inspectionType": {
+        "quality": "Quality",
+        "safety": "Safety",
+        "internal": "Internal",
+        "external": "External",
+        "client": "Client",
+        "authority": "Authority",
+        "supplier": "Supplier",
+        "subcontractor": "Subcontractor"
+      },
+      "inspectionStatus": {
+        "scheduled": "Scheduled",
+        "in_progress": "In progress",
+        "completed": "Completed",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "cancelled": "Cancelled"
+      },
+      "inspectionResult": {
+        "passed": "Passed",
+        "failed": "Failed",
+        "conditional": "Conditional",
+        "": "—"
+      },
+      "acceptanceType": {
+        "concrete": "Concrete",
+        "foundation": "Foundation",
+        "floor": "Floor",
+        "facade": "Facade",
+        "roof": "Roof",
+        "fire_protection": "Fire protection",
+        "mep": "MEP",
+        "completion": "Completion",
+        "custom": "Custom"
+      },
+      "acceptanceStatus": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "accepted": "Accepted",
+        "accepted_with_defects": "Accepted with defects",
+        "rejected": "Rejected",
+        "archived": "Archived"
+      },
+      "punchStatus": {
+        "open": "Open",
+        "in_progress": "In progress",
+        "fixed": "Fixed",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      },
+      "priority": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "ncrStatus": {
+        "draft": "Draft",
+        "open": "Open",
+        "under_review": "Under review",
+        "corrective_action_required": "Corrective action required",
+        "closed": "Closed",
+        "rejected": "Rejected"
+      },
+      "observationType": {
+        "positive": "Positive",
+        "unsafe_condition": "Unsafe condition",
+        "unsafe_action": "Unsafe action",
+        "improvement": "Improvement",
+        "risk": "Risk"
+      },
+      "observationStatus": {
+        "open": "Open",
+        "under_review": "Under review",
+        "closed": "Closed"
+      },
+      "severity": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "accidentSeverity": {
+        "minor": "Minor",
+        "moderate": "Moderate",
+        "serious": "Serious",
+        "critical": "Critical"
+      },
+      "accidentStatus": {
+        "draft": "Draft",
+        "reported": "Reported",
+        "under_investigation": "Under investigation",
+        "closed": "Closed"
+      },
+      "correctiveStatus": {
+        "open": "Open",
+        "in_progress": "In progress",
+        "completed": "Completed",
+        "verified": "Verified",
+        "overdue": "Overdue"
+      },
+      "toolboxTopic": {
+        "ppe": "PPE",
+        "fall_protection": "Fall protection",
+        "crane_safety": "Crane safety",
+        "electrical_safety": "Electrical safety",
+        "excavation_safety": "Excavation safety",
+        "fire_safety": "Fire safety",
+        "manual_handling": "Manual handling",
+        "site_rules": "Site rules",
+        "custom": "Custom"
+      }
+    }
   }
 }
-

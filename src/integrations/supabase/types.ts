@@ -14,6 +14,162 @@ export type Database = {
   }
   public: {
     Tables: {
+      acceptance_records: {
+        Row: {
+          acceptance_date: string | null
+          acceptance_number: string | null
+          acceptance_type: string
+          client_contact: string | null
+          company_id: string
+          contractor: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          location: string | null
+          notes: string | null
+          project_id: string
+          result: string | null
+          signature_url: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          acceptance_date?: string | null
+          acceptance_number?: string | null
+          acceptance_type?: string
+          client_contact?: string | null
+          company_id: string
+          contractor?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          location?: string | null
+          notes?: string | null
+          project_id: string
+          result?: string | null
+          signature_url?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          acceptance_date?: string | null
+          acceptance_number?: string | null
+          acceptance_type?: string
+          client_contact?: string | null
+          company_id?: string
+          contractor?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          location?: string | null
+          notes?: string | null
+          project_id?: string
+          result?: string | null
+          signature_url?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "acceptance_records_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "acceptance_records_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      accident_reports: {
+        Row: {
+          accident_date: string | null
+          accident_number: string | null
+          accident_time: string | null
+          company_id: string
+          corrective_action: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          immediate_action: string | null
+          injured_person: string | null
+          location: string | null
+          photo_url: string | null
+          project_id: string
+          severity: string
+          status: string
+          updated_at: string
+          witnesses: string | null
+        }
+        Insert: {
+          accident_date?: string | null
+          accident_number?: string | null
+          accident_time?: string | null
+          company_id: string
+          corrective_action?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          immediate_action?: string | null
+          injured_person?: string | null
+          location?: string | null
+          photo_url?: string | null
+          project_id: string
+          severity?: string
+          status?: string
+          updated_at?: string
+          witnesses?: string | null
+        }
+        Update: {
+          accident_date?: string | null
+          accident_number?: string | null
+          accident_time?: string | null
+          company_id?: string
+          corrective_action?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          immediate_action?: string | null
+          injured_person?: string | null
+          location?: string | null
+          photo_url?: string | null
+          project_id?: string
+          severity?: string
+          status?: string
+          updated_at?: string
+          witnesses?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accident_reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "accident_reports_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       activity_log: {
         Row: {
           action: string
@@ -164,6 +320,78 @@ export type Database = {
           vat_id?: string | null
         }
         Relationships: []
+      }
+      corrective_actions: {
+        Row: {
+          company_id: string
+          completion_date: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          priority: string
+          project_id: string
+          proof_photo_url: string | null
+          responsible_person: string | null
+          source_id: string | null
+          source_type: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          completion_date?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          project_id: string
+          proof_photo_url?: string | null
+          responsible_person?: string | null
+          source_id?: string | null
+          source_type?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          completion_date?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          project_id?: string
+          proof_photo_url?: string | null
+          responsible_person?: string | null
+          source_id?: string | null
+          source_type?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "corrective_actions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "corrective_actions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       daily_report_attachments: {
         Row: {
@@ -1896,6 +2124,84 @@ export type Database = {
         }
         Relationships: []
       }
+      ncr_reports: {
+        Row: {
+          company_id: string
+          corrective_action: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          location: string | null
+          ncr_number: string | null
+          photo_url: string | null
+          preventive_action: string | null
+          priority: string
+          project_id: string
+          responsible_person: string | null
+          root_cause: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          corrective_action?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          ncr_number?: string | null
+          photo_url?: string | null
+          preventive_action?: string | null
+          priority?: string
+          project_id: string
+          responsible_person?: string | null
+          root_cause?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          corrective_action?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          ncr_number?: string | null
+          photo_url?: string | null
+          preventive_action?: string | null
+          priority?: string
+          project_id?: string
+          responsible_person?: string | null
+          root_cause?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ncr_reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ncr_reports_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_events: {
         Row: {
           company_id: string
@@ -2734,6 +3040,139 @@ export type Database = {
           },
         ]
       }
+      punch_list_items: {
+        Row: {
+          comment: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          location: string | null
+          photo_url: string | null
+          priority: string
+          project_id: string
+          punch_list_id: string
+          responsible_person: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          comment?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          photo_url?: string | null
+          priority?: string
+          project_id: string
+          punch_list_id: string
+          responsible_person?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          comment?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          photo_url?: string | null
+          priority?: string
+          project_id?: string
+          punch_list_id?: string
+          responsible_person?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "punch_list_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "punch_list_items_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "punch_list_items_punch_list_id_fkey"
+            columns: ["punch_list_id"]
+            isOneToOne: false
+            referencedRelation: "punch_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      punch_lists: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          location: string | null
+          project_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          location?: string | null
+          project_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          location?: string | null
+          project_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "punch_lists_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "punch_lists_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       qr_scan_events: {
         Row: {
           company_id: string
@@ -2780,6 +3219,419 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "qr_scan_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_checklist_items: {
+        Row: {
+          checklist_id: string
+          comment: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          photo_url: string | null
+          project_id: string
+          responsible_person: string | null
+          result: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          checklist_id: string
+          comment?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          photo_url?: string | null
+          project_id: string
+          responsible_person?: string | null
+          result?: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          checklist_id?: string
+          comment?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          photo_url?: string | null
+          project_id?: string
+          responsible_person?: string | null
+          result?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_checklist_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "quality_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_checklist_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_checklist_items_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_checklists: {
+        Row: {
+          assigned_to: string | null
+          checklist_type: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          project_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          checklist_type?: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          project_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          checklist_type?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          project_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_checklists_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_checklists_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_inspections: {
+        Row: {
+          checklist_id: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          inspection_date: string | null
+          inspection_number: string | null
+          inspection_type: string
+          inspector: string | null
+          location: string | null
+          notes: string | null
+          project_id: string
+          result: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          checklist_id?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          inspection_date?: string | null
+          inspection_number?: string | null
+          inspection_type?: string
+          inspector?: string | null
+          location?: string | null
+          notes?: string | null
+          project_id: string
+          result?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          checklist_id?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          inspection_date?: string | null
+          inspection_number?: string | null
+          inspection_type?: string
+          inspector?: string | null
+          location?: string | null
+          notes?: string | null
+          project_id?: string
+          result?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_inspections_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "quality_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_inspections_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_inspections_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_safety_signatures: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          project_id: string
+          signature_url: string | null
+          signed_at: string
+          signer_name: string
+          signer_role: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          project_id: string
+          signature_url?: string | null
+          signed_at?: string
+          signer_name: string
+          signer_role?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          project_id?: string
+          signature_url?: string | null
+          signed_at?: string
+          signer_name?: string
+          signer_role?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_safety_signatures_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_safety_signatures_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      safety_inspections: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          inspection_date: string | null
+          inspection_number: string | null
+          inspector: string | null
+          location: string | null
+          notes: string | null
+          project_id: string
+          result: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          inspection_date?: string | null
+          inspection_number?: string | null
+          inspector?: string | null
+          location?: string | null
+          notes?: string | null
+          project_id: string
+          result?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          inspection_date?: string | null
+          inspection_number?: string | null
+          inspector?: string | null
+          location?: string | null
+          notes?: string | null
+          project_id?: string
+          result?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "safety_inspections_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "safety_inspections_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      safety_observations: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          location: string | null
+          observation_type: string
+          photo_url: string | null
+          project_id: string
+          responsible_person: string | null
+          severity: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          observation_type?: string
+          photo_url?: string | null
+          project_id: string
+          responsible_person?: string | null
+          severity?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          location?: string | null
+          observation_type?: string
+          photo_url?: string | null
+          project_id?: string
+          responsible_person?: string | null
+          severity?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "safety_observations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "safety_observations_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
@@ -3025,6 +3877,69 @@ export type Database = {
             columns: ["tool_id"]
             isOneToOne: false
             referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toolbox_talks: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          date: string | null
+          id: string
+          notes: string | null
+          participants_count: number | null
+          project_id: string
+          signature_url: string | null
+          title: string
+          topic: string | null
+          trainer: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          date?: string | null
+          id?: string
+          notes?: string | null
+          participants_count?: number | null
+          project_id: string
+          signature_url?: string | null
+          title: string
+          topic?: string | null
+          trainer?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          date?: string | null
+          id?: string
+          notes?: string | null
+          participants_count?: number | null
+          project_id?: string
+          signature_url?: string | null
+          title?: string
+          topic?: string | null
+          trainer?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toolbox_talks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toolbox_talks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]

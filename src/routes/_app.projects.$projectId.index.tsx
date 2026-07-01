@@ -4,6 +4,7 @@ import {
   ArrowLeft, Edit, Archive, ArchiveRestore, Trash2, Loader2, MapPin, Calendar, Euro,
   FolderKanban, History, Users, Wallet, CalendarDays, CheckSquare, AlertOctagon, Camera, FileText, Layers, UserSquare,
   Hammer, Package, Truck, BarChart3, Flag, Bell, CalendarRange,
+  ClipboardList, ShieldCheck, ClipboardCheck, Handshake, ListChecks, FileWarning,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -44,6 +45,9 @@ import { CalendarTab } from "@/components/projects/modules/calendar-tab";
 import { GanttTab } from "@/components/projects/modules/gantt-tab";
 import { NotificationsTab } from "@/components/projects/modules/notifications-tab";
 import { ProjectPlanningCards } from "@/components/projects/modules/planning-cards";
+import {
+  QualityTab, SafetyTab, ChecklistsTab, InspectionsTab, AcceptancesTab, PunchListTab, NcrTab,
+} from "@/components/projects/modules/qs-module";
 
 export const Route = createFileRoute("/_app/projects/$projectId/")({
   ssr: false,
@@ -199,6 +203,13 @@ function ProjectDetail() {
             <TabsTrigger value="notifications"><Bell className="h-4 w-4" />{t("projects.tabs.notifications")}</TabsTrigger>
             <TabsTrigger value="timeline"><Calendar className="h-4 w-4" />{t("projects.tabs.timeline")}</TabsTrigger>
             <TabsTrigger value="financials"><Wallet className="h-4 w-4" />{t("projects.tabs.financials")}</TabsTrigger>
+            <TabsTrigger value="quality"><ClipboardCheck className="h-4 w-4" />{t("qs.tabs.quality")}</TabsTrigger>
+            <TabsTrigger value="safety"><ShieldCheck className="h-4 w-4" />{t("qs.tabs.safety")}</TabsTrigger>
+            <TabsTrigger value="checklists"><ClipboardList className="h-4 w-4" />{t("qs.tabs.checklists")}</TabsTrigger>
+            <TabsTrigger value="inspections"><ClipboardCheck className="h-4 w-4" />{t("qs.tabs.inspections")}</TabsTrigger>
+            <TabsTrigger value="acceptances"><Handshake className="h-4 w-4" />{t("qs.tabs.acceptances")}</TabsTrigger>
+            <TabsTrigger value="punch"><ListChecks className="h-4 w-4" />{t("qs.tabs.punch")}</TabsTrigger>
+            <TabsTrigger value="ncr"><FileWarning className="h-4 w-4" />{t("qs.tabs.ncr")}</TabsTrigger>
             <TabsTrigger value="activity"><History className="h-4 w-4" />{t("projects.tabs.activity")}</TabsTrigger>
           </TabsList>
         </div>
@@ -305,6 +316,14 @@ function ProjectDetail() {
             ))}
           </div>
         </TabsContent>
+
+        <TabsContent value="quality"><QualityTab projectId={project.id} /></TabsContent>
+        <TabsContent value="safety"><SafetyTab projectId={project.id} /></TabsContent>
+        <TabsContent value="checklists"><ChecklistsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="inspections"><InspectionsTab projectId={project.id} /></TabsContent>
+        <TabsContent value="acceptances"><AcceptancesTab projectId={project.id} /></TabsContent>
+        <TabsContent value="punch"><PunchListTab projectId={project.id} /></TabsContent>
+        <TabsContent value="ncr"><NcrTab projectId={project.id} /></TabsContent>
 
         <TabsContent value="activity"><ActivityTab projectId={project.id} /></TabsContent>
       </Tabs>
