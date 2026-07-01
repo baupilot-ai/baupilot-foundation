@@ -27,20 +27,23 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/branding/logo";
+import { usePermissions } from "@/hooks/use-permissions";
+import { type Permission } from "@/lib/security/permissions";
 
 export function AppSidebar() {
   const { t } = useTranslation();
-  const mainItems = [
-    { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard },
-    { title: t("nav.projects"), url: "/projects", icon: FolderKanban },
-    { title: t("nav.resources"), url: "/resources", icon: Boxes },
-    { title: t("nav.team"), url: "/team", icon: Users2 },
-    { title: t("nav.company"), url: "/company", icon: Building2 },
-  ];
-  const accountItems = [
+  const { can } = usePermissions();
+  const mainItems: Array<{ title: string; url: string; icon: typeof LayoutDashboard; permission: Permission }> = [
+    { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" },
+    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" },
+    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" },
+    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" },
+    { title: t("nav.company"), url: "/company", icon: Building2, permission: "company.read" },
+  ].filter((item) => can(item.permission));
+  const accountItems: Array<{ title: string; url: string; icon: typeof LayoutDashboard; permission?: Permission }> = [
     { title: t("nav.profile"), url: "/profile", icon: UserCircle2 },
-    { title: t("nav.settings"), url: "/settings", icon: Settings },
-  ];
+    { title: t("nav.settings"), url: "/settings", icon: Settings, permission: "settings.read" },
+  ].filter((item) => !item.permission || can(item.permission));
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });

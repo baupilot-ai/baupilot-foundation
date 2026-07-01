@@ -2,6 +2,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { LayoutDashboard, FolderKanban, Boxes, Users2, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePermissions } from "@/hooks/use-permissions";
+import { type Permission } from "@/lib/security/permissions";
 
 export function MobileNav() {
   const { t } = useTranslation();
@@ -9,13 +11,14 @@ export function MobileNav() {
   const isActive = (url: string) =>
     url === "/dashboard" ? pathname === url : pathname === url || pathname.startsWith(url + "/");
 
-  const items = [
-    { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard },
-    { title: t("nav.projects"), url: "/projects", icon: FolderKanban },
-    { title: t("nav.resources"), url: "/resources", icon: Boxes },
-    { title: t("nav.team"), url: "/team", icon: Users2 },
+  const { can } = usePermissions();
+  const items: Array<{ title: string; url: string; icon: typeof LayoutDashboard; permission?: Permission }> = [
+    { title: t("nav.home"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" },
+    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" },
+    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" },
+    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" },
     { title: t("nav.profile"), url: "/profile", icon: UserCircle2 },
-  ];
+  ].filter((item) => !item.permission || can(item.permission));
 
   return (
     <nav
