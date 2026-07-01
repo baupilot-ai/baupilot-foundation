@@ -63,6 +63,21 @@ function ProjectDetail() {
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [tab, setTab] = useState<string>(() => {
+    if (typeof window === "undefined") return "overview";
+    const h = window.location.hash.replace(/^#/, "");
+    return h || "overview";
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onHash = () => {
+      const h = window.location.hash.replace(/^#/, "");
+      if (h) setTab(h);
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
 
   async function load() {
     const p = await getProject(projectId);
