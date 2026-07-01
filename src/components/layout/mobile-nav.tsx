@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard, FolderKanban, Boxes, Users2, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Sparkles, Users2, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePermissions } from "@/hooks/use-permissions";
 import { type Permission } from "@/lib/security/permissions";
