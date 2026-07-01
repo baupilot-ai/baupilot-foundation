@@ -24,8 +24,11 @@ interface Props {
 
 export function ContactCard({
   title, subtitle, email, phone, status, badges, rating,
-  onEdit, onDelete, deleteLabel = "Delete", extraActions,
+  onEdit, onDelete, deleteLabel, extraActions,
 }: Props) {
+  const { t } = useTranslation();
+  const delLabel = deleteLabel ?? t("contactCard.delete");
+
   return (
     <Card className="border-border/70">
       <CardContent className="p-4">
