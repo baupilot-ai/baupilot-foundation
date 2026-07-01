@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
@@ -28,6 +29,7 @@ const empty = {
 };
 
 export function EmployeeDialog({ open, onOpenChange, employee, onSaved }: Props) {
+  const { t } = useTranslation();
   const [form, setForm] = useState(empty);
   const [saving, setSaving] = useState(false);
 
@@ -57,11 +59,11 @@ export function EmployeeDialog({ open, onOpenChange, employee, onSaved }: Props)
       };
       if (employee) await updateEmployee(employee.id, payload);
       else await createEmployee(payload);
-      toast.success(employee ? "Employee updated" : "Employee added");
+      toast.success(employee ? t("team.toasts.employeeUpdated") : t("team.toasts.employeeAdded"));
       onSaved?.();
       onOpenChange(false);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed");
+      toast.error(err instanceof Error ? err.message : t("states.failed"));
     } finally {
       setSaving(false);
     }
@@ -71,75 +73,75 @@ export function EmployeeDialog({ open, onOpenChange, employee, onSaved }: Props)
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[640px]">
         <DialogHeader>
-          <DialogTitle>{employee ? "Edit employee" : "Add employee"}</DialogTitle>
-          <DialogDescription>Company team member details.</DialogDescription>
+          <DialogTitle>{employee ? t("team.dialogs.editEmployee") : t("team.dialogs.addEmployeeTitle")}</DialogTitle>
+          <DialogDescription>{t("team.dialogs.employeeDetails")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label>First name *</Label>
+            <Label>{t("team.fields.firstName")} *</Label>
             <Input required value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} />
           </div>
           <div className="space-y-2">
-            <Label>Last name *</Label>
+            <Label>{t("team.fields.lastName")} *</Label>
             <Input required value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
           </div>
           <div className="space-y-2">
-            <Label>Email</Label>
+            <Label>{t("team.fields.email")}</Label>
             <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
           </div>
           <div className="space-y-2">
-            <Label>Phone</Label>
+            <Label>{t("team.fields.phone")}</Label>
             <Input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
           </div>
           <div className="space-y-2 sm:col-span-2">
-            <Label>Job title</Label>
+            <Label>{t("team.fields.jobTitle")}</Label>
             <Input value={form.job_title} onChange={(e) => setForm({ ...form, job_title: e.target.value })} />
           </div>
           <div className="space-y-2">
-            <Label>Role</Label>
+            <Label>{t("team.fields.role")}</Label>
             <Select value={form.role} onValueChange={(v) => setForm({ ...form, role: v })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {EMPLOYEE_ROLES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                {EMPLOYEE_ROLES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Trade</Label>
+            <Label>{t("team.fields.trade")}</Label>
             <Select value={form.trade} onValueChange={(v) => setForm({ ...form, trade: v })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Employment type</Label>
+            <Label>{t("team.fields.employmentType")}</Label>
             <Select value={form.employment_type} onValueChange={(v) => setForm({ ...form, employment_type: v })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {EMPLOYMENT_TYPES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                {EMPLOYMENT_TYPES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Status</Label>
+            <Label>{t("team.fields.status")}</Label>
             <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {EMPLOYEE_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                {EMPLOYEE_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2 sm:col-span-2">
-            <Label>Notes</Label>
+            <Label>{t("team.fields.notes")}</Label>
             <Textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
           </div>
           <DialogFooter className="sm:col-span-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>{t("common.cancel")}</Button>
             <Button type="submit" disabled={saving}>
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-              {employee ? "Save changes" : "Add employee"}
+              {employee ? t("team.actions.saveChanges") : t("team.actions.addEmployee")}
             </Button>
           </DialogFooter>
         </form>
