@@ -735,6 +735,156 @@
       "Snow": "Snow",
       "Wind": "Wind",
       "Fog": "Fog"
+    },
+    "searchPlaceholder": "Search reports…",
+    "rejectionReason": "Rejection reason",
+    "reportStatus": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "reviewed": "Reviewed",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "filters": { "all": "All statuses" },
+    "sections": {
+      "general": "General",
+      "weather": "Weather",
+      "workforce": "Workforce",
+      "equipment": "Equipment",
+      "materials": "Materials",
+      "work": "Work performed",
+      "delays": "Delays",
+      "visitors": "Visitors",
+      "photos": "Photos",
+      "signatures": "Signatures",
+      "attachments": "Attachments"
+    },
+    "weatherFields": {
+      "feelsLike": "Feels like (°C)",
+      "windSpeed": "Wind speed (km/h)",
+      "rainfall": "Rainfall (mm)",
+      "snow": "Snow (mm)",
+      "humidity": "Humidity (%)",
+      "groundCondition": "Ground condition",
+      "workingConditions": "Working conditions",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "notes": "Weather notes"
+    },
+    "workforce": {
+      "add": "Add workforce",
+      "company": "Company",
+      "trade": "Trade",
+      "supervisor": "Supervisor",
+      "ownWorkers": "Own workers",
+      "subWorkers": "Subcontractor workers",
+      "workingHours": "Working hours",
+      "overtime": "Overtime",
+      "nightShift": "Night shift",
+      "total": "Total workers"
+    },
+    "equipment": {
+      "add": "Add equipment",
+      "equipment": "Equipment",
+      "quantity": "Quantity",
+      "workingHours": "Working hours",
+      "operator": "Operator",
+      "status": "Status"
+    },
+    "materials": {
+      "add": "Add material",
+      "material": "Material",
+      "quantity": "Quantity",
+      "unit": "Unit",
+      "supplier": "Supplier",
+      "deliveryNumber": "Delivery number"
+    },
+    "work": {
+      "add": "Add work entry",
+      "area": "Area",
+      "section": "Building section",
+      "floor": "Floor",
+      "trade": "Trade",
+      "progress": "Progress %",
+      "description": "Description"
+    },
+    "delays": {
+      "add": "Add delay",
+      "type": "Delay type",
+      "responsible": "Responsible party",
+      "impact": "Impact",
+      "description": "Description",
+      "mitigation": "Mitigation",
+      "affected": "Affected activities"
+    },
+    "delayTypes": {
+      "weather": "Weather",
+      "missing_material": "Missing material",
+      "equipment_failure": "Equipment failure",
+      "design_change": "Design change",
+      "client": "Client",
+      "authority": "Authority",
+      "subcontractor": "Subcontractor",
+      "other": "Other"
+    },
+    "visitors": {
+      "add": "Add visitor",
+      "name": "Name",
+      "company": "Company",
+      "purpose": "Purpose",
+      "arrival": "Arrival",
+      "departure": "Departure"
+    },
+    "photos": {
+      "upload": "Upload photos",
+      "empty": "No photos attached",
+      "description": "Description"
+    },
+    "photoCategories": {
+      "progress": "Progress",
+      "quality": "Quality",
+      "safety": "Safety",
+      "defect": "Defect",
+      "delivery": "Delivery",
+      "equipment": "Equipment",
+      "material": "Material",
+      "general": "General"
+    },
+    "signatures": {
+      "name": "Signer name",
+      "clear": "Clear",
+      "nameRequired": "Name is required",
+      "roles": {
+        "foreman": "Foreman signature",
+        "project_manager": "Project manager signature",
+        "client": "Client signature"
+      }
+    },
+    "attachments": {
+      "upload": "Upload files",
+      "empty": "No attachments"
+    },
+    "approvals": {
+      "submit": "Submit",
+      "approve": "Approve",
+      "reject": "Reject",
+      "reason": "Rejection reason",
+      "submitted": "Report submitted",
+      "approved": "Report approved",
+      "rejected": "Report rejected"
+    },
+    "export": {
+      "email": "Email",
+      "pdfPending": "PDF export coming soon",
+      "xlsxPending": "Excel export coming soon",
+      "emailPending": "Email delivery coming soon"
+    },
+    "overview": {
+      "lastReport": "Last report",
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "pending": "Pending approvals",
+      "workersToday": "Workers today"
     }
   },
   "photos": {
