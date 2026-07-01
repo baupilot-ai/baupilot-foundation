@@ -90,6 +90,7 @@ export const ROLE_PERMISSIONS: Record<AppRole, readonly Permission[]> = {
     'resources.write',
     'team.read',
     'settings.read',
+    'ai.chat','ai.daily_reports','ai.protocols','ai.search','ai.summary','ai.settings',
   ],
   polier: [
     'dashboard.read',
