@@ -217,7 +217,8 @@
       "notifications": "Benachrichtigungen",
       "timeline": "Zeitplan",
       "financials": "Finanzen",
-      "activity": "Aktivität"
+      "activity": "Aktivität",
+      "terminplan": "Terminplan"
     },
     "fields": {
       "projectNumber": "Projektnummer",
