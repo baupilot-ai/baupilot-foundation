@@ -15,17 +15,18 @@ export type ToolAssignment = Tables<"tool_assignments">;
 export type MaintenanceRecord = Tables<"maintenance_records">;
 
 // ---------- Constants ----------
+// Note: `label` fields hold i18n keys. Consumers should render them via t().
 export const EQUIPMENT_CATEGORIES = [
   "Crane", "Excavator", "Loader", "Concrete equipment", "Compaction",
   "Lifting equipment", "Scaffolding", "Vehicle", "Surveying", "Power tools", "Other",
 ];
 export const EQUIPMENT_STATUS = [
-  { value: "available", label: "Available", tone: "success" as const },
-  { value: "assigned", label: "Assigned", tone: "info" as const },
-  { value: "maintenance", label: "In maintenance", tone: "warning" as const },
-  { value: "defective", label: "Defective", tone: "danger" as const },
-  { value: "lost", label: "Lost", tone: "danger" as const },
-  { value: "archived", label: "Archived", tone: "neutral" as const },
+  { value: "available", label: "resources.equipmentStatus.available", tone: "success" as const },
+  { value: "assigned", label: "resources.equipmentStatus.assigned", tone: "info" as const },
+  { value: "maintenance", label: "resources.equipmentStatus.maintenance", tone: "warning" as const },
+  { value: "defective", label: "resources.equipmentStatus.defective", tone: "danger" as const },
+  { value: "lost", label: "resources.equipmentStatus.lost", tone: "danger" as const },
+  { value: "archived", label: "resources.equipmentStatus.archived", tone: "neutral" as const },
 ];
 
 export const TOOL_CATEGORIES = [
@@ -33,11 +34,11 @@ export const TOOL_CATEGORIES = [
   "Safety equipment", "Hand tools", "Other",
 ];
 export const TOOL_STATUS = [
-  { value: "available", label: "Available", tone: "success" as const },
-  { value: "assigned", label: "Assigned", tone: "info" as const },
-  { value: "defective", label: "Defective", tone: "danger" as const },
-  { value: "lost", label: "Lost", tone: "danger" as const },
-  { value: "archived", label: "Archived", tone: "neutral" as const },
+  { value: "available", label: "resources.toolStatus.available", tone: "success" as const },
+  { value: "assigned", label: "resources.toolStatus.assigned", tone: "info" as const },
+  { value: "defective", label: "resources.toolStatus.defective", tone: "danger" as const },
+  { value: "lost", label: "resources.toolStatus.lost", tone: "danger" as const },
+  { value: "archived", label: "resources.toolStatus.archived", tone: "neutral" as const },
 ];
 
 export const MATERIAL_CATEGORIES = [
@@ -52,12 +53,12 @@ export const LOCATION_TYPES = [
 ];
 
 export const DELIVERY_STATUS = [
-  { value: "expected", label: "Expected", tone: "neutral" as const },
-  { value: "arrived", label: "Arrived", tone: "info" as const },
-  { value: "partial", label: "Partially received", tone: "warning" as const },
-  { value: "received", label: "Received", tone: "success" as const },
-  { value: "cancelled", label: "Cancelled", tone: "neutral" as const },
-  { value: "delayed", label: "Delayed", tone: "danger" as const },
+  { value: "expected", label: "resources.deliveryStatus.expected", tone: "neutral" as const },
+  { value: "arrived", label: "resources.deliveryStatus.arrived", tone: "info" as const },
+  { value: "partial", label: "resources.deliveryStatus.partial", tone: "warning" as const },
+  { value: "received", label: "resources.deliveryStatus.received", tone: "success" as const },
+  { value: "cancelled", label: "resources.deliveryStatus.cancelled", tone: "neutral" as const },
+  { value: "delayed", label: "resources.deliveryStatus.delayed", tone: "danger" as const },
 ];
 
 export function statusMeta<T extends { value: string; label: string; tone: "info" | "neutral" | "warning" | "success" | "danger" }>(
