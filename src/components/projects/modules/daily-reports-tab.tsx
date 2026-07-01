@@ -89,13 +89,20 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <span className="text-muted-foreground">{t("dailyReports.quickFilters", "Schnellfilter")}:</span>
+        <Button size="sm" variant={onlyDelays ? "default" : "outline"} onClick={() => setOnlyDelays((v) => !v)}>{t("dailyReports.filters.withDelays", "Mit Behinderung")}</Button>
+        <Button size="sm" variant={onlyIncidents ? "default" : "outline"} onClick={() => setOnlyIncidents((v) => !v)}>{t("dailyReports.filters.withIncidents", "Mit Unfall/Vorfall")}</Button>
+        <Button size="sm" variant={onlyImpact ? "default" : "outline"} onClick={() => setOnlyImpact((v) => !v)}>{t("dailyReports.filters.withWeatherImpact", "Wetterbeeinflussung")}</Button>
+      </div>
+
       {loading ? (
         <div className="flex justify-center py-12"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
-      ) : items.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <EmptyState onCreate={() => { setEditingId(null); setEditorOpen(true); }} />
       ) : (
         <div className="grid gap-3">
-          {items.map((r) => {
+          {filtered.map((r) => {
             const s = SITE_STATUS.find((x) => x.value === r.site_status);
             const rs = REPORT_STATUS.find((x) => x.value === r.status);
             return (
