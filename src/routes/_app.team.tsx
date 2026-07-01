@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Search, Users2, Building2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,14 +37,15 @@ export const Route = createFileRoute("/_app/team")({
 });
 
 function TeamPage() {
+  const { t } = useTranslation();
   const [tab, setTab] = useState<"employees" | "subcontractors">("employees");
   return (
     <div className="space-y-6">
-      <PageHeader title="Team" description="Employees, subcontractors and the people who get your projects built." />
+      <PageHeader title={t("team.title")} description={t("team.subtitle")} />
       <Tabs value={tab} onValueChange={(v) => setTab(v as "employees" | "subcontractors")}>
         <TabsList>
-          <TabsTrigger value="employees"><Users2 className="h-4 w-4" />Employees</TabsTrigger>
-          <TabsTrigger value="subcontractors"><Building2 className="h-4 w-4" />Subcontractors</TabsTrigger>
+          <TabsTrigger value="employees"><Users2 className="h-4 w-4" />{t("team.tabs.employees")}</TabsTrigger>
+          <TabsTrigger value="subcontractors"><Building2 className="h-4 w-4" />{t("team.tabs.subcontractors")}</TabsTrigger>
         </TabsList>
         <TabsContent value="employees" className="mt-4"><EmployeesPanel /></TabsContent>
         <TabsContent value="subcontractors" className="mt-4"><SubcontractorsPanel /></TabsContent>
@@ -53,6 +55,7 @@ function TeamPage() {
 }
 
 function EmployeesPanel() {
+  const { t } = useTranslation();
   const [rows, setRows] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
@@ -65,10 +68,10 @@ function EmployeesPanel() {
   async function load() {
     setLoading(true);
     try { setRows(await listEmployees()); }
-    catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+    catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
     finally { setLoading(false); }
   }
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
 
   const filtered = useMemo(() => {
     const qq = q.trim().toLowerCase();
@@ -86,33 +89,33 @@ function EmployeesPanel() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-sm">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search employees…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input className="pl-9" placeholder={t("team.search.employees")} value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
         <Button onClick={() => setDialog({ open: true, row: null })}>
-          <Plus className="h-4 w-4" />Add employee
+          <Plus className="h-4 w-4" />{t("team.actions.addEmployee")}
         </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Select value={role} onValueChange={setRole}>
-          <SelectTrigger><SelectValue placeholder="Role" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.role")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All roles</SelectItem>
-            {EMPLOYEE_ROLES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allRoles")}</SelectItem>
+            {EMPLOYEE_ROLES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={trade} onValueChange={setTrade}>
-          <SelectTrigger><SelectValue placeholder="Trade" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.trade")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All trades</SelectItem>
-            {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allTrades")}</SelectItem>
+            {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.status")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All status</SelectItem>
-            {EMPLOYEE_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allStatus")}</SelectItem>
+            {EMPLOYEE_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
@@ -121,9 +124,9 @@ function EmployeesPanel() {
         <div className="flex justify-center py-12"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
       ) : filtered.length === 0 ? (
         <EmptyState
-          title={rows.length === 0 ? "No employees yet" : "No matches"}
-          desc={rows.length === 0 ? "Add the first team member to start assigning people to projects." : "Try different filters."}
-          action={rows.length === 0 ? <Button onClick={() => setDialog({ open: true, row: null })}><Plus className="h-4 w-4" />Add employee</Button> : null}
+          title={rows.length === 0 ? t("team.empty.employees") : t("team.empty.noMatches")}
+          desc={rows.length === 0 ? t("team.empty.employeesDesc") : t("team.empty.tryFilters")}
+          action={rows.length === 0 ? <Button onClick={() => setDialog({ open: true, row: null })}><Plus className="h-4 w-4" />{t("team.actions.addEmployee")}</Button> : null}
         />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -132,15 +135,15 @@ function EmployeesPanel() {
             return (
               <ContactCard
                 key={e.id}
-                title={fullName(e) || "Unnamed"}
-                subtitle={`${labelOf(EMPLOYEE_ROLES, e.role)} · ${labelOf(TRADES, e.trade)}`}
+                title={fullName(e) || t("team.fields.unnamed")}
+                subtitle={`${t(labelOf(EMPLOYEE_ROLES, e.role))} · ${t(labelOf(TRADES, e.trade))}`}
                 email={e.email}
                 phone={e.phone}
-                status={st ? { label: st.label, tone: st.tone } : null}
+                status={st ? { label: t(st.label), tone: st.tone } : null}
                 badges={e.job_title ? [{ label: e.job_title, tone: "neutral" }] : []}
                 onEdit={() => setDialog({ open: true, row: e })}
                 onDelete={() => setConfirmDel(e)}
-                deleteLabel="Delete employee"
+                deleteLabel={t("team.actions.deleteEmployee")}
               />
             );
           })}
@@ -157,22 +160,22 @@ function EmployeesPanel() {
       <AlertDialog open={!!confirmDel} onOpenChange={(o) => !o && setConfirmDel(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete employee?</AlertDialogTitle>
+            <AlertDialogTitle>{t("team.dialogs.deleteEmployee")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This permanently removes {confirmDel ? fullName(confirmDel) : ""}. This cannot be undone.
+              {t("team.dialogs.deleteEmployeeDesc", { name: confirmDel ? fullName(confirmDel) : "" })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={async () => {
                 if (!confirmDel) return;
-                try { await deleteEmployee(confirmDel.id); toast.success("Employee deleted"); await load(); }
-                catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+                try { await deleteEmployee(confirmDel.id); toast.success(t("team.toasts.employeeDeleted")); await load(); }
+                catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
                 finally { setConfirmDel(null); }
               }}
-            >Delete</AlertDialogAction>
+            >{t("common.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -181,6 +184,7 @@ function EmployeesPanel() {
 }
 
 function SubcontractorsPanel() {
+  const { t } = useTranslation();
   const [rows, setRows] = useState<Subcontractor[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
@@ -193,10 +197,10 @@ function SubcontractorsPanel() {
   async function load() {
     setLoading(true);
     try { setRows(await listSubcontractors()); }
-    catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+    catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
     finally { setLoading(false); }
   }
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
 
   const filtered = useMemo(() => {
     const qq = q.trim().toLowerCase();
@@ -214,33 +218,33 @@ function SubcontractorsPanel() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-sm">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search subcontractors…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input className="pl-9" placeholder={t("team.search.subcontractors")} value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
         <Button onClick={() => setDialog({ open: true, row: null })}>
-          <Plus className="h-4 w-4" />Add subcontractor
+          <Plus className="h-4 w-4" />{t("team.actions.addSubcontractor")}
         </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Select value={trade} onValueChange={setTrade}>
-          <SelectTrigger><SelectValue placeholder="Trade" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.trade")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All trades</SelectItem>
-            {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allTrades")}</SelectItem>
+            {TRADES.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.status")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All status</SelectItem>
-            {SUBCONTRACTOR_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allStatus")}</SelectItem>
+            {SUBCONTRACTOR_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={qual} onValueChange={setQual}>
-          <SelectTrigger><SelectValue placeholder="Qualification" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("team.filters.qualification")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All qualifications</SelectItem>
-            {QUALIFICATION_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+            <SelectItem value="all">{t("team.filters.allQualifications")}</SelectItem>
+            {QUALIFICATION_STATUS.map((r) => <SelectItem key={r.value} value={r.value}>{t(r.label)}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
@@ -249,9 +253,9 @@ function SubcontractorsPanel() {
         <div className="flex justify-center py-12"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
       ) : filtered.length === 0 ? (
         <EmptyState
-          title={rows.length === 0 ? "No subcontractors yet" : "No matches"}
-          desc={rows.length === 0 ? "Add subcontractor companies to keep their qualifications and contacts in one place." : "Try different filters."}
-          action={rows.length === 0 ? <Button onClick={() => setDialog({ open: true, row: null })}><Plus className="h-4 w-4" />Add subcontractor</Button> : null}
+          title={rows.length === 0 ? t("team.empty.subcontractors") : t("team.empty.noMatches")}
+          desc={rows.length === 0 ? t("team.empty.subcontractorsDesc") : t("team.empty.tryFilters")}
+          action={rows.length === 0 ? <Button onClick={() => setDialog({ open: true, row: null })}><Plus className="h-4 w-4" />{t("team.actions.addSubcontractor")}</Button> : null}
         />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -262,15 +266,15 @@ function SubcontractorsPanel() {
               <ContactCard
                 key={s.id}
                 title={s.company_name}
-                subtitle={`${labelOf(TRADES, s.trade)}${s.contact_person ? ` · ${s.contact_person}` : ""}`}
+                subtitle={`${t(labelOf(TRADES, s.trade))}${s.contact_person ? ` · ${s.contact_person}` : ""}`}
                 email={s.email}
                 phone={s.phone}
-                status={st ? { label: st.label, tone: st.tone } : null}
-                badges={ql ? [{ label: ql.label, tone: ql.tone }] : []}
+                status={st ? { label: t(st.label), tone: st.tone } : null}
+                badges={ql ? [{ label: t(ql.label), tone: ql.tone }] : []}
                 rating={s.rating}
                 onEdit={() => setDialog({ open: true, row: s })}
                 onDelete={() => setConfirmDel(s)}
-                deleteLabel="Delete subcontractor"
+                deleteLabel={t("team.actions.deleteSubcontractor")}
               />
             );
           })}
@@ -287,22 +291,22 @@ function SubcontractorsPanel() {
       <AlertDialog open={!!confirmDel} onOpenChange={(o) => !o && setConfirmDel(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete subcontractor?</AlertDialogTitle>
+            <AlertDialogTitle>{t("team.dialogs.deleteSubcontractor")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This permanently removes {confirmDel?.company_name}. This cannot be undone.
+              {t("team.dialogs.deleteSubcontractorDesc", { name: confirmDel?.company_name ?? "" })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={async () => {
                 if (!confirmDel) return;
-                try { await deleteSubcontractor(confirmDel.id); toast.success("Deleted"); await load(); }
-                catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); }
+                try { await deleteSubcontractor(confirmDel.id); toast.success(t("team.toasts.subcontractorDeleted")); await load(); }
+                catch (e) { toast.error(e instanceof Error ? e.message : t("states.failed")); }
                 finally { setConfirmDel(null); }
               }}
-            >Delete</AlertDialogAction>
+            >{t("common.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
