@@ -27,6 +27,7 @@ import { Route as AppProjectsNewRouteImport } from './routes/_app.projects.new'
 import { Route as AppAiTaskRouteImport } from './routes/_app.ai.task'
 import { Route as AppAiSummaryRouteImport } from './routes/_app.ai.summary'
 import { Route as AppAiSearchRouteImport } from './routes/_app.ai.search'
+import { Route as AppAiRiskRouteImport } from './routes/_app.ai.risk'
 import { Route as AppAiProtocolRouteImport } from './routes/_app.ai.protocol'
 import { Route as AppAiDailyReportRouteImport } from './routes/_app.ai.daily-report'
 import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/_app.projects.$projectId.index'
@@ -121,6 +122,11 @@ const AppAiSearchRoute = AppAiSearchRouteImport.update({
   path: '/search',
   getParentRoute: () => AppAiRoute,
 } as any)
+const AppAiRiskRoute = AppAiRiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
+  getParentRoute: () => AppAiRoute,
+} as any)
 const AppAiProtocolRoute = AppAiProtocolRouteImport.update({
   id: '/protocol',
   path: '/protocol',
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/protocol': typeof AppAiProtocolRoute
+  '/ai/risk': typeof AppAiRiskRoute
   '/ai/search': typeof AppAiSearchRoute
   '/ai/summary': typeof AppAiSummaryRoute
   '/ai/task': typeof AppAiTaskRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/team': typeof AppTeamRoute
   '/ai/daily-report': typeof AppAiDailyReportRoute
   '/ai/protocol': typeof AppAiProtocolRoute
+  '/ai/risk': typeof AppAiRiskRoute
   '/ai/search': typeof AppAiSearchRoute
   '/ai/summary': typeof AppAiSummaryRoute
   '/ai/task': typeof AppAiTaskRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/_app/team': typeof AppTeamRoute
   '/_app/ai/daily-report': typeof AppAiDailyReportRoute
   '/_app/ai/protocol': typeof AppAiProtocolRoute
+  '/_app/ai/risk': typeof AppAiRiskRoute
   '/_app/ai/search': typeof AppAiSearchRoute
   '/_app/ai/summary': typeof AppAiSummaryRoute
   '/_app/ai/task': typeof AppAiTaskRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/ai/daily-report'
     | '/ai/protocol'
+    | '/ai/risk'
     | '/ai/search'
     | '/ai/summary'
     | '/ai/task'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/ai/daily-report'
     | '/ai/protocol'
+    | '/ai/risk'
     | '/ai/search'
     | '/ai/summary'
     | '/ai/task'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/_app/team'
     | '/_app/ai/daily-report'
     | '/_app/ai/protocol'
+    | '/_app/ai/risk'
     | '/_app/ai/search'
     | '/_app/ai/summary'
     | '/_app/ai/task'
@@ -422,6 +434,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAiSearchRouteImport
       parentRoute: typeof AppAiRoute
     }
+    '/_app/ai/risk': {
+      id: '/_app/ai/risk'
+      path: '/risk'
+      fullPath: '/ai/risk'
+      preLoaderRoute: typeof AppAiRiskRouteImport
+      parentRoute: typeof AppAiRoute
+    }
     '/_app/ai/protocol': {
       id: '/_app/ai/protocol'
       path: '/protocol'
@@ -456,6 +475,7 @@ declare module '@tanstack/react-router' {
 interface AppAiRouteChildren {
   AppAiDailyReportRoute: typeof AppAiDailyReportRoute
   AppAiProtocolRoute: typeof AppAiProtocolRoute
+  AppAiRiskRoute: typeof AppAiRiskRoute
   AppAiSearchRoute: typeof AppAiSearchRoute
   AppAiSummaryRoute: typeof AppAiSummaryRoute
   AppAiTaskRoute: typeof AppAiTaskRoute
@@ -465,6 +485,7 @@ interface AppAiRouteChildren {
 const AppAiRouteChildren: AppAiRouteChildren = {
   AppAiDailyReportRoute: AppAiDailyReportRoute,
   AppAiProtocolRoute: AppAiProtocolRoute,
+  AppAiRiskRoute: AppAiRiskRoute,
   AppAiSearchRoute: AppAiSearchRoute,
   AppAiSummaryRoute: AppAiSummaryRoute,
   AppAiTaskRoute: AppAiTaskRoute,
