@@ -148,7 +148,7 @@ function ProjectDetail() {
       </Button>
 
       <Card className="overflow-hidden border-border/70">
-        <div className="relative aspect-[3/1] w-full bg-muted sm:aspect-[4/1]">
+        <div className="relative hidden aspect-[4/1] w-full bg-muted sm:block">
           {coverUrl ? (
             <img src={coverUrl} alt={project.name} className="h-full w-full object-cover" />
           ) : (
@@ -157,16 +157,18 @@ function ProjectDetail() {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-start sm:justify-between sm:p-6">
+        <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:p-6">
           <div className="min-w-0">
-            <div className="font-mono text-xs text-muted-foreground">{project.project_number}</div>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight">{project.name}</h1>
-            {project.client && <p className="text-muted-foreground">{project.client}</p>}
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            {project.project_number && (
+              <div className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{project.project_number}</div>
+            )}
+            <h1 className="mt-0.5 truncate text-xl font-semibold tracking-tight sm:text-2xl">{project.name}</h1>
+            {project.client && <p className="truncate text-sm text-muted-foreground">{project.client}</p>}
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <StatusBadge tone={tone}>{t(`projects.status.${project.current_status}`, { defaultValue: project.current_status })}</StatusBadge>
               {project.archived_at && <StatusBadge tone="neutral">{t("projects.archivedBadge")}</StatusBadge>}
               {project.construction_phase && (
-                <span className="text-sm text-muted-foreground">· {t(`projects.phases.${project.construction_phase}`, { defaultValue: project.construction_phase })}</span>
+                <span className="text-xs text-muted-foreground">· {t(`projects.phases.${project.construction_phase}`, { defaultValue: project.construction_phase })}</span>
               )}
             </div>
           </div>
@@ -181,16 +183,16 @@ function ProjectDetail() {
                 </SelectContent>
               </Select>
             </div>
-            <Button asChild>
+            <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
               <Link to="/projects/$projectId/edit" params={{ projectId: project.id }}>
                 <Edit className="h-4 w-4" />{t("projects.actions.edit")}
               </Link>
             </Button>
-            <Button variant="outline" onClick={onArchive}>
+            <Button variant="outline" size="sm" onClick={onArchive} className="hidden sm:inline-flex">
               {project.archived_at ? <ArchiveRestore className="h-4 w-4" /> : <Archive className="h-4 w-4" />}
               {project.archived_at ? t("projects.actions.restore") : t("projects.actions.archive")}
             </Button>
-            <Button variant="outline" onClick={() => setConfirmDelete(true)} className="text-destructive">
+            <Button variant="outline" size="sm" onClick={() => setConfirmDelete(true)} className="hidden text-destructive sm:inline-flex">
               <Trash2 className="h-4 w-4" />{t("projects.actions.delete")}
             </Button>
           </div>
