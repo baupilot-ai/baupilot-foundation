@@ -29,6 +29,9 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
   const [dateFilter, setDateFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
+  const [onlyDelays, setOnlyDelays] = useState(false);
+  const [onlyIncidents, setOnlyIncidents] = useState(false);
+  const [onlyImpact, setOnlyImpact] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -44,6 +47,13 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [projectId, statusFilter, dateFilter]);
+
+  const filtered = items.filter((r) => {
+    if (onlyDelays && !(r.delays && r.delays.trim())) return false;
+    if (onlyIncidents && !(r.incidents && r.incidents.trim())) return false;
+    if (onlyImpact && !r.weather_impact) return false;
+    return true;
+  });
 
   function exportPlaceholder(kind: "pdf" | "xlsx" | "email") {
     toast.info(t(`dailyReports.export.${kind}Pending`));
@@ -79,13 +89,20 @@ export function DailyReportsTab({ projectId }: { projectId: string }) {
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <span className="text-muted-foreground">{t("dailyReports.quickFilters", "Schnellfilter")}:</span>
+        <Button size="sm" variant={onlyDelays ? "default" : "outline"} onClick={() => setOnlyDelays((v) => !v)}>{t("dailyReports.filters.withDelays", "Mit Behinderung")}</Button>
+        <Button size="sm" variant={onlyIncidents ? "default" : "outline"} onClick={() => setOnlyIncidents((v) => !v)}>{t("dailyReports.filters.withIncidents", "Mit Unfall/Vorfall")}</Button>
+        <Button size="sm" variant={onlyImpact ? "default" : "outline"} onClick={() => setOnlyImpact((v) => !v)}>{t("dailyReports.filters.withWeatherImpact", "Wetterbeeinflussung")}</Button>
+      </div>
+
       {loading ? (
         <div className="flex justify-center py-12"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
-      ) : items.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <EmptyState onCreate={() => { setEditingId(null); setEditorOpen(true); }} />
       ) : (
         <div className="grid gap-3">
-          {items.map((r) => {
+          {filtered.map((r) => {
             const s = SITE_STATUS.find((x) => x.value === r.site_status);
             const rs = REPORT_STATUS.find((x) => x.value === r.status);
             return (
