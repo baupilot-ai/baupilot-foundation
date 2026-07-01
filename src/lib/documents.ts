@@ -10,29 +10,131 @@ export type ProjectPlan = Tables<"project_plans">;
 export type PlanRevision = Tables<"plan_revisions">;
 
 export const DOCUMENT_CATEGORIES = [
-  { value: "contract", label: "Contract" },
-  { value: "invoice", label: "Invoice" },
-  { value: "delivery_note", label: "Delivery note" },
-  { value: "safety", label: "Safety" },
-  { value: "quality", label: "Quality" },
-  { value: "photo_doc", label: "Photo documentation" },
-  { value: "correspondence", label: "Correspondence" },
-  { value: "report", label: "Report" },
-  { value: "certificate", label: "Certificate" },
-  { value: "other", label: "Other" },
+  { value: "werkplan", label: "Werkplan" },
+  { value: "schalplan", label: "Schalplan" },
+  { value: "bewehrungsplan", label: "Bewehrungsplan" },
+  { value: "statik", label: "Statik" },
+  { value: "pruefprotokoll", label: "Prüfprotokoll" },
+  { value: "delivery_note", label: "Lieferschein" },
+  { value: "invoice", label: "Rechnung" },
+  { value: "photo_doc", label: "Foto" },
+  { value: "contract", label: "Vertrag" },
+  { value: "nachtrag", label: "Nachtrag" },
+  { value: "correspondence", label: "Schriftverkehr" },
+  { value: "safety", label: "Arbeitssicherheit" },
+  { value: "quality", label: "Qualität" },
+  { value: "report", label: "Bericht" },
+  { value: "certificate", label: "Zertifikat" },
+  { value: "other", label: "Sonstiges" },
 ];
 export function categoryLabel(v: string) {
   return DOCUMENT_CATEGORIES.find((c) => c.value === v)?.label ?? v;
 }
 
 export const DOCUMENT_STATUS = [
-  { value: "draft", label: "Draft", tone: "neutral" as const },
-  { value: "active", label: "Active", tone: "info" as const },
-  { value: "superseded", label: "Superseded", tone: "warning" as const },
-  { value: "archived", label: "Archived", tone: "neutral" as const },
+  { value: "draft", label: "Entwurf", tone: "neutral" as const },
+  { value: "review", label: "In Prüfung", tone: "warning" as const },
+  { value: "approved", label: "Freigegeben", tone: "success" as const },
+  { value: "rejected", label: "Abgelehnt", tone: "danger" as const },
+  { value: "locked", label: "Gesperrt", tone: "info" as const },
+  { value: "active", label: "Aktiv", tone: "info" as const },
+  { value: "superseded", label: "Überholt", tone: "warning" as const },
+  { value: "archived", label: "Archiviert", tone: "neutral" as const },
 ];
 export function docStatusMeta(v: string) {
   return DOCUMENT_STATUS.find((s) => s.value === v) ?? { value: v, label: v, tone: "neutral" as const };
+}
+
+// ---------- Approval workflow ----------
+export async function submitDocumentForReview(doc: ProjectDocument) {
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from("project_documents")
+    .update({
+      status: "review",
+      submitted_for_review_at: new Date().toISOString(),
+      submitted_for_review_by: user?.id ?? null,
+    } as TablesUpdate<"project_documents">)
+    .eq("id", doc.id)
+    .select()
+    .single();
+  if (error) throw error;
+  const { notifyApprovers } = await import("@/lib/notifications");
+  await notifyApprovers({
+    project_id: doc.project_id,
+    event_type: "document_submitted",
+    title: `Dokument zur Prüfung: ${doc.title}`,
+    entity_type: "document",
+    entity_id: doc.id,
+  });
+  return data as ProjectDocument;
+}
+
+export async function approveDocument(doc: ProjectDocument) {
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from("project_documents")
+    .update({
+      status: "approved",
+      approved_at: new Date().toISOString(),
+      approved_by: user?.id ?? null,
+    } as TablesUpdate<"project_documents">)
+    .eq("id", doc.id)
+    .select()
+    .single();
+  if (error) throw error;
+  if (doc.submitted_for_review_by) {
+    const { createNotification } = await import("@/lib/notifications");
+    await createNotification({
+      user_id: doc.submitted_for_review_by,
+      project_id: doc.project_id,
+      event_type: "document_approved",
+      title: `Freigegeben: ${doc.title}`,
+      entity_type: "document",
+      entity_id: doc.id,
+    });
+  }
+  return data as ProjectDocument;
+}
+
+export async function rejectDocument(doc: ProjectDocument, reason: string) {
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from("project_documents")
+    .update({
+      status: "rejected",
+      rejected_at: new Date().toISOString(),
+      rejected_by: user?.id ?? null,
+      rejected_reason: reason,
+    } as TablesUpdate<"project_documents">)
+    .eq("id", doc.id)
+    .select()
+    .single();
+  if (error) throw error;
+  if (doc.submitted_for_review_by) {
+    const { createNotification } = await import("@/lib/notifications");
+    await createNotification({
+      user_id: doc.submitted_for_review_by,
+      project_id: doc.project_id,
+      event_type: "document_rejected",
+      title: `Abgelehnt: ${doc.title}`,
+      message: reason,
+      entity_type: "document",
+      entity_id: doc.id,
+    });
+  }
+  return data as ProjectDocument;
+}
+
+export async function archiveDocument(doc: ProjectDocument) {
+  const { data, error } = await supabase
+    .from("project_documents")
+    .update({ status: "archived" })
+    .eq("id", doc.id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as ProjectDocument;
 }
 
 export const PLAN_DISCIPLINES = [
