@@ -89,8 +89,8 @@ export function ProjectFocusRedirect({
             >
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[15px] font-semibold text-foreground">{p.name}</span>
-                {p.address_city && (
-                  <span className="mt-0.5 block truncate text-xs text-muted-foreground">{p.address_city}</span>
+                {p.site_address && (
+                  <span className="mt-0.5 block truncate text-xs text-muted-foreground">{p.site_address}</span>
                 )}
               </span>
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
