@@ -4544,10 +4544,14 @@ export type Database = {
       can_delete_records: { Args: { company_id: string }; Returns: boolean }
       can_manage_company: { Args: { company_id: string }; Returns: boolean }
       can_manage_projects: { Args: { company_id: string }; Returns: boolean }
+      can_manage_resources: { Args: { company_id: string }; Returns: boolean }
       can_manage_site_operations: {
         Args: { company_id: string }
         Returns: boolean
       }
+      can_manage_team: { Args: { company_id: string }; Returns: boolean }
+      can_read_company: { Args: { company_id: string }; Returns: boolean }
+      can_write_documents: { Args: { company_id: string }; Returns: boolean }
       get_user_company: { Args: { _user_id: string }; Returns: string }
       get_user_role: { Args: { user_id?: string }; Returns: string }
       has_company_role: {
