@@ -4541,7 +4541,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_delete_records: { Args: { company_id: string }; Returns: boolean }
+      can_manage_company: { Args: { company_id: string }; Returns: boolean }
+      can_manage_projects: { Args: { company_id: string }; Returns: boolean }
+      can_manage_site_operations: {
+        Args: { company_id: string }
+        Returns: boolean
+      }
       get_user_company: { Args: { _user_id: string }; Returns: string }
+      get_user_role: { Args: { user_id?: string }; Returns: string }
+      has_company_role: {
+        Args: { allowed_roles: string[]; company_id: string }
+        Returns: boolean
+      }
       is_company_member: { Args: { _company_id: string }; Returns: boolean }
     }
     Enums: {
