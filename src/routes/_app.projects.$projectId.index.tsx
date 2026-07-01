@@ -44,6 +44,7 @@ import { MilestonesTab } from "@/components/projects/modules/milestones-tab";
 import { CalendarTab } from "@/components/projects/modules/calendar-tab";
 import { GanttTab } from "@/components/projects/modules/gantt-tab";
 import { NotificationsTab } from "@/components/projects/modules/notifications-tab";
+import { ScheduleModule } from "@/components/projects/modules/schedule-module";
 import { ProjectPlanningCards } from "@/components/projects/modules/planning-cards";
 import {
   QualityTab, SafetyTab, ChecklistsTab, InspectionsTab, AcceptancesTab, PunchListTab, NcrTab,
