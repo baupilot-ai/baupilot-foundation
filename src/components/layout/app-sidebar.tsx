@@ -2,16 +2,8 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  LayoutDashboard,
-  FolderKanban,
-  Building2,
-  Users2,
-  UserCircle2,
-  Settings,
-  LogOut,
-  HelpCircle,
-  Boxes,
-  Sparkles,
+  Home, FileText, AlertOctagon, Layers, CheckSquare,
+  UserCircle2, Settings, LogOut, MoreHorizontal,
 } from "lucide-react";
 
 import {
@@ -25,27 +17,28 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/branding/logo";
-import { usePermissions } from "@/hooks/use-permissions";
-import { type Permission } from "@/lib/security/permissions";
+
+const CORE = [
+  { key: "today", url: "/dashboard", icon: Home },
+  { key: "report", url: "/projects", icon: FileText },
+  { key: "defects", url: "/projects", icon: AlertOctagon },
+  { key: "plans", url: "/projects", icon: Layers },
+  { key: "tasks", url: "/projects", icon: CheckSquare },
+] as const;
+
+const MORE = [
+  { key: "profile", url: "/profile", icon: UserCircle2 },
+  { key: "settings", url: "/settings", icon: Settings },
+] as const;
 
 export function AppSidebar() {
   const { t } = useTranslation();
-  const { can } = usePermissions();
-  const mainItems = ([
-    { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard, permission: "dashboard.read" as Permission },
-    { title: t("nav.projects"), url: "/projects", icon: FolderKanban, permission: "projects.read" as Permission },
-    { title: t("nav.resources"), url: "/resources", icon: Boxes, permission: "resources.read" as Permission },
-    { title: t("nav.team"), url: "/team", icon: Users2, permission: "team.read" as Permission },
-    { title: t("nav.company"), url: "/company", icon: Building2, permission: "company.read" as Permission },
-    { title: "AI Center", url: "/ai", icon: Sparkles, permission: "ai.chat" as Permission },
-  ]).filter((item) => can(item.permission));
-  const accountItems = ([
-    { title: t("nav.profile"), url: "/profile", icon: UserCircle2, permission: undefined as Permission | undefined },
-    { title: t("nav.settings"), url: "/settings", icon: Settings, permission: "settings.read" as Permission | undefined },
-  ]).filter((item) => !item.permission || can(item.permission));
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
@@ -75,20 +68,20 @@ export function AppSidebar() {
 
       <SidebarContent className="px-2 py-3">
         <SidebarGroup>
-          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
+          <SidebarGroupLabel>BauPilot</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {CORE.map((item) => (
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive(item.url)}
-                    tooltip={item.title}
+                    isActive={isActive(item.url) && (item.key === "today" || pathname === item.url)}
+                    tooltip={t(`nav5.${item.key}`)}
                     className="data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-semibold"
                   >
                     <Link to={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span>{t(`nav5.${item.key}`)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -98,37 +91,28 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>{t("common.account")}</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            <span className="inline-flex items-center gap-1.5"><MoreHorizontal className="h-3 w-3" />{t("common.account")}</span>
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {accountItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.url)}
-                    tooltip={item.title}
-                    className="data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-semibold"
-                  >
+            <SidebarMenuSub>
+              {MORE.map((item) => (
+                <SidebarMenuSubItem key={item.key}>
+                  <SidebarMenuSubButton asChild isActive={isActive(item.url)}>
                     <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <item.icon className="h-4 w-4" />
+                      <span>{t(`nav.${item.key}`)}</span>
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
               ))}
-            </SidebarMenu>
+            </SidebarMenuSub>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="border-t p-2">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip={t("common.help")}>
-              <HelpCircle />
-              <span>{t("common.help")}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} tooltip={t("common.signOut")}>
               <LogOut />
