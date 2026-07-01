@@ -51,6 +51,13 @@ export const PERMISSIONS = [
   'team.delete',
   'settings.read',
   'settings.update',
+  'ai.chat',
+  'ai.daily_reports',
+  'ai.protocols',
+  'ai.search',
+  'ai.summary',
+  'ai.settings',
+  'ai.admin',
 ] as const
 
 export type Permission = (typeof PERMISSIONS)[number]
