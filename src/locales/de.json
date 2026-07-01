@@ -38,7 +38,9 @@
     "notFoundDesc": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
     "errorTitle": "Diese Seite konnte nicht geladen werden",
     "errorDesc": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
-    "searchPlaceholder": "Projekte, Personen suchen…"
+    "searchPlaceholder": "Projekte, Personen suchen…",
+    "deleteConfirm": "Diesen Datensatz löschen?",
+    "deleteConfirmDesc": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -745,7 +747,9 @@
       "approved": "Genehmigt",
       "rejected": "Abgelehnt"
     },
-    "filters": { "all": "Alle Status" },
+    "filters": {
+      "all": "Alle Status"
+    },
     "sections": {
       "general": "Allgemein",
       "weather": "Wetter",
@@ -946,7 +950,8 @@
     "nameRequired": "Name ist erforderlich",
     "titleRequired": "Titel ist erforderlich",
     "fillAllFields": "Alle Felder ausfüllen",
-    "statusUpdated": "Status aktualisiert"
+    "statusUpdated": "Status aktualisiert",
+    "duplicated": "Dupliziert"
   },
   "resources": {
     "title": "Ressourcen",
@@ -1545,6 +1550,280 @@
       "51_200": "51–200",
       "200_plus": "200+"
     }
+  },
+  "qs": {
+    "tabs": {
+      "quality": "Qualität",
+      "safety": "Arbeitssicherheit",
+      "checklists": "Checklisten",
+      "inspections": "Prüfungen",
+      "acceptances": "Abnahmen",
+      "punch": "Restpunktliste",
+      "ncr": "Abweichungsberichte"
+    },
+    "filters": {
+      "allStatus": "Alle Status",
+      "allPriority": "Alle Prioritäten"
+    },
+    "validation": {
+      "required": "{{field}} ist erforderlich"
+    },
+    "fields": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "number": "Nummer",
+      "type": "Typ",
+      "status": "Status",
+      "priority": "Priorität",
+      "severity": "Schweregrad",
+      "result": "Ergebnis",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "dueDate": "Fälligkeitsdatum",
+      "completionDate": "Abschlussdatum",
+      "location": "Ort",
+      "inspector": "Prüfer",
+      "contractor": "Auftragnehmer",
+      "clientContact": "Ansprechpartner Kunde",
+      "responsible": "Verantwortliche Person",
+      "trainer": "Trainer",
+      "participants": "Teilnehmer",
+      "topic": "Thema",
+      "injuredPerson": "Verletzte Person",
+      "witnesses": "Zeugen",
+      "immediateAction": "Sofortmaßnahme",
+      "correctiveAction": "Korrekturmaßnahme",
+      "preventiveAction": "Vorbeugende Maßnahme",
+      "rootCause": "Ursache",
+      "sourceType": "Quelltyp",
+      "notes": "Notizen",
+      "comment": "Kommentar"
+    },
+    "quality": {
+      "description": "Übersicht Qualitätsmanagement",
+      "hint": "Verwenden Sie Checklisten, Prüfungen, Abnahmen, Restpunktliste und Abweichungsberichte, um die Qualität in diesem Projekt zu steuern."
+    },
+    "safety": {
+      "description": "Übersicht Arbeitssicherheit"
+    },
+    "stats": {
+      "openChecklists": "Offene Checklisten",
+      "failedItems": "Fehlgeschlagene Punkte",
+      "upcomingInspections": "Anstehende Prüfungen",
+      "completedInspections": "Abgeschlossene Prüfungen",
+      "openNcrs": "Offene Abweichungen",
+      "openPunchItems": "Offene Restpunkte",
+      "pendingAcceptances": "Ausstehende Abnahmen",
+      "qualityScore": "Qualitätsindex",
+      "openObservations": "Offene Beobachtungen",
+      "accidentsThisMonth": "Unfälle diesen Monat",
+      "nearMisses": "Beinaheunfälle",
+      "upcomingToolbox": "Anstehende Unterweisungen",
+      "openCorrectiveActions": "Offene Korrekturmaßnahmen",
+      "safetyScore": "Sicherheitsindex"
+    },
+    "checklists": {
+      "new": "Neue Checkliste",
+      "edit": "Checkliste bearbeiten",
+      "empty": "Noch keine Checklisten",
+      "titleRequired": "Titel ist erforderlich",
+      "addItem": "Punkt hinzufügen",
+      "addItemPlaceholder": "Punkt-Titel",
+      "noItems": "Noch keine Punkte"
+    },
+    "inspections": {
+      "title": "Prüfungen",
+      "new": "Neue Prüfung",
+      "empty": "Noch keine Prüfungen"
+    },
+    "acceptances": {
+      "title": "Abnahmen",
+      "new": "Neue Abnahme",
+      "empty": "Noch keine Abnahmen"
+    },
+    "punch": {
+      "title": "Restpunktliste",
+      "list": "Restpunktliste",
+      "newList": "Neue Restpunktliste",
+      "newItem": "Neuer Punkt",
+      "needList": "Bitte zuerst eine Restpunktliste anlegen",
+      "emptyItems": "Noch keine Punkte"
+    },
+    "ncr": {
+      "title": "Abweichungsberichte",
+      "new": "Neuer Abweichungsbericht",
+      "empty": "Noch keine Berichte"
+    },
+    "safetyInspections": {
+      "title": "Sicherheitsprüfungen",
+      "new": "Neue Sicherheitsprüfung",
+      "empty": "Noch keine Prüfungen"
+    },
+    "toolbox": {
+      "title": "Sicherheitsunterweisungen",
+      "new": "Neue Unterweisung",
+      "empty": "Noch keine Unterweisungen"
+    },
+    "observations": {
+      "title": "Sicherheitsbeobachtungen",
+      "new": "Neue Beobachtung",
+      "empty": "Noch keine Beobachtungen"
+    },
+    "accidents": {
+      "title": "Unfallberichte",
+      "new": "Neuer Unfallbericht",
+      "empty": "Noch keine Unfallberichte"
+    },
+    "corrective": {
+      "title": "Korrekturmaßnahmen",
+      "new": "Neue Korrekturmaßnahme",
+      "empty": "Noch keine Korrekturmaßnahmen"
+    },
+    "enums": {
+      "checklistType": {
+        "concrete": "Beton",
+        "reinforcement": "Bewehrung",
+        "formwork": "Schalung",
+        "masonry": "Mauerwerk",
+        "waterproofing": "Abdichtung",
+        "facade": "Fassade",
+        "roof": "Dach",
+        "drywall": "Trockenbau",
+        "electrical": "Elektro",
+        "plumbing": "Sanitär",
+        "hvac": "HLK",
+        "fire_protection": "Brandschutz",
+        "safety": "Sicherheit",
+        "quality": "Qualität",
+        "custom": "Individuell"
+      },
+      "checklistStatus": {
+        "draft": "Entwurf",
+        "in_progress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "approved": "Freigegeben",
+        "rejected": "Abgelehnt",
+        "archived": "Archiviert"
+      },
+      "itemResult": {
+        "passed": "Bestanden",
+        "failed": "Fehlgeschlagen",
+        "not_applicable": "Nicht zutreffend",
+        "not_checked": "Nicht geprüft",
+        "": "—"
+      },
+      "inspectionType": {
+        "quality": "Qualität",
+        "safety": "Sicherheit",
+        "internal": "Intern",
+        "external": "Extern",
+        "client": "Kunde",
+        "authority": "Behörde",
+        "supplier": "Lieferant",
+        "subcontractor": "Nachunternehmer"
+      },
+      "inspectionStatus": {
+        "scheduled": "Geplant",
+        "in_progress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "approved": "Freigegeben",
+        "rejected": "Abgelehnt",
+        "cancelled": "Abgebrochen"
+      },
+      "inspectionResult": {
+        "passed": "Bestanden",
+        "failed": "Fehlgeschlagen",
+        "conditional": "Mit Auflagen",
+        "": "—"
+      },
+      "acceptanceType": {
+        "concrete": "Beton",
+        "foundation": "Gründung",
+        "floor": "Geschoss",
+        "facade": "Fassade",
+        "roof": "Dach",
+        "fire_protection": "Brandschutz",
+        "mep": "TGA",
+        "completion": "Endabnahme",
+        "custom": "Individuell"
+      },
+      "acceptanceStatus": {
+        "draft": "Entwurf",
+        "submitted": "Eingereicht",
+        "accepted": "Angenommen",
+        "accepted_with_defects": "Mit Mängeln angenommen",
+        "rejected": "Abgelehnt",
+        "archived": "Archiviert"
+      },
+      "punchStatus": {
+        "open": "Offen",
+        "in_progress": "In Bearbeitung",
+        "fixed": "Behoben",
+        "accepted": "Abgenommen",
+        "rejected": "Abgelehnt"
+      },
+      "priority": {
+        "low": "Niedrig",
+        "medium": "Mittel",
+        "high": "Hoch",
+        "critical": "Kritisch"
+      },
+      "ncrStatus": {
+        "draft": "Entwurf",
+        "open": "Offen",
+        "under_review": "In Prüfung",
+        "corrective_action_required": "Korrekturmaßnahme erforderlich",
+        "closed": "Geschlossen",
+        "rejected": "Abgelehnt"
+      },
+      "observationType": {
+        "positive": "Positiv",
+        "unsafe_condition": "Unsicherer Zustand",
+        "unsafe_action": "Unsichere Handlung",
+        "improvement": "Verbesserung",
+        "risk": "Risiko"
+      },
+      "observationStatus": {
+        "open": "Offen",
+        "under_review": "In Prüfung",
+        "closed": "Geschlossen"
+      },
+      "severity": {
+        "low": "Niedrig",
+        "medium": "Mittel",
+        "high": "Hoch",
+        "critical": "Kritisch"
+      },
+      "accidentSeverity": {
+        "minor": "Leicht",
+        "moderate": "Moderat",
+        "serious": "Schwer",
+        "critical": "Kritisch"
+      },
+      "accidentStatus": {
+        "draft": "Entwurf",
+        "reported": "Gemeldet",
+        "under_investigation": "In Untersuchung",
+        "closed": "Geschlossen"
+      },
+      "correctiveStatus": {
+        "open": "Offen",
+        "in_progress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "verified": "Verifiziert",
+        "overdue": "Überfällig"
+      },
+      "toolboxTopic": {
+        "ppe": "PSA",
+        "fall_protection": "Absturzsicherung",
+        "crane_safety": "Kransicherheit",
+        "electrical_safety": "Elektrosicherheit",
+        "excavation_safety": "Erdarbeiten",
+        "fire_safety": "Brandschutz",
+        "manual_handling": "Manueller Transport",
+        "site_rules": "Baustellenregeln",
+        "custom": "Individuell"
+      }
+    }
   }
 }
-
