@@ -65,17 +65,15 @@ function useHomeContext() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data: proj } = await supabase
+      const { data: list } = await supabase
         .from("projects")
         .select("id,name,address_street,address_city,location_lat,location_lng,current_status,archived_at,updated_at")
         .is("archived_at", null)
-        .eq("current_status", "active")
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+        .order("updated_at", { ascending: false });
 
       if (cancelled) return;
-      const p = proj as HomeProject | null;
+      const rows = ((list ?? []) as unknown) as Array<HomeProject & { current_status: string }>;
+      const p = (rows.find((r) => r.current_status === "active") ?? rows[0] ?? null) as HomeProject | null;
       setProject(p);
 
       const today = new Date().toISOString().slice(0, 10);
