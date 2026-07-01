@@ -1826,5 +1826,92 @@
         "custom": "Custom"
       }
     }
+  },
+  "schedule": {
+    "title": "Schedule",
+    "newTask": "New activity",
+    "editTask": "Edit activity",
+    "markCompleted": "Mark as completed",
+    "updateProgress": "Update progress",
+    "views": {
+      "list": "List",
+      "gantt": "Gantt",
+      "calendar": "Calendar",
+      "week": "Week plan",
+      "milestones": "Milestones",
+      "delays": "Delays"
+    },
+    "summary": {
+      "overallProgress": "Overall progress",
+      "criticalPath": "Critical path",
+      "delayedTasks": "Delayed",
+      "dueThisWeek": "Due this week",
+      "dueToday": "Due today",
+      "openMilestones": "Open milestones",
+      "earliestFinish": "Earliest finish",
+      "floatDays": "Float (avg)"
+    },
+    "fields": {
+      "trade": "Trade",
+      "companyName": "Company",
+      "location": "Location",
+      "buildingSection": "Building section",
+      "floor": "Floor",
+      "room": "Room",
+      "priority": "Priority",
+      "baselineStart": "Baseline start",
+      "baselineEnd": "Baseline end",
+      "actualStart": "Actual start",
+      "actualEnd": "Actual end",
+      "floatDays": "Float (days)",
+      "isCritical": "Critical path"
+    },
+    "priority": {
+      "low": "Low",
+      "normal": "Normal",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "criticalPath": "Critical path",
+    "delayed": "Delayed",
+    "dueToday": "Due today",
+    "dueThisWeek": "Due this week",
+    "overdue": "Overdue",
+    "thisWeek": "This week",
+    "nextWeek": "Next week",
+    "later": "Later",
+    "empty": "No activities yet.",
+    "progressUpdated": "Progress updated",
+    "todayLine": "Today",
+    "milestoneSuggestions": {
+      "title": "Standard milestones",
+      "add": "Add",
+      "items": {
+        "start": "Construction start",
+        "shell": "Structural shell complete",
+        "roof": "Roof watertight",
+        "facade": "Facade complete",
+        "mep": "MEP complete",
+        "screed": "Screed complete",
+        "acceptance": "Acceptance",
+        "handover": "Handover"
+      }
+    },
+    "delays": {
+      "title": "Delay events",
+      "new": "New delay",
+      "reason": "Reason",
+      "impactDays": "Impact (days)",
+      "detectedAt": "Detected",
+      "resolvedAt": "Resolved",
+      "responsibleParty": "Responsible party",
+      "status": {
+        "open": "Open",
+        "mitigating": "Mitigating",
+        "resolved": "Resolved"
+      },
+      "autoDetected": "Auto-detected: end date has passed",
+      "empty": "No delays recorded."
+    }
   }
 }
